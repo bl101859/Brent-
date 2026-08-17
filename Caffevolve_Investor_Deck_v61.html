@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caffevolve™ — Investor Deck Review · Slides 01–09</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── DESIGN SYSTEM v6 ── */
+/* Signature: a thin gold rule separating slide number from content — 
+   the visual language of a premium instrument's calibration mark */
+
+:root {
+  /* Palette — warm neutrals with precision accents */
+  --cream:        #F5F1EA;
+  --cream-dark:   #EDE8DF;
+  --white:        #FDFCFA;
+  --ink:          #18140F;
+  --ink-mid:      #4A4540;
+  --ink-light:    #8C8680;
+  --ink-faint:    #C4BFB8;
+  --border:       #DDD8CF;
+  --border-light: #EAE6DF;
+
+  /* Brand accents */
+  --gold:         #B8903A;
+  --gold-light:   #F5EDD6;
+  --gold-rule:    #C9A84C;
+  --brown-deep:   #3D2010;
+  --brown-mid:    #7A4E2A;
+  --caff-dark:    #4A2C18;
+  --caff-mid:     #7A5030;
+  --caff-light:   #E8D4B8;
+
+  /* Functional */
+  --blue:         #1A4878;
+  --blue-light:   #E8EFF8;
+  --blue-mid:     #A8C4E0;
+  --green:        #1A5C3A;
+  --green-light:  #E0F0E8;
+
+  /* Typography */
+  --serif:        'Cormorant Garamond', Georgia, serif;
+  --sans:         'Inter', system-ui, sans-serif;
+
+  /* Spacing */
+  --gap-xs:  .375rem;
+  --gap-sm:  .75rem;
+  --gap-md:  1.25rem;
+  --gap-lg:  2rem;
+  --gap-xl:  3rem;
+  --radius:  10px;
+}
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.6;
+}
+
+/* ── DECK WRAPPER ── */
+.deck { max-width: 860px; margin: 0 auto; padding: var(--gap-xl) var(--gap-lg) 6rem; }
+
+/* ── DOC HEADER ── */
+.doc-header {
+  text-align: center;
+  padding: var(--gap-lg) 0 var(--gap-xl);
+  margin-bottom: var(--gap-xl);
+  border-bottom: 1px solid var(--border);
+}
+.doc-brand {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: var(--gap-sm);
+}
+.doc-title {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: var(--gap-xs);
+  letter-spacing: .01em;
+}
+.doc-sub {
+  font-size: 12px;
+  color: var(--ink-light);
+  letter-spacing: .04em;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-wrap {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.5rem;
+  margin-bottom: var(--gap-xl);
+}
+.progress-title {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: var(--gap-sm);
+}
+.progress-track-outer {
+  height: 4px;
+  background: var(--border-light);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-bottom: var(--gap-xs);
+}
+.progress-track-fill {
+  height: 100%;
+  width: 52%;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--brown-mid) 100%);
+  border-radius: 100px;
+}
+.progress-count { font-size: 12px; color: var(--ink-mid); }
+
+/* ── SLIDE ── */
+.slide {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: var(--gap-xl);
+  overflow: hidden;
+  position: relative;
+}
+.slide:last-child { margin-bottom: 0; }
+
+/* Slide inner padding */
+.slide > *:not(.slide-top-bar) { padding-left: 3rem; padding-right: 3rem; }
+.slide > .slide-top-bar + * { padding-top: var(--gap-lg); }
+.slide > *:last-child { padding-bottom: var(--gap-xl); }
+
+/* ── SLIDE TOP BAR — THE SIGNATURE ELEMENT ── */
+/* A precision gold calibration rule with slide number — 
+   like the measurement marks on a premium instrument */
+.slide-top-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: .6rem 3rem;
+  background: var(--caff-dark);
+  border-bottom: 2px solid var(--gold-rule);
+}
+.slide-num-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold-rule);
+  flex-shrink: 0;
+}
+.slide-act-label {
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  flex-grow: 1;
+}
+.slide-status-badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: rgba(200, 168, 76, .15);
+  color: var(--gold-rule);
+  border: 1px solid rgba(200, 168, 76, .3);
+}
+.slide-status-badge.draft {
+  background: rgba(180, 140, 60, .1);
+  color: #A07828;
+  border-color: rgba(180, 140, 60, .25);
+}
+
+/* ── EYEBROW ── */
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: var(--gap-sm);
+  padding-top: var(--gap-lg);
+}
+
+/* ── HEADLINES ── */
+.headline-cover {
+  font-family: var(--serif);
+  font-size: 64px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.05;
+  letter-spacing: -.01em;
+  margin-bottom: var(--gap-xs);
+}
+.tagline-cover {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--gold);
+  margin-bottom: var(--gap-lg);
+  letter-spacing: .01em;
+}
+.cover-descriptor {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  margin-top: var(--gap-sm);
+  padding-bottom: 0;
+}
+.cover-descriptor:last-of-type {
+  padding-bottom: var(--gap-xl);
+  margin-top: 4px;
+}
+
+.spine-cover {
+  font-family: var(--serif);
+  font-size: 21px;
+  font-weight: 400;
+  color: var(--ink-mid);
+  line-height: 1.8;
+  border-top: 1px solid var(--border);
+  padding-top: var(--gap-md);
+  text-align: center;
+  font-style: italic;
+  padding-bottom: var(--gap-md);
+}
+.cover-rule {
+  width: 40px;
+  height: 2px;
+  background: var(--gold-rule);
+  margin-bottom: var(--gap-md);
+}
+.slide-headline {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.25;
+  letter-spacing: .005em;
+  margin-bottom: var(--gap-lg);
+}
+
+/* ── BODY ── */
+.slide-body {
+  font-size: 14.5px;
+  color: var(--ink-mid);
+  line-height: 1.85;
+  margin-bottom: var(--gap-md);
+}
+.slide-body p { margin-bottom: .9rem; }
+.slide-body p:last-child { margin-bottom: 0; }
+.slide-body strong { color: var(--ink); font-weight: 500; }
+.slide-body em { color: var(--ink); font-style: italic; }
+
+/* ── CLOSER ── */
+.slide-closer {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  border-top: 2px solid var(--gold-rule);
+  padding-top: var(--gap-md);
+  margin-top: var(--gap-md);
+  line-height: 1.65;
+  padding-bottom: var(--gap-xl);
+  text-align: center;
+}
+
+/* ── SPINE CALLOUT ── */
+.spine-callout {
+  background: var(--gold-light);
+  border-left: 3px solid var(--gold-rule);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.25rem;
+  margin-bottom: var(--gap-md);
+}
+.spine-text {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--brown-deep);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── TRUST LINE ── */
+.trust-line {
+  background: var(--ink);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.5rem;
+  margin-bottom: var(--gap-md);
+}
+.trust-text {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--gold-rule);
+  line-height: 1.6;
+  margin: 0;
+  text-align: center;
+  letter-spacing: .01em;
+}
+.connector {
+  background: var(--cream-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-bottom: var(--gap-md);
+  font-size: 14.5px;
+  color: var(--ink-mid);
+  line-height: 1.8;
+}
+.connector p { margin-bottom: .75rem; }
+.connector p:last-child { margin-bottom: 0; }
+.connector strong { color: var(--ink); font-weight: 500; }
+
+/* ── WHAT-IF BLOCK ── */
+.whatif-block { margin-bottom: var(--gap-md); }
+.whatif-row {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 0 16px;
+  align-items: baseline;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.whatif-row:last-child { border-bottom: none; }
+.whatif-n {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--gold);
+  text-align: right;
+  padding-top: 3px;
+}
+.whatif-text {
+  font-size: 14.5px;
+  color: var(--ink-mid);
+  line-height: 1.65;
+}
+.whatif-text strong { color: var(--ink); font-weight: 500; }
+.whatif-text.final {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-style: italic;
+}
+
+/* ── PILLARS ── */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-bottom: var(--gap-md);
+}
+.pillar {
+  background: var(--cream-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .875rem 1rem;
+  border-top: 2px solid var(--gold-rule);
+}
+.pillar-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.pillar-body {
+  font-size: 12px;
+  color: var(--ink-mid);
+  line-height: 1.55;
+}
+
+/* ── CUPS TIMELINE ── */
+.timeline-section { margin-bottom: var(--gap-md); }
+.timeline-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: var(--gap-xs);
+}
+.profile-line {
+  font-size: 13px;
+  color: var(--ink-mid);
+  margin-bottom: var(--gap-md);
+  padding: .5rem .875rem;
+  background: var(--cream-dark);
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+}
+.profile-line strong { color: var(--ink); font-weight: 500; }
+.cups-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-bottom: var(--gap-md);
+}
+.cup-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.cup-outer {
+  width: 46px;
+  height: 62px;
+  border-radius: 0 0 12px 12px;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(165deg, #F4E7CC 0%, #EBD9B5 35%, var(--caff-light) 70%, #DCC49C 100%);
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.06);
+}
+.cup-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, var(--caff-mid) 0%, var(--caff-dark) 100%);
+  border-top: 1px solid rgba(0,0,0,.12);
+}
+.cup-time {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-mid);
+  letter-spacing: .03em;
+}
+.cup-pct {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  font-family: var(--serif);
+}
+.cup-moment {
+  font-size: 10px;
+  color: var(--ink-light);
+  text-align: center;
+  line-height: 1.35;
+  max-width: 72px;
+}
+.legend-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: var(--gap-sm);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--ink-light);
+  letter-spacing: .03em;
+}
+.legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+/* ── GRADUAL NOTE ── */
+.gradual-note {
+  background: var(--blue-light);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: .875rem 1.1rem;
+  margin-bottom: var(--gap-md);
+}
+.gradual-text {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.65;
+}
+.gradual-text strong { color: var(--ink); }
+
+/* ── BUDGET BAR ── */
+.budget-section { margin-bottom: var(--gap-md); }
+.budget-label-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.budget-label {
+  font-size: 12px;
+  color: var(--ink-light);
+  letter-spacing: .03em;
+}
+.budget-label span { font-weight: 600; color: var(--ink); }
+.budget-track {
+  height: 6px;
+  background: var(--border-light);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.budget-fill {
+  height: 100%;
+  width: 14%;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--brown-mid) 100%);
+  border-radius: 100px;
+}
+
+/* ── BEFORE / AFTER ── */
+.before-after {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: var(--gap-md);
+}
+.ba-card {
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+}
+.ba-old {
+  background: var(--cream-dark);
+  border: 1px solid var(--border);
+}
+.ba-new {
+  background: var(--gold-light);
+  border: 1px solid #DFC880;
+  border-top: 2px solid var(--gold-rule);
+}
+.ba-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.ba-old .ba-label { color: var(--ink-light); }
+.ba-new .ba-label { color: var(--gold); }
+.ba-num {
+  font-family: var(--serif);
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 6px;
+  letter-spacing: -.01em;
+}
+.ba-old .ba-num { color: var(--ink); }
+.ba-new .ba-num { color: var(--brown-deep); }
+.ba-desc { font-size: 13px; line-height: 1.55; margin-bottom: 6px; }
+.ba-old .ba-desc { color: var(--ink-mid); }
+.ba-new .ba-desc { color: var(--brown-mid); }
+.ba-sub { font-size: 11px; font-style: italic; }
+.ba-old .ba-sub { color: var(--ink-light); }
+.ba-new .ba-sub { color: var(--gold); }
+
+/* ── NON-RESTRICTIVE PILLAR (slide 09) ── */
+.pillar.nr-pillar {
+  background: var(--blue-light);
+  border-color: var(--blue-mid);
+  border-top-color: var(--blue);
+  margin-bottom: var(--gap-md);
+}
+.pillar.nr-pillar .pillar-title { color: var(--blue); }
+.pillar.nr-pillar .pillar-body { color: #1A3A60; }
+
+/* ── AUTOPILOT WORD — MATCHES WHOLE TREATMENT ── */
+.autopilot-word {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 700;
+  color: #7A5010;
+  letter-spacing: -.01em;
+}
+.slide-headline .autopilot-word {
+  font-size: 36px;
+}
+
+/* ── DEVICE SLIDE ── */
+.system-layers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: var(--gap-md);
+  width: 100%;
+}
+.layer-card {
+  border-radius: var(--radius);
+  padding: .75rem .875rem;
+  border: 1px solid var(--border);
+}
+.layer-card.l1 { background: var(--blue-light); border-color: var(--blue-mid); border-top: 2px solid var(--blue); }
+.layer-card.l2 { background: var(--green-light); border-color: #90CCA8; border-top: 2px solid var(--green); }
+.layer-card.l3 { background: var(--gold-light); border-color: #DFC880; border-top: 2px solid var(--gold-rule); }
+.layer-num {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.l1 .layer-num { color: var(--blue); }
+.l2 .layer-num { color: var(--green); }
+.l3 .layer-num { color: var(--gold); }
+.layer-title { font-size: 12px; font-weight: 500; color: var(--ink); margin-bottom: 4px; line-height: 1.3; }
+.layer-body { font-size: 11px; color: var(--ink-mid); line-height: 1.5; margin: 0; }
+
+.bridge {
+  background: var(--cream-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-top: var(--gap-md);
+  margin-bottom: var(--gap-md);
+}
+.bridge-flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bridge-step {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  padding: 4px 10px;
+  background: var(--white);
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+.bridge-arrow { font-size: 14px; color: var(--ink-faint); }
+.bridge-label { font-size: 11px; color: var(--ink-light); margin-top: 8px; font-style: italic; }
+
+.tier-signal { margin-bottom: var(--gap-md); }
+.tier-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  margin-bottom: 8px;
+  display: block;
+}
+.tier-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.tier-card {
+  background: var(--cream-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .75rem 1rem;
+  text-align: center;
+}
+.tier-name {
+  font-size: 15px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  font-family: var(--serif);
+  margin-bottom: 3px;
+}
+.tier-market { font-size: 11px; color: var(--ink-light); letter-spacing: .03em; }
+
+/* ── THE "WHOLE" STATEMENT — SIGNATURE DRAMATIC LINE ── */
+.whole-statement {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.4;
+  text-align: center;
+  padding: var(--gap-lg) var(--gap-md);
+  margin-bottom: var(--gap-md);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--cream-dark);
+  border-radius: var(--radius);
+}
+.whole-word {
+  font-family: var(--serif);
+  font-size: 34px;
+  font-style: italic;
+  font-weight: 700;
+  color: #7A5010;
+  letter-spacing: -.01em;
+}
+
+/* ── BRIDGE HIGHLIGHTED STEPS ── */
+.bridge-step-gold {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7A5010;
+  padding: 4px 10px;
+  background: #F5EDD6;
+  border-radius: 100px;
+  border: 2px solid #C9A84C;
+  white-space: nowrap;
+}
+.bridge-step-brown {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0C447C;
+  padding: 4px 10px;
+  background: #E6F1FB;
+  border-radius: 100px;
+  border: 2px solid #B5D4F4;
+  white-space: nowrap;
+} */
+/* ── SYSTEM LAYERS VERTICAL ── */
+.system-layers-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: var(--gap-md);
+  width: 100%;
+}
+.layer-row {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  padding: .75rem 1rem;
+  margin-bottom: 12px;
+}
+.layer-row:last-child { margin-bottom: 0; }
+.layer-row.l1 { background: var(--blue-light); border-top: 2px solid var(--blue); }
+.layer-row.l2 { background: var(--green-light); border-top: 2px solid var(--green); }
+.layer-row.l3 { background: var(--gold-light); border-top: 2px solid var(--gold-rule); }
+.layer-row-label {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+.layer-row-body {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.6;
+  width: 100%;
+}
+
+.question-card {
+  background: var(--cream-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin-bottom: var(--gap-md);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.question-mark {
+  font-size: 36px;
+  color: var(--ink-faint);
+  line-height: 1;
+  flex-shrink: 0;
+  font-family: var(--serif);
+}
+.question-text {
+  font-size: 15px;
+  color: var(--ink-mid);
+  line-height: 1.65;
+  margin: 0;
+  font-style: italic;
+}
+.question-text strong { color: var(--ink); font-weight: 500; font-style: normal; }
+.answer-card {
+  background: var(--green-light);
+  border: 1px solid #90CCA8;
+  border-left: 3px solid var(--green);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.25rem;
+  margin-bottom: var(--gap-md);
+}
+.answer-label {
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+.answer-text {
+  font-size: 14px;
+  color: #1A3A28;
+  line-height: 1.75;
+  margin: 0;
+}
+.answer-text strong { font-weight: 500; }
+.three-jobs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: var(--gap-md);
+}
+.job-card {
+  background: var(--cream-dark);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--gold-rule);
+  border-radius: var(--radius);
+  padding: .875rem 1rem;
+}
+.job-num {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.job-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+.job-body {
+  font-size: 12px;
+  color: var(--ink-mid);
+  line-height: 1.5;
+  margin: 0;
+}
+.planned-note {
+  background: var(--gold-light);
+  border: 1px solid #DFC880;
+  border-left: 2px solid var(--gold-rule);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: .875rem 1.1rem;
+  margin-bottom: var(--gap-md);
+}
+.planned-text {
+  font-size: 13px;
+  color: var(--brown-mid);
+  line-height: 1.65;
+  margin: 0;
+}
+.planned-text strong { color: var(--brown-deep); }
+
+/* ── FLOW DIAGRAM ── */
+.flow {
+  display: grid;
+  grid-template-columns: 1fr 28px 1fr 28px 1fr;
+  gap: 0;
+  align-items: center;
+  margin-bottom: var(--gap-md);
+}
+.flow-box {
+  background: var(--cream-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .875rem 1rem;
+  text-align: center;
+}
+.flow-box.highlight {
+  background: var(--gold-light);
+  border-color: #DFC880;
+  border-top: 2px solid var(--gold-rule);
+}
+.flow-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+.flow-body { font-size: 12px; color: var(--ink-mid); line-height: 1.45; }
+.flow-arrow { text-align: center; font-size: 16px; color: var(--ink-faint); }
+
+/* ── DISTINCTION PANEL ── */
+.distinction {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: var(--gap-md);
+}
+.dist-card { border-radius: var(--radius); padding: .875rem 1rem; }
+.dist-old { background: var(--cream-dark); border: 1px solid var(--border); }
+.dist-new { background: var(--gold-light); border: 1px solid #DFC880; border-top: 2px solid var(--gold-rule); }
+.dist-label {
+  font-size: 10px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.dist-old .dist-label { color: var(--ink-light); }
+.dist-new .dist-label { color: var(--gold); }
+.dist-text { font-size: 13px; line-height: 1.55; }
+.dist-old .dist-text { color: var(--ink-mid); }
+.dist-new .dist-text { color: var(--brown-mid); font-weight: 500; }
+
+/* ── ACT DIVIDER ── */
+.act-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: var(--gap-xl) 0 var(--gap-lg);
+}
+.act-divider-line { flex: 1; height: 1px; background: var(--border); }
+.act-divider-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+/* ── CONTINUOUS-DOCUMENT print style (SAMPLE) — flows like a report, not slides-on-pages ── */
+@media print {
+  @page { size: Letter; margin: 0.7in 0.78in; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  html, body { background: #fff !important; margin: 0 !important; padding: 0 !important; }
+  .deck { max-width: 100% !important; width: auto !important; margin: 0 !important; padding: 0 !important; }
+  /* De-card the slides so content flows continuously down the page */
+  .slide {
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    margin: 0 0 1.5rem 0 !important;
+    overflow: visible !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 800px !important;
+  }
+  .slide > *:not(.slide-top-bar) { padding-left: 0 !important; padding-right: 0 !important; }
+  .slide > *:last-child { padding-bottom: 1rem !important; }
+  /* the dark slide bar becomes a light section rule (keeps its label as a heading) */
+  .slide-top-bar { padding: .2rem 0 .35rem 0 !important; background: transparent !important; border-bottom: 1.5px solid var(--gold-rule) !important; break-after: avoid; }
+  .slide-num-label, .slide-act-label { color: var(--ink-light) !important; }
+  /* keep small blocks whole across page breaks */
+  .layer-card, .layer-row, .pillar, .flow-card, .whatif-row, tr, table, .ba-col, .slide-closer, .answer-block { break-inside: avoid; }
+  .eyebrow, h2, .slide-headline { break-after: avoid; break-inside: avoid; }
+  .act-divider { break-before: auto; break-after: avoid; margin: 1rem 0 1rem !important; gap: 1.1rem !important; }
+  .act-divider-line { height: 2px !important; background: var(--gold-rule) !important; }
+  .act-divider-label { font-size: 20px !important; font-weight: 700 !important; letter-spacing: .09em !important; color: var(--caff-dark) !important; }
+  /* Cover stands alone as a title page; Act I begins on page 2 */
+  .deck > .slide:first-child { break-after: page !important; page-break-after: always !important; }
+  /* Start this section at the top of a page so it doesn't spill onto the next */
+  .pg-break-before { break-before: page !important; page-break-before: always !important; }
+  /* Light global tightening so tall sections fit a page (document density; no text cut) */
+  .slide-body { line-height: 1.55 !important; margin-bottom: .6rem !important; }
+  .slide-body p { margin-bottom: .5rem !important; }
+  .system-layers-vertical { gap: 8px !important; margin-bottom: .6rem !important; }
+  .layer-row { padding: .5rem .9rem !important; margin-bottom: 0 !important; }
+  .layer-row-label { margin-bottom: 2px !important; }
+  .layer-row-body { line-height: 1.5 !important; }
+  .slide-closer { margin-top: auto !important; }
+  /* Sections that are already near-full get no fill (no room to separate the closer without overflow) */
+  .slide.no-fill { display: block !important; min-height: 0 !important; }
+  .no-fill .slide-closer { margin-top: .6rem !important; }
+  /* Exit-landscape (Path) cards: snug so the Revenue section fits one page */
+  .exit-cards { gap: 6px !important; margin-bottom: .4rem !important; }
+  .exit-cards > div { padding: .45rem 1rem !important; }
+  .exit-cards p[style*="ink-mid"] { line-height: 1.42 !important; }
+  /* Platform-in-Action (day-in-the-life) — tighten to fit one page */
+  .timeline-section { margin-bottom: .4rem !important; }
+  .profile-line { margin-bottom: .4rem !important; padding: .35rem .875rem !important; }
+  .cups-row { margin-bottom: .4rem !important; }
+  .legend-row { margin-bottom: .35rem !important; }
+  .gradual-note { padding: .4rem 1.1rem !important; margin-bottom: .4rem !important; }
+  .gradual-text { line-height: 1.4 !important; }
+  .budget-section { margin-bottom: .4rem !important; }
+  .before-after { margin-bottom: .4rem !important; }
+  .ba-card { padding: .45rem .9rem !important; }
+  .ba-desc { line-height: 1.35 !important; margin-bottom: 3px !important; }
+  .ba-num { font-size: 32px !important; margin-bottom: 2px !important; }
+  /* Use of Funds — tighten priority rows to fit one page */
+  .priority-list { gap: 5px !important; margin-bottom: .75rem !important; }
+  .priority-row > div { padding: .5rem 1rem !important; }
+  .priority-row p { line-height: 1.4 !important; }
+}
+
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- ── SLIDE 01 ── COVER -->
+  <div class="slide">
+    <div class="cover-rule"></div>
+    <h1 class="headline-cover">Caffevolve™</h1>
+    <p class="tagline-cover">Coffee Without a Curfew</p>
+    <p class="spine-cover">Every coffee drinker has a unique relationship with caffeine — a personal sensitivity, a natural rhythm — and a point where the lift tips into restlessness. The Caffevolve Platform maps that relationship precisely, translates it into personal caffeine ceilings that protect both the day and the night ahead, and then empowers you to manage them wisely, cup by cup, all day and into the evening.</p>
+    <p class="cover-descriptor">platform intelligence.&nbsp;·&nbsp;Innovative Brewing Device.&nbsp;·&nbsp;Beyond the Device — CaffevolveGo</p>
+    <p class="cover-descriptor">Premium appliance licensing.</p>
+
+    <div style="border-top:1px solid var(--border);margin-top:1.5rem;padding-top:1rem;display:flex;justify-content:center;gap:2.25rem;flex-wrap:wrap">
+      <span style="font-size:13px;color:var(--ink-light)"><strong style="color:var(--ink-mid);font-weight:600">Act I</strong> The Opportunity <span style="color:var(--ink-faint)">· 01–05</span></span>
+      <span style="font-size:13px;color:var(--ink-light)"><strong style="color:var(--ink-mid);font-weight:600">Act II</strong> The Platform <span style="color:var(--ink-faint)">· 06–12</span></span>
+      <span style="font-size:13px;color:var(--ink-light)"><strong style="color:var(--ink-mid);font-weight:600">Act III</strong> The Business Model <span style="color:var(--ink-faint)">· 13–16</span></span>
+      <span style="font-size:13px;color:var(--ink-light)"><strong style="color:var(--ink-mid);font-weight:600">Act IV</strong> The Ask <span style="color:var(--ink-faint)">· 17–19</span></span>
+    </div>
+  </div>
+
+  <div class="act-divider"><div class="act-divider-line"></div><span class="act-divider-label">Act I — The Opportunity</span><div class="act-divider-line"></div></div>
+
+  <!-- ── SLIDE 02 ── THE OPPORTUNITY & THE SHARP EDGE -->
+  <div class="slide">
+    <p class="eyebrow">The opportunity — and its edge</p>
+    <h2 class="slide-headline">Billions of people reach for it before they reach for anything else. There's a reason — and there's a limit.</h2>
+    <div class="slide-body">
+      <p><strong>The slumber that clears. The mind that arrives.</strong> The kitchen conversation that turns colleagues into collaborators. For people across the globe, every single day, coffee creates the conditions for their best work and their most human moments.</p>
+      <p>But that lift follows a curve, not a straight line. At low levels, caffeine is largely imperceptible — present, but producing no meaningful change. As levels rise, performance improves: alertness sharpens, reaction time quickens, mood lifts, concentration deepens. <strong>But the improvement isn't indefinite.</strong></p>
+      <p>Beyond personal ceilings, the gains reverse. The fine line has been crossed. Agitation replaces calm. Nervousness undermines confidence. Restlessness fragments attention. And long after the cup is finished, the same compound that sharpened the afternoon quietly steals the night — <strong>the racing mind that won't slow down, the peaceful sleep that just won't come.</strong></p>
+      <p>This isn't a fringe concern. It's the universal experience of anyone who has ever relied on coffee to get through their day. <strong>Every person in this room has felt both sides of this curve.</strong></p>
+    </div>
+    <div class="slide-closer">More coffee to enjoy. Less regret to fear. Right now, walking that line means flying blind. The product that changes that doesn't exist on the market today. That's what we're here to deliver.</div>
+  </div>
+
+  <!-- ── SLIDE 03 ── THE DECISION -->
+  <div class="slide">
+    <p class="eyebrow">The learned response</p>
+    <h2 class="slide-headline">At some point every afternoon, experienced coffee drinkers have learned to make the same decision. Automatically.</h2>
+    <div class="slide-body">
+      <p><strong>They stop.</strong> Not because the afternoon is finished. Not because the work is done. But because somewhere along the way they learned — through enough afternoon overstimulation, restless nights, and mornings feeling everything but refreshed — that another cup after a certain point is a gamble they've stopped taking. <strong>The fear of a sleepless night overrides the drive to finish the day on a strong note.</strong> So they put the cup down. And they get through the afternoon on whatever they have left.</p>
+      <p>What they're giving up in that moment is real. <strong>The meeting that needed one more hour of sharp thinking. The project that was almost there.</strong> The afternoon that could have finished strong instead of fading quietly into the end of the day. The cost of the cutoff isn't just the missing cup — it's everything that cup would have enabled.</p>
+      <p>And the obvious alternative? <strong>Pure decaf doesn't provide the push.</strong> It preserves the warmth, the ritual, the pause — but not the result. Experienced coffee drinkers know this — which is why most of them don't even try it. It's not a solution. It's a consolation. <strong>So why bother.</strong></p>
+    </div>
+    <div class="slide-closer">It's not that they chose to stop. It's that stopping was the only <strong>real</strong> choice they had.</div>
+  </div>
+
+  <!-- ── SLIDE 04 ── THE BUDGET -->
+  <div class="slide">
+    <p class="eyebrow">The caffeine ceilings</p>
+    <h2 class="slide-headline">Every coffee drinker carries a set of internally regulated caffeine ceilings that are uniquely theirs. They know they exist — they just don't know how to effectively manage them.</h2>
+    <div class="slide-body">
+      <p>They're personal ceilings measured in milligrams — approached, respected, and reset every single day. Managed wisely, they deliver <strong>focus, drive, and the emotional lift that makes a conversation come alive.</strong> They sharpen the individual. They connect the room. They turn an ordinary afternoon into a productive one.</p>
+      <p>But each cup of 100% caffeinated coffee pushes closer to those ceilings. <strong>It doesn't take many cups before one of them is reached</strong> — and with no room left, the only way forward is what every experienced coffee drinker recognizes immediately: the daring act of pushing past it anyway. One more cup. One more bet. <strong>And with it, the familiar fear of going too far — the afternoon edge, the peaceful night that just won't come.</strong></p>
+      <p>So they stop. They calculate — instinctively, automatically, without a single piece of real information — that the risk isn't worth it. The afternoon fades. A ceiling has already been reached for the day. And tomorrow morning, <strong>the whole cycle begins again.</strong></p>
+    </div>
+    <div class="slide-closer">Every coffee drinker in the world is managing these ceilings — almost entirely on <span class="autopilot-word">autopilot,</span> in ways shaped by habits formed long before they understood what they were managing. They have never been introduced to the possibility that it could be done differently. Better. In a way that honors both the demands of the day and the expectation of a good night's sleep.</div>
+  </div>
+
+  <!-- ── SLIDE 05 ── THE WHAT IF -->
+  <div class="slide">
+    <p class="eyebrow">The reframe</p>
+    <h2 class="slide-headline">What if that <span class="autopilot-word">autopilot</span> could be disengaged — leaving you free to control the <em>altitude</em> of your day?</h2>
+
+    <div class="connector">
+      <p>The ceilings aren't the problem. Managing them blind is.</p>
+      <p>So what if we worked beneath them more consciously — rather than surrendering to a binary <strong>"yes, another cup"</strong> or <strong>"no, I really shouldn't"</strong> at every turn? Why couldn't we...</p>
+    </div>
+
+    <div class="whatif-block">
+      <div class="whatif-row">
+        <div class="whatif-n">01</div>
+        <div class="whatif-text">...take <strong>smaller bites more often</strong> <em>(less caffeine in each cup)</em> — and later into the day when we need it most — and still sleep soundly?</div>
+      </div>
+      <div class="whatif-row">
+        <div class="whatif-n">02</div>
+        <div class="whatif-text">...take <strong>bigger bites</strong> <em>(more caffeine in each cup)</em> — early when the day demands it, and dial it down as the evening approaches?</div>
+      </div>
+      <div class="whatif-row">
+        <div class="whatif-n">03</div>
+        <div class="whatif-text">...know <strong>exactly where we stand</strong> — so every cup is a thought-out decision, and every evening is a protected one?</div>
+      </div>
+    </div>
+
+    <div class="slide-closer">This is a new relationship with caffeine. Not simply 'yes or no' to the next cup, but rather 'yes — let's adjust the blend to fit the moment.' For the first time, the cup itself is no longer the decision. The caffeine blend within is.<br><br>Our long-standing, routine coffee ritual is now open to change.</div>
+  </div>
+
+  <div class="act-divider"><div class="act-divider-line"></div><span class="act-divider-label">Act II — The Platform</span><div class="act-divider-line"></div></div>
+
+  <!-- ── SLIDE 06 ── INTRODUCING CAFFEVOLVE -->
+  <div class="slide">
+    <p class="eyebrow">Introducing Caffevolve™</p>
+    <h2 class="slide-headline">Caffevolve. The intelligent caffeine management platform — built for the way your day actually works.</h2>
+
+    <div class="slide-body">
+      <p>Effectively managing caffeine from morning to night is an inherently complex process. Keeping the right level of this unique chemical in your system as the day progresses requires a formidable intelligence system to deliver appropriate caffeine recommendations. But a blend recommendation itself is only beneficial if it can be immediately followed by the ability to act on it — whether at home or away. This is what the Caffevolve Platform delivers.</p>
+    </div>
+
+    <p class="bridge-label" style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:10px;font-style:normal;letter-spacing:.08em;text-transform:uppercase;text-align:center">The Caffevolve Platform Components</p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem">
+      <div style="background:var(--blue-light);border:1px solid var(--blue-mid);border-top:2px solid var(--blue);border-radius:var(--radius);padding:.875rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin:0 0 5px">Platform Intelligence Center</p>
+        <p style="font-size:12px;font-weight:500;color:var(--ink);margin:0 0 4px">The intelligence that never sleeps</p>
+        <p style="font-size:11px;color:var(--ink-mid);line-height:1.5;margin:0">Where all inputs are collected, all calculations are performed, and ultimately, all caffeine blend recommendations are produced.</p>
+      </div>
+      <div style="background:var(--green-light);border:1px solid #90CCA8;border-top:2px solid var(--green);border-radius:var(--radius);padding:.875rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin:0 0 5px">Precision Brewing Device</p>
+        <p style="font-size:12px;font-weight:500;color:var(--ink);margin:0 0 4px">Where intelligence becomes coffee</p>
+        <p style="font-size:11px;color:var(--ink-mid);line-height:1.5;margin:0">Executes the caffeine blend recommendation precisely — blending, grinding, and brewing caffeinated and decaffeinated beans in the perfect ratio as the day's needs change.</p>
+      </div>
+      <div style="background:var(--gold-light);border:1px solid #DFC880;border-top:2px solid var(--gold-rule);border-radius:var(--radius);padding:.875rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:0 0 5px">Beyond the Device</p>
+        <p style="font-size:12px;font-weight:500;color:var(--ink);margin:0 0 4px">The platform stays with you</p>
+        <p style="font-size:11px;color:var(--ink-mid);line-height:1.5;margin:0">The companion app that helps to keep track of every cup consumed while away from home — and recommends drink options that fit within your limits at the time.</p>
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <p>Caffevolve is a <strong>patent-pending intelligent caffeine management platform</strong> — built for licensing to the world's leading coffee appliance manufacturers — delivering a personalized caffeine blend recommendation and brew for each cup of the day.</p>
+    </div>
+
+    <div style="background:var(--cream-dark);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem;margin-bottom:var(--gap-md)">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+        <p style="font-size:12.5px;color:var(--ink-mid);line-height:1.55;margin:0;padding:0 16px;text-align:center"><strong style="color:var(--ink);font-weight:600">Intelligence with no device</strong> can recommend, but it can't act.</p>
+        <p style="font-size:12.5px;color:var(--ink-mid);line-height:1.55;margin:0;padding:0 16px;text-align:center;border-left:2px solid var(--border)"><strong style="color:var(--ink);font-weight:600">A brewer with no intelligence</strong> is just a coffee maker.</p>
+        <p style="font-size:12.5px;color:var(--ink-mid);line-height:1.55;margin:0;padding:0 16px;text-align:center;border-left:2px solid var(--border)"><strong style="color:var(--ink);font-weight:600">A device blind to the cups you drink away from home</strong> can never see the whole day.</p>
+      </div>
+    </div>
+
+    <div class="trust-line" style="background:var(--caff-dark)">
+      <p class="trust-text">One system. Three components. Each incomplete alone.</p>
+    </div>
+
+    <div class="slide-closer">Built to know. Built to act — wherever the day takes you.</div>
+  </div>
+
+  <!-- ── SLIDE 07 ── PLATFORM INTELLIGENCE -->
+  <div class="slide pg-break-before">
+    <p class="eyebrow">platform intelligence</p>
+    <h2 class="slide-headline">Every recommendation starts with what only you can define — then the platform takes it from there.</h2>
+
+    <div class="slide-body">
+      <p>The Platform Intelligence Center is where all the processing happens. It's the component of the Caffevolve Platform that works around the clock to both keep your caffeine level current and give you the confidence — regardless of your work or social schedule — to consciously consume that next cup of caffeine at any time, day or night, without worry of regret. It does this using three coordinated layers.</p>
+    </div>
+
+    <div class="system-layers-vertical">
+      <div class="layer-row l1">
+        <div class="layer-row-label">
+          <p class="layer-num">Layer 01</p>
+          <p class="layer-title">The Caffeine Behavior Instrument</p>
+        </div>
+        <div class="layer-row-body">The Intelligence Center first utilizes The Caffeine Behavior Instrument, Caffevolve's onboarding tool, to ask about familiar daily behavior — such as how many cups before you feel alert, how many before you feel wired, and how late you can drink caffeine without it costing you sleep. From these and other related questions, the platform develops your caffeine sensitivity profile — or, more precisely put, your caffeine comfort zone and personal Caffeine Decay Rate — two of the most important factors considered in effectively managing caffeine consumption and relied upon in our platform intelligence to set protective caffeine ceilings. A final key input, your expected bedtime, is provided as the last step before a brew is initiated to ensure recommendations are always based on up-to-the-minute circumstances.</div>
+      </div>
+      <div class="layer-row l2">
+        <div class="layer-row-label">
+          <p class="layer-num">Layer 02</p>
+          <p class="layer-title">The Dual-Ceiling Architecture</p>
+        </div>
+        <div class="layer-row-body">A single ceiling would be simple — Caffevolve works with two, and evaluates both at once. Every brew recommendation must satisfy the Wake Hours Ceiling and the Bedtime Ceiling simultaneously; neither is allowed to override the other. The Wake Hours Ceiling asks an instantaneous question — will this cup push you into overstimulation right now? The Bedtime Ceiling asks a forward-looking one — will the caffeine remaining in your system at bedtime still clear the ceiling, leaving the door open for sleep? The strongest brew that both ceilings allow is expressed as a blend ratio, ready to be confirmed and brewed right then. That ratio is the key output of the Caffevolve Platform — the Caffeine Blend Recommendation.</div>
+      </div>
+      <div class="layer-row l3">
+        <div class="layer-row-label">
+          <p class="layer-num">Layer 03</p>
+          <p class="layer-title">The Adaptive Feedback System</p>
+        </div>
+        <div class="layer-row-body">The platform refines its recommendations over time based on your reported outcomes — sharpening its understanding of you with every cup, without ever requiring you to think about the math behind it.</div>
+      </div>
+    </div>
+
+    <div class="slide-closer">One instrument to understand you. Two ceilings to protect you. A system that only gets smarter.</div>
+  </div>
+
+  <!-- ── SLIDE 07b ── PERSONALIZATION PROOF ── -->
+  <div class="slide">
+    <p class="eyebrow">platform intelligence · personalized</p>
+    <h2 class="slide-headline">Same cup. Same moment. Three different recommendations.</h2>
+
+    <div style="margin-bottom:var(--gap-md)">
+      <p class="profile-line" style="font-style:italic;color:var(--ink-mid)">Give three people the same-sized cup — at the same time of day — and with the same bedtime, and the platform will almost always return three different caffeine blend recommendations — because each person's caffeine comfort zone and decay rate is unique. <span style="color:var(--ink-light)">Illustrative platform output.</span></p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:var(--gap-sm)">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--cream-dark);border:1px solid var(--border);border-top:2px solid var(--gold-rule);border-radius:var(--radius);padding:.9rem .75rem">
+          <p style="font-family:var(--serif);font-style:italic;font-size:17px;font-weight:500;color:var(--ink);margin:0">Diane</p>
+          <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);margin:0">Lower Caffeine Sensitivity</p>
+          <div class="cup-outer" style="margin-top:6px"><div class="cup-fill" style="height:70%"></div></div>
+          <p style="font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);margin:4px 0 0">70%</p>
+          <p style="font-size:10px;color:var(--ink-light);margin:0">caffeine blend recommendation</p>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--cream-dark);border:1px solid var(--border);border-top:2px solid var(--gold-rule);border-radius:var(--radius);padding:.9rem .75rem">
+          <p style="font-family:var(--serif);font-style:italic;font-size:17px;font-weight:500;color:var(--ink);margin:0">Derek</p>
+          <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);margin:0">More Moderate Caffeine Sensitivity</p>
+          <div class="cup-outer" style="margin-top:6px"><div class="cup-fill" style="height:45%"></div></div>
+          <p style="font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);margin:4px 0 0">45%</p>
+          <p style="font-size:10px;color:var(--ink-light);margin:0">caffeine blend recommendation</p>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--cream-dark);border:1px solid var(--border);border-top:2px solid var(--gold-rule);border-radius:var(--radius);padding:.9rem .75rem">
+          <p style="font-family:var(--serif);font-style:italic;font-size:17px;font-weight:500;color:var(--ink);margin:0">Wayne</p>
+          <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);margin:0">Higher Caffeine Sensitivity</p>
+          <div class="cup-outer" style="margin-top:6px"><div class="cup-fill" style="height:20%"></div></div>
+          <p style="font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);margin:4px 0 0">20%</p>
+          <p style="font-size:10px;color:var(--ink-light);margin:0">caffeine blend recommendation</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-closer">No two people get the same cup — because no two comfort zones are the same. The cup you get is yours alone.</div>
+  </div>
+
+  <!-- ── SLIDE 08b ── THE USER PROFILE -->
+  <div class="slide">
+    <p class="eyebrow">The User Profile</p>
+    <h2 class="slide-headline">All of that personalization happens once. Nothing but quick, efficient brews thereafter.</h2>
+
+    <div class="slide-body">
+      <p>Your responses to the Caffeine Behavior Instrument's onboarding questions have usually been formed over many years of drinking coffee, and are therefore fairly firm — not changing often — making the information well suited for storage and simple retrieval in your User Profile. A preferred grind-level setting and a selection of preferred flavor and wellness additives complete the Profile.</p>
+    </div>
+
+    <div class="system-layers-vertical">
+      <div class="layer-row l1">
+        <div class="layer-row-label">
+          <p class="layer-num">Layer 01</p>
+          <p class="layer-title">One-Time Personalization</p>
+        </div>
+        <div class="layer-row-body">Once established, you simply select the profile, add a serving size and serving strength, and the fresh brew begins. Five minutes to set up the User Profile for the first brew — five seconds to initiate every brew thereafter. A faster experience, and one that eliminates the possibility of inaccurate information being entered.</div>
+      </div>
+      <div class="layer-row l2">
+        <div class="layer-row-label">
+          <p class="layer-num">Layer 02</p>
+          <p class="layer-title">Sub-Profiles — Set It and Forget It</p>
+        </div>
+        <div class="layer-row-body">Up to six saved routines, each tied to a day and time window — a weekday morning strength, a weekend wind-down blend, a pre-workout boost. Configure once, and the platform recognizes the window and applies the right brew strength and additives automatically every day thereafter. No taps required, no repeated choices.</div>
+      </div>
+      <div class="layer-row l3">
+        <div class="layer-row-label">
+          <p class="layer-num">Layer 03</p>
+          <p class="layer-title">What's Always Calculated Fresh</p>
+        </div>
+        <div class="layer-row-body">The one thing never stored in the User Profile is the blend recommendation itself. Every cup is computed live — reflecting the saved Comfort Zone and Caffeine Decay Rate settings from the profile and that day's expected bedtime. Setup is effortless. The platform never stops thinking.</div>
+      </div>
+    </div>
+
+    <div class="slide-closer">Five minutes to set up. Five seconds to brew, every time after. That's the beauty of the User Profile — efficiency in motion.</div>
+  </div>
+
+  <!-- ── SLIDE 09b ── THE CAFFEVOLVE DEVICE -->
+  <div class="slide no-fill">
+    <p class="eyebrow">The Caffevolve device</p>
+    <h2 class="slide-headline">The platform needs a home base. This is it — and it's unlike any coffee appliance that has come before it.</h2>
+
+    <div class="slide-body">
+      <p>The Caffevolve brewing device sits on the counter like any premium coffee maker. <strong>It operates differently than all of them.</strong></p>
+    </div>
+
+    <div class="system-layers-vertical">
+      <div class="layer-row l1">
+        <div class="layer-row-label">
+          <p class="layer-num">Layer 01</p>
+          <p class="layer-title">Intelligent Union</p>
+        </div>
+        <div class="layer-row-body">After entering a few brew-time details such as serving size and serving strength, you receive the platform's caffeine blend recommendation. You can accept it, adjust it, or override it entirely — a Manual Caffeine Adjustor that the platform honors without question. Caffevolve™ is an intelligent advisor, not a gatekeeper. What ends up in your mug is always your call. One final tap to confirm the choices made and the brew is initiated. Platform intelligence and device become one. Seamless. Uncomplicated. Automatic.</div>
+      </div>
+      <div class="layer-row l2">
+        <div class="layer-row-label">
+          <p class="layer-num">Layer 02</p>
+          <p class="layer-title">Precise Brewing Process</p>
+        </div>
+        <div class="layer-row-body">Two bean reservoirs dispensing precisely to create the recommended caffeine blend ratio, then thoroughly blended before grinding, and brewed with perfection according to SCA Golden Cup Standards.</div>
+      </div>
+      <div class="layer-row l3">
+        <div class="layer-row-label">
+          <p class="layer-num">Layer 03</p>
+          <p class="layer-title">Innovative Additive System</p>
+        </div>
+        <div class="layer-row-body">Wellness and flavor supplements are merged into the coffee stream to maximize their intended impact. A specially designed carafe that incorporates passive internal baffles to promote turbulent mixing enhances the dissolution and integration of additives. With Caffevolve, it's not just what the cup does for your day — but what it does for your health.</div>
+      </div>
+    </div>
+
+    <div class="bridge">
+      <p class="bridge-label" style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:10px;font-style:normal;letter-spacing:.08em;text-transform:uppercase">The Complete Brew Process</p>
+      <table style="width:100%;border-collapse:collapse">
+        <tr>
+          <td style="padding:3px 6px 3px 0;white-space:nowrap;text-align:center"><span class="bridge-step">Platform recommends caffeine blend</span></td>
+          <td style="padding:3px 4px;color:var(--ink-faint);text-align:center">—</td>
+          <td style="padding:3px 6px;white-space:nowrap;text-align:center"><span class="bridge-step">You accept or adjust</span></td>
+          <td style="padding:3px 4px;color:var(--ink-faint);text-align:center">—</td>
+          <td style="padding:3px 0;white-space:nowrap;text-align:center"><span class="bridge-step-gold">Brew Now is tapped</span></td>
+        </tr>
+        <tr>
+          <td style="padding:3px 6px 3px 0;white-space:nowrap;text-align:center"><span class="bridge-step">Hoppers dispense</span></td>
+          <td style="padding:3px 4px;color:var(--ink-faint);text-align:center">—</td>
+          <td style="padding:3px 6px;white-space:nowrap;text-align:center"><span class="bridge-step">Beans blended then ground</span></td>
+          <td style="padding:3px 4px;color:var(--ink-faint);text-align:center">—</td>
+          <td style="padding:3px 0;white-space:nowrap;text-align:center"><span class="bridge-step">Brewed to SCA Standard</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" style="padding:4px 0;text-align:center"><span class="bridge-step">Additives released into the coffee stream</span></td>
+          <td style="padding:4px;color:var(--ink-faint);text-align:center">—</td>
+          <td colspan="2" style="padding:4px 0;text-align:center"><span class="bridge-step-brown">Perfect cup delivered</span></td>
+        </tr>
+      </table>
+    </div>
+
+
+    <div class="slide-closer">The platform thinks. The device acts. <span style="font-family:var(--serif);font-size:26px;font-style:italic;font-weight:700;color:#7A5010;letter-spacing:-.01em">Your</span> cup arrives.</div>
+  </div>
+
+  <!-- ── SLIDE 09d ── BEYOND THE DEVICE -->
+  <div class="slide">
+    <p class="eyebrow">Beyond the device · CaffevolveGo</p>
+    <h2 class="slide-headline">The platform doesn't stop at the kitchen counter. It follows you into the world.</h2>
+
+    <div class="slide-body">
+      <p>The Precision Brewing Device manages caffeine at home — every cup precisely composed, every brew tracked. But caffeine consumption doesn't happen only at home. The espresso at the morning meeting. The iced tea at lunch. The cappuccino at the airport. <strong>Every source outside the device is a cup platform intelligence doesn't know about — unless something closes that gap.</strong></p>
+      <p>That's exactly what the <strong>CaffevolveGo companion app</strong> does — and more. It places your current caffeine standing in your hand when you're away from home. First, through its External Caffeine Entry (ECE) component, it allows you to quickly log drinks consumed while you are out. This drink information is immediately fed back into the platform's intelligence system — keeping your caffeine standing accurate and up to the moment throughout the day. This ensures that when you look to brew or purchase another cup later in the day, the caffeine recommendation is always based on a complete picture of all you have consumed since waking.</p>
+    </div>
+
+    <div class="spine-callout">
+      <p class="spine-text">The device manages the cup at home. CaffevolveGo manages it everywhere else — providing you with the timely information you need to make solid caffeine consumption decisions no matter where you are.</p>
+    </div>
+
+    <div class="slide-closer">No other caffeine platform follows you out of the house. This one does.</div>
+  </div>
+
+  <!-- ── SLIDE 09e ── THE OFFSITE ADVISORY SYSTEM (OAS) ── -->
+  <div class="slide">
+    <p class="eyebrow">Beyond the Device · The Offsite Advisory System (OAS)</p>
+    <h2 class="slide-headline">Logging what you drink is only half the job. This is the half that helps you decide.</h2>
+
+    <div class="slide-body">
+      <p>The <strong>Offsite Advisory System (OAS)</strong> is the second component of the CaffevolveGo App — ready the moment you need it, right as you're about to make a caffeine drink choice away from home.</p>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:1.75rem; margin-bottom:1.25rem;">
+      <svg width="128" height="128" viewBox="0 0 128 128" style="flex-shrink:0;">
+        <defs>
+          <linearGradient id="oasDeckBadgeBg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#F8F3EC"/>
+            <stop offset="100%" stop-color="#EDE5D8"/>
+          </linearGradient>
+        </defs>
+        <rect x="4" y="4" width="120" height="120" rx="16" fill="url(#oasDeckBadgeBg)" stroke="#1E50C8" stroke-width="2"/>
+        <path d="M14,14 L14,26 M14,14 L26,14" stroke="#1E50C8" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M114,14 L114,26 M114,14 L102,14" stroke="#1E50C8" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M14,114 L14,102 M14,114 L26,114" stroke="#1E50C8" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M114,114 L114,102 M114,114 L102,114" stroke="#1E50C8" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <text x="64" y="60" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-weight="700" font-size="30" fill="#1E50C8">OAS</text>
+        <line x1="38" y1="72" x2="90" y2="72" stroke="#1E50C8" stroke-width="1.5"/>
+        <polyline points="46,68 38,72 46,76" fill="none" stroke="#1E50C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="82,68 90,72 82,76" fill="none" stroke="#1E50C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="64" y="94" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-weight="700" font-size="11" letter-spacing="2" fill="#1E50C8" opacity="0.85">ADVISORY</text>
+      </svg>
+      <div class="spine-callout" style="margin-bottom:0; flex:1;">
+        <p class="spine-text">With your current caffeine standing already showing on the app, you select your location type — worksite, café, or convenience store — and OAS presents the full menu of venue-specific beverages, highlighting and ranking first the drinks that fit within your ceilings. No calculating. No guessing. It's informed choice when it matters — the same clarity away from home that you'd have standing in front of the brewer at home.</p>
+      </div>
+    </div>
+
+    <div class="slide-closer">Other platforms might allow you to log what you drink. OAS takes the next step and presents actual drink options.</div>
+  </div>
+
+  <div class="slide no-fill">
+    <p class="eyebrow">The platform in action</p>
+    <h2 class="slide-headline">Both ceilings in motion. Five cups. One day. Every one crafted for exactly the moment it serves.</h2>
+
+    <div class="timeline-section">
+      <p class="timeline-eyebrow">A day in the life — how the blend evolves from morning to evening</p>
+      <p class="profile-line"><strong>John's profile:</strong> Personal Wake Hours &amp; Bedtime Ceilings, derived from his Caffeine Behavior Instrument onboarding · Expected bedtime 10:30pm</p>
+      <p class="profile-line" style="font-style:italic;color:var(--green);border-left:2px solid var(--green);padding-left:.75rem;margin-bottom:.75rem">Every blend shown is a real platform intelligence output — calculated against John's personal caffeine ceilings and confirmed to keep him below both throughout the day and into the night.</p>
+
+      <div class="cups-row">
+        <div class="cup-wrap">
+          <div class="cup-outer"><div class="cup-fill" style="height:100%"></div></div>
+          <div class="cup-time">6am</div>
+          <div class="cup-pct">100%</div>
+          <div class="cup-moment">Full strength. Day needs momentum.</div>
+        </div>
+        <div class="cup-wrap">
+          <div class="cup-outer"><div class="cup-fill" style="height:90%"></div></div>
+          <div class="cup-time">9am</div>
+          <div class="cup-pct">90%</div>
+          <div class="cup-moment">Platform begins. Barely perceptible.</div>
+        </div>
+        <div class="cup-wrap">
+          <div class="cup-outer"><div class="cup-fill" style="height:75%"></div></div>
+          <div class="cup-time">12pm</div>
+          <div class="cup-pct">75%</div>
+          <div class="cup-moment">Still strong. Ceilings managed quietly.</div>
+        </div>
+        <div class="cup-wrap">
+          <div class="cup-outer"><div class="cup-fill" style="height:55%"></div></div>
+          <div class="cup-time">3pm</div>
+          <div class="cup-pct">55%</div>
+          <div class="cup-moment">The push that finishes the afternoon.</div>
+        </div>
+        <div class="cup-wrap">
+          <div class="cup-outer"><div class="cup-fill" style="height:30%"></div></div>
+          <div class="cup-time">6pm</div>
+          <div class="cup-pct">30%</div>
+          <div class="cup-moment">Evening. Ritual intact. Night protected.</div>
+        </div>
+      </div>
+
+      <div class="legend-row">
+        <div class="legend-item">
+          <div class="legend-swatch" style="background:var(--caff-dark)"></div>
+          Caffeinated bean
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch" style="background:var(--caff-light);border:1px solid var(--border)"></div>
+          Decaffeinated bean
+        </div>
+      </div>
+
+      <div class="gradual-note">
+        <p class="gradual-text"><strong>The blend steps down gradually — never dramatically.</strong> From 100% to 90% to 75% and eventually to 30% — each reduction calibrated so the cup remains a premium experience. Just intelligent, continuous adjustment that preserves the energy of the afternoon and protects the evening that follows.</p>
+      </div>
+    </div>
+
+    <div class="budget-section">
+      <div class="budget-label-row">
+        <span class="budget-label">Wake Hours Ceiling <span style="color:var(--ink-light)">— will this cup overstimulate right now?</span></span>
+        <span class="budget-label"><span>Held below all day</span> · no overstimulation ✓</span>
+      </div>
+      <div class="budget-track"><div class="budget-fill" style="width:82%"></div></div>
+    </div>
+
+    <div class="budget-section">
+      <div class="budget-label-row">
+        <span class="budget-label">Bedtime Ceiling <span style="color:var(--ink-light)">— what's left in the system at 10:30pm?</span></span>
+        <span class="budget-label"><span>Just under</span> · room to spare ✓</span>
+      </div>
+      <div class="budget-track"><div class="budget-fill" style="width:98%"></div></div>
+      <p style="font-size:11px;color:var(--ink-light);font-style:italic;line-height:1.55;margin-top:8px">Every cup is checked against both ceilings before a single bean is ground — the strongest blend that clears both is the one recommended. By evening, John's projected caffeine at bedtime lands just under his Bedtime Ceiling: cups enjoyed all day, and a clear night ahead. <span style="color:var(--ink-faint)">Illustrative platform output.</span></p>
+    </div>
+
+    <div class="before-after">
+      <div class="ba-card ba-old">
+        <p class="ba-label">John's day <span style="font-size:17px;font-weight:800;color:var(--ink)">without</span> Caffevolve</p>
+        <p class="ba-num">2–3</p>
+        <p class="ba-desc">cups before habit and experience kick in and force a stop. The afternoon unfinished. The evening arrived at on fumes.</p>
+        <p class="ba-sub">The rest of the day runs on whatever's left.</p>
+      </div>
+      <div class="ba-card ba-new">
+        <p class="ba-label">John's day <span style="font-size:17px;font-weight:800;color:var(--caff-dark)">with</span> Caffevolve</p>
+        <p class="ba-num">5</p>
+        <p class="ba-desc">cups across the full day. Ceilings wisely managed. Afternoon strong. Evening protected. Sleep earned.</p>
+        <p class="ba-sub">Every cup earned. Every milligram intentional.</p>
+      </div>
+    </div>
+
+    <div class="slide-closer">Two or three cups and stop — or five cups and sleep. For the first time, the latter is possible.</div>
+  </div>
+
+  <!-- ── SLIDE 12 ── THE TWIN BEAN PROGRAM -->
+  <div class="slide">
+    <p class="eyebrow">The twin bean program</p>
+    <h2 class="slide-headline">By now a question has formed in the room. It's the right one.</h2>
+
+    <div class="question-card">
+      <div class="question-mark">"</div>
+      <p class="question-text">If the 6am cup is 100% caffeinated and the 6pm cup is blended down to 30% — <strong>what does that 6pm cup actually taste like?</strong></p>
+    </div>
+
+    <div class="answer-card">
+      <p class="answer-label">The answer</p>
+      <p class="answer-text">The Caffevolve platform works with any quality bean combination — but is fully optimized when paired with our planned <strong style="color:var(--gold);font-style:italic">Twin Bean Program</strong>. Two beans chosen not just for how they taste individually, but for how they taste together at every blend ratio across the day. <strong>The morning cup and the evening cup are different expressions of the same premium pairing.</strong></p>
+      <p class="answer-text" style="margin-top:.75rem">Each Twin Bean pairing is built around shared origin wherever possible — the same growing region, ideally the same farm — so the caffeinated and decaf beans start from as close a common flavor foundation as sourcing allows. From there, each component is roasted to its own carefully calibrated profile, since caffeinated and decaffeinated beans behave differently under heat. <em>The result is two beans crafted to taste like they belong together.</em></p>
+      <p class="answer-text" style="margin-top:.75rem">And because caffeinated and decaffeinated beans are physically different materials, the platform automatically compensates — adjusting the grind setting as the blend ratio shifts to maintain consistent cup quality throughout. <em>Invisible to you. Built into the device.</em></p>
+    </div>
+
+    <div class="slide-closer">The caffeine blend steps down. With the right pairing, the flavor never notices.</div>
+  </div>
+
+  <div class="act-divider"><div class="act-divider-line"></div><span class="act-divider-label">Act III — The Business Model</span><div class="act-divider-line"></div></div>
+
+  <!-- ── SLIDE 13 ── BUSINESS THESIS + LICENSING MODEL -->
+  <div class="slide">
+    <p class="eyebrow">The business model</p>
+    <h2 class="slide-headline">Asset-light. Royalty-driven. Growth, without the expanding expenses.</h2>
+
+    <div class="slide-body">
+      <p>Caffevolve doesn't build appliances. It plans to license a complete platform — intelligence, brewing device, and CaffevolveGo — to the world's leading premium appliance manufacturers, and will earn a royalty on every unit sold.</p>
+    </div>
+
+    <div style="background:var(--cream-dark);border:1px solid var(--border);border-radius:var(--radius);padding:.875rem 1.1rem;margin-bottom:1.25rem">
+      <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin:0 0 8px">Representative licensing targets</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span class="bridge-step">Breville</span>
+        <span class="bridge-step">De'Longhi</span>
+        <span class="bridge-step">Jura</span>
+        <span class="bridge-step">Philips</span>
+        <span class="bridge-step">Ninja</span>
+        <span class="bridge-step">Fellow</span>
+      </div>
+      <p style="font-size:11px;color:var(--ink-light);font-style:italic;margin:9px 0 0">Premium appliance brands whose product lines and distribution fit the platform — named as targets for licensing conversations, not existing partners.</p>
+    </div>
+
+    <p style="font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px">Caffevolve Product Tiers</p>
+
+    <table style="width:100%;border-collapse:collapse;margin-bottom:1.25rem;font-size:11px">
+      <tr>
+        <td style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);padding:.5rem .875rem;background:var(--cream-dark);border:.5px solid var(--border);width:170px">Product</td>
+        <td style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);padding:.5rem .875rem;background:var(--cream-dark);border:.5px solid var(--border)">Market position & royalty</td>
+      </tr>
+      <tr style="border-top:2px solid #378ADD">
+        <td style="padding:.75rem .875rem;background:#E6F1FB;border:.5px solid var(--border);vertical-align:top">
+          <span style="font-size:15px;font-weight:400;font-style:italic;color:var(--ink);font-family:var(--serif);display:block;margin-bottom:3px">Originara</span>
+          <span style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#1A4F8A">Consumer Entry</span>
+        </td>
+        <td style="padding:.75rem .875rem;border:.5px solid var(--border);vertical-align:top;color:var(--ink-mid);line-height:1.55">The platform's entry point — accessible to the broadest consumer market. Highest unit volume, entry-level royalty.</td>
+      </tr>
+      <tr style="border-top:2px solid #1A6648">
+        <td style="padding:.75rem .875rem;background:#E1F5EE;border:.5px solid var(--border);vertical-align:top">
+          <span style="font-size:15px;font-weight:400;font-style:italic;color:var(--ink);font-family:var(--serif);display:block;margin-bottom:3px">Advancara</span>
+          <span style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#1A6648">Consumer Premium</span>
+        </td>
+        <td style="padding:.75rem .875rem;border:.5px solid var(--border);vertical-align:top;color:var(--ink-mid);line-height:1.55">The premium consumer tier — commands a higher royalty per unit and anchors the core licensee revenue driver.</td>
+      </tr>
+      <tr style="border-top:2px solid #C9A84C">
+        <td style="padding:.75rem .875rem;background:#F7F0E0;border:.5px solid var(--border);vertical-align:top">
+          <span style="font-size:15px;font-weight:400;font-style:italic;color:var(--ink);font-family:var(--serif);display:block;margin-bottom:3px">Culminara Office</span>
+          <span style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#B8903A">Commercial · Workplace</span>
+        </td>
+        <td style="padding:.75rem .875rem;border:.5px solid var(--border);vertical-align:top;color:var(--ink-mid);line-height:1.55">Opens a B2B workplace channel — recurring commercial installations at a high per-unit royalty.</td>
+      </tr>
+      <tr style="border-top:2px solid #7A5010">
+        <td style="padding:.75rem .875rem;background:#EDE0CC;border:.5px solid var(--border);vertical-align:top">
+          <span style="font-size:15px;font-weight:400;font-style:italic;color:var(--ink);font-family:var(--serif);display:block;margin-bottom:3px">Culminara Caffè</span>
+          <span style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#7A5010">Commercial · Hospitality</span>
+        </td>
+        <td style="padding:.75rem .875rem;border:.5px solid var(--border);vertical-align:top;color:var(--ink-mid);line-height:1.55">Designed for self-serve café and coffee shop environments. Created as a self-serve commercial brew system where customers walk up, select their profile, and initiate brew via BrewNow! without barista assistance.</td>
+      </tr>
+    </table>
+
+    <div class="slide-closer">The platform's value grows with every licensee that adopts it. The royalty stream grows with every device they sell — across four tiers built to reach every corner of the coffee market, from the first-time buyer to the commercial café.</div>
+  </div>
+
+  <!-- ── SLIDE 14 ── PARTNERSHIPS -->
+  <div class="slide">
+    <p class="eyebrow">Partnerships</p>
+    <h2 class="slide-headline">A new platform earns trust faster standing next to names people already trust.</h2>
+
+    <div class="slide-body">
+      <p><strong>The Twin Bean Program is a planned strategic partnership initiative</strong>, pairing Caffevolve with recognized coffee brands. For a new platform entering the market, that association lends a credibility no technology claim alone can deliver — a respected roaster doesn't put its name behind a pairing that doesn't taste right. Their willingness to participate is itself a form of expert validation: evidence, from people whose business is coffee quality, that Caffevolve's blend-then-grind approach delivers on its taste claims.</p>
+      <p style="margin-top:.75rem">The incentive to participate in the Caffevolve Twin Bean Program runs both directions. For Caffevolve, that credibility is the difference between "an unknown, unproven appliance" and "wow, Onyx Coffee Lab and Peet's Coffee really believe in this platform — it must deliver what it claims to."</p>
+      <p style="margin-top:.75rem">For the brand partner, if the user who previously stopped at two or three cups a day — wary of an overstimulated afternoon or a lost night's sleep — now reaches for four or more blended cups each day, sales volume increases substantially, as each of those additional cups draws on the brand's beans on both sides of the pairing, caffeinated and decaf alike. <strong>More cups consumed per user, per day, means more bean volume sold per user, per day.</strong> Beyond volume, the brand partner's name and logo appear across Caffevolve's marketing and packaging — placing their brand in front of every Caffevolve customer, not just their own. A winning proposition for both parties.</p>
+    </div>
+
+    <div class="slide-closer">Credibility for Caffevolve. Exposure and volume for the brand partner. A partnership delivering solid value to both parties.</div>
+  </div>
+
+  <!-- ── SLIDE 15 ── IP PROTECTION STRATEGY -->
+  <div class="slide">
+    <p class="eyebrow">IP protection strategy</p>
+    <h2 class="slide-headline">The moat isn't the housing. It's the mechanisms inside it — and the intelligence that drives them.</h2>
+
+    <div class="slide-body">
+      <p>The Caffevolve IP portfolio includes hardware, method, and system claims. Novel mechanical architecture — the <strong>Blend-then-Grind dual-hopper system</strong>, <strong>post-brew in-stream additive dispensing</strong> — has been filed as original apparatus claims within our patent applications. Not every hardware element carries the same weight, however: generic hardware, like housing design or button placement, can often be redesigned around, so no claims were made to protect it.</p>
+      <p style="margin-top:.75rem">Method and system claims — the <strong>Caffeine Behavior Instrument's</strong> behavioral back-calculation, the <strong>pharmacokinetic engine</strong>, the <strong>dual-ceiling architecture</strong>, the <strong>adaptive feedback system</strong>, the <strong>cross-channel log</strong>, and the <strong>Offsite Advisory System's</strong> ceiling-honored venue menu — are harder to design around this way, since achieving the same functional result generally requires performing the same claimed process, and would infringe on our IP.</p>
+      <p style="margin-top:.75rem">Two provisional patent applications have been filed to date, establishing an early priority date for all of these claims. The utility filing — converting these to formal, issued protection — is targeted for Q3 2026. Once granted, this combination of hardware, method, and system claims would form the core of the moat.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem">
+      <div style="background:var(--cream-dark);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin:0 0 4px">First Provisional</p>
+        <p style="font-size:13px;font-weight:500;color:var(--ink);margin:0">Filed February 4, 2026</p>
+        <p style="font-size:11px;color:var(--ink-mid);margin:2px 0 0">USPTO App. No. 63/975,562 · Boyle Fredrickson S.C.</p>
+      </div>
+      <div style="background:var(--cream-dark);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin:0 0 4px">Second Provisional</p>
+        <p style="font-size:13px;font-weight:500;color:var(--ink);margin:0">Filed June 2026</p>
+        <p style="font-size:11px;color:var(--ink-mid);margin:2px 0 0">Post-provisional developments captured.</p>
+      </div>
+      <div style="background:var(--cream-dark);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin:0 0 4px">Utility Filing</p>
+        <p style="font-size:13px;font-weight:500;color:var(--ink);margin:0">Q3 2026 — In Progress</p>
+        <p style="font-size:11px;color:var(--ink-mid);margin:2px 0 0">Six claim areas encompassing dozens of claim candidates across two provisional filings.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom:1.25rem">
+      <div style="background:var(--cream-dark);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin:0 0 4px">Trademark</p>
+        <p style="font-size:13px;font-weight:500;color:var(--ink);margin:0">CAFFEVOLVE™ · Serial No. 99568084 · Class 11 · Registered</p>
+      </div>
+    </div>
+
+
+    <div class="slide-closer">A competitor can copy the housing. They cannot replicate the mechanisms or the intelligence layer without infringing. That's the moat.</div>
+  </div>
+
+  <!-- ── SLIDE 16 ── REVENUE STREAMS + EXIT LANDSCAPE -->
+  <div class="slide">
+    <p class="eyebrow">Revenue streams & exit landscape</p>
+    <h2 class="slide-headline">Multiple paths to revenue. Multiple paths to return.</h2>
+
+    <p style="font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px">Revenue streams</p>
+
+    <div class="system-layers-vertical" style="margin-bottom:1.25rem">
+      <div class="layer-row l1">
+        <div class="layer-row-label">
+          <p class="layer-num">Stream 01</p>
+          <p class="layer-title">Hardware Licensing Royalties</p>
+        </div>
+        <div class="layer-row-body">The primary revenue engine. A royalty on every Caffevolve-powered device sold across all four product configurations — compounding as the licensee network grows and unit volumes scale.</div>
+      </div>
+      <div class="layer-row l2">
+        <div class="layer-row-label">
+          <p class="layer-num">Stream 02</p>
+          <p class="layer-title">Future Opportunities</p>
+        </div>
+        <div class="layer-row-body">As the platform scales and the user base grows, several additional revenue dimensions are realistic possibilities: venue partnerships through CaffevolveGo, data and insights from the adaptive feedback system, and potential subscription models in the commercial tier.</div>
+      </div>
+    </div>
+
+    <p style="font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px">Exit landscape</p>
+
+    <div class="exit-cards" style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem">
+      <div style="background:var(--white);border:.5px solid var(--border);border-top:2px solid var(--blue);border-radius:var(--radius);padding:.875rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin:0 0 4px">Path 01 — Strategic Acquisition</p>
+        <p style="font-size:13px;font-weight:500;color:var(--ink);margin:0 0 5px">Premium appliance or beverage company acquires the platform to own the IP exclusively.</p>
+        <p style="font-size:11px;color:var(--ink-mid);line-height:1.5;margin:0">A licensee who recognizes the platform's value may choose to acquire rather than continue licensing — converting Caffevolve's royalty position into a strategic premium. A beverage company with billions of cups sold annually would find the pharmacokinetic engine and user behavior data enormously valuable as a proprietary asset.</p>
+      </div>
+      <div style="background:var(--white);border:.5px solid var(--border);border-top:2px solid var(--green);border-radius:var(--radius);padding:.875rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin:0 0 4px">Path 02 — Wellness Technology Merger</p>
+        <p style="font-size:13px;font-weight:500;color:var(--ink);margin:0 0 5px">Health and wellness platform acquires Caffevolve for its pharmacokinetic engine, integrating it into their own ecosystem while continuing the existing appliance-licensing business.</p>
+        <p style="font-size:11px;color:var(--ink-mid);line-height:1.5;margin:0">The Caffevolve pharmacokinetic model is a natural fit for wearable and wellness platforms already tracking sleep, recovery, and performance. For an acquirer, that means gaining a premium capability for their own ecosystem and inheriting an already-running, revenue-generating appliance licensing business.</p>
+      </div>
+      <div style="background:var(--white);border:.5px solid var(--border);border-top:2px solid var(--gold-rule);border-radius:var(--radius);padding:.875rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:0 0 4px">Path 03 — IP Portfolio Acquisition</p>
+        <p style="font-size:13px;font-weight:500;color:var(--ink);margin:0 0 5px">IP-focused acquirer purchases the claim portfolio as a standalone licensing asset.</p>
+        <p style="font-size:11px;color:var(--ink-mid);line-height:1.5;margin:0">As the method and system claim portfolio matures and licensee relationships are established, the IP position itself becomes an acquirable asset.</p>
+      </div>
+    </div>
+
+    <div class="slide-closer">The licensing model generates revenue from day one. The exit landscape generates return at scale. Both are built into the platform's architecture from the start.</div>
+  </div>
+
+  <div class="act-divider"><div class="act-divider-line"></div><span class="act-divider-label">Act IV — The Ask</span><div class="act-divider-line"></div></div>
+
+  <!-- ── SLIDE 17 ── TRACTION -->
+  <div class="slide">
+    <p class="eyebrow">Traction</p>
+    <h2 class="slide-headline">Built before funded. That's the point.</h2>
+
+    <div class="slide-body">
+      <p>Every element of the Caffevolve platform has been designed and documented by a single founder — <strong>one with a prior successful exit and significant coffee-industry operating experience</strong> — without outside capital. What exists today is not a concept deck. It is an extensively architected platform, with patent applications filed, a validated UX prototype, and a clear path to hardware proof-of-concept — ready for a licensing conversation.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem">
+
+      <div style="background:var(--white);border:.5px solid var(--border);border-top:2px solid var(--blue);border-radius:var(--radius);padding:.875rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin:0 0 6px">Intellectual Property</p>
+        <p style="font-size:12px;color:var(--ink-mid);line-height:1.6;margin:0">Two provisional patent applications filed — February 2026 and June 2026. Six claim areas encompassing dozens of method, system, and apparatus claim candidates. Utility filing in progress with Boyle Fredrickson S.C., targeting Q3 2026. Trademark Serial No. 99568084 pending (CAFFEVOLVE™, Class 11).</p>
+      </div>
+
+      <div style="background:var(--white);border:.5px solid var(--border);border-top:2px solid var(--green);border-radius:var(--radius);padding:.875rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin:0 0 6px">UX Prototype</p>
+        <p style="font-size:12px;color:var(--ink-mid);line-height:1.6;margin:0">A 150+ screen interactive <strong>UX prototype</strong> — now past its 200th iteration — demonstrates the complete device experience, from first-time setup through the full brew session flow. Sub-profile selection, ECE, the Offsite Advisory System, and the Manual Caffeine Adjustor are all prototyped and navigable. Not a wireframe. A working demonstration of the platform in use.</p>
+      </div>
+
+      <div style="background:var(--white);border:.5px solid var(--border);border-top:2px solid var(--gold-rule);border-radius:var(--radius);padding:.875rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:0 0 6px">Platform Documentation</p>
+        <p style="font-size:12px;color:var(--ink-mid);line-height:1.6;margin:0">Platform Reference document covering architecture, pharmacokinetic model, dual-ceiling logic, adaptive feedback system, device hardware, and UX. Blend Calculation Reference. Key Terms document (V64). First and Second Claim Candidate Documents. Actively maintained for cross-document consistency.</p>
+      </div>
+
+      <div style="background:var(--white);border:.5px solid var(--border);border-top:2px solid var(--caff-mid);border-radius:var(--radius);padding:.875rem 1rem">
+        <p style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--caff-dark);margin:0 0 6px">Web & Investor Materials</p>
+        <p style="font-size:12px;color:var(--ink-mid);line-height:1.6;margin:0">caffevolvetech.com established and live. Investor deck, SAFE note documentation, cap table model, and licensee partnership overview developed and available under NDA. The UX prototype has completed a full audit and is now loaded onto the site. Platform is ready to be presented to a qualified licensee or investor today.</p>
+      </div>
+
+    </div>
+
+    <div class="slide-closer">The platform is solid. The IP is filed. The UX prototype has been tested repeatedly and is functioning as designed. The documentation is complete for this stage of development, with more to come as the platform progresses. This is what pre-revenue looks like when the work has been completed.</div>
+  </div>
+
+  <!-- ── SLIDE 18 ── USE OF FUNDS -->
+  <div class="slide no-fill">
+    <p class="eyebrow">Use of funds</p>
+    <h2 class="slide-headline">$225,000. Eighteen months. Six priorities.</h2>
+
+    <div class="slide-body">
+      <p>Caffevolve is raising $225,000 in seed capital, structured as three independent $75,000 SAFE notes. The full amount funds a focused 18-month operating plan with two primary objectives: secure full IP protection and advance the platform to its first licensee conversation.</p>
+    </div>
+
+    <div class="priority-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem">
+
+      <div class="priority-row" style="display:grid;grid-template-columns:2fr 5fr 1.5fr;align-items:center;gap:0;background:var(--white);border:.5px solid var(--border);border-left:3px solid var(--blue);border-radius:var(--radius);overflow:hidden">
+        <div style="padding:.75rem 1rem;background:#E6F1FB">
+          <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin:0 0 2px">Priority 01</p>
+          <p style="font-size:13px;font-weight:600;color:var(--ink);margin:0">Legal</p>
+        </div>
+        <div style="padding:.75rem 1rem">
+          <p style="font-size:12px;color:var(--ink-mid);line-height:1.55;margin:0">IP prosecution — additional provisional applications and utility filing with Boyle Fredrickson S.C., including likely office action responses. Additional trademark filing and prosecution. Contract matters in preparation for licensee engagement.</p>
+        </div>
+        <div style="padding:.75rem 1rem;text-align:right;background:#E6F1FB">
+          <p style="font-size:18px;font-weight:700;color:var(--blue);margin:0">$50,000</p>
+          <p style="font-size:10px;color:var(--ink-light);margin:2px 0 0">22%</p>
+        </div>
+      </div>
+
+      <div class="priority-row" style="display:grid;grid-template-columns:2fr 5fr 1.5fr;align-items:center;gap:0;background:var(--white);border:.5px solid var(--border);border-left:3px solid #7A5CA8;border-radius:var(--radius);overflow:hidden">
+        <div style="padding:.75rem 1rem;background:#EFE9F5">
+          <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#7A5CA8;margin:0 0 2px">Priority 02</p>
+          <p style="font-size:13px;font-weight:600;color:var(--ink);margin:0">Engineering Consultation</p>
+        </div>
+        <div style="padding:.75rem 1rem">
+          <p style="font-size:12px;color:var(--ink-mid);line-height:1.55;margin:0">Outside engineering expertise to support hardware design and manufacturability review ahead of prototype development.</p>
+        </div>
+        <div style="padding:.75rem 1rem;text-align:right;background:#EFE9F5">
+          <p style="font-size:18px;font-weight:700;color:#7A5CA8;margin:0">$15,000</p>
+          <p style="font-size:10px;color:var(--ink-light);margin:2px 0 0">7%</p>
+        </div>
+      </div>
+
+      <div class="priority-row" style="display:grid;grid-template-columns:2fr 5fr 1.5fr;align-items:center;gap:0;background:var(--white);border:.5px solid var(--border);border-left:3px solid var(--green);border-radius:var(--radius);overflow:hidden">
+        <div style="padding:.75rem 1rem;background:#E1F5EE">
+          <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin:0 0 2px">Priority 03</p>
+          <p style="font-size:13px;font-weight:600;color:var(--ink);margin:0">Prototype</p>
+        </div>
+        <div style="padding:.75rem 1rem">
+          <p style="font-size:12px;color:var(--ink-mid);line-height:1.55;margin:0">Functional proof-of-concept prototypes of the Caffevolve brewing device and CaffevolveGo — three units; primary, a backup, and a third for ongoing R&D.</p>
+        </div>
+        <div style="padding:.75rem 1rem;text-align:right;background:#E1F5EE">
+          <p style="font-size:18px;font-weight:700;color:var(--green);margin:0">$70,000</p>
+          <p style="font-size:10px;color:var(--ink-light);margin:2px 0 0">31%</p>
+        </div>
+      </div>
+
+      <div class="priority-row" style="display:grid;grid-template-columns:2fr 5fr 1.5fr;align-items:center;gap:0;background:var(--white);border:.5px solid var(--border);border-left:3px solid var(--gold-rule);border-radius:var(--radius);overflow:hidden">
+        <div style="padding:.75rem 1rem;background:#F7F0E0">
+          <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:0 0 2px">Priority 04</p>
+          <p style="font-size:13px;font-weight:600;color:var(--ink);margin:0">Platform Architect Compensation & Expenses</p>
+        </div>
+        <div style="padding:.75rem 1rem">
+          <p style="font-size:12px;color:var(--ink-mid);line-height:1.55;margin:0">$2,500 per month for 18 months, plus reimbursement of legal, patent and trademark, and company organization expenses already paid personally prior to this raise. The platform has been built without compensation to date.</p>
+        </div>
+        <div style="padding:.75rem 1rem;text-align:right;background:#F7F0E0">
+          <p style="font-size:18px;font-weight:700;color:var(--gold);margin:0">$50,000</p>
+          <p style="font-size:10px;color:var(--ink-light);margin:2px 0 0">22%</p>
+        </div>
+      </div>
+
+      <div class="priority-row" style="display:grid;grid-template-columns:2fr 5fr 1.5fr;align-items:center;gap:0;background:var(--white);border:.5px solid var(--border);border-left:3px solid var(--caff-mid);border-radius:var(--radius);overflow:hidden">
+        <div style="padding:.75rem 1rem;background:#F2EAE0">
+          <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--caff-dark);margin:0 0 2px">Priority 05</p>
+          <p style="font-size:13px;font-weight:600;color:var(--ink);margin:0">Licensee/Partnership Outreach</p>
+        </div>
+        <div style="padding:.75rem 1rem">
+          <p style="font-size:12px;color:var(--ink-mid);line-height:1.55;margin:0">Marketing materials, travel, and direct outreach to target platform licensees and Twin Bean Program partners. Getting the platform in front of the right decision-makers.</p>
+        </div>
+        <div style="padding:.75rem 1rem;text-align:right;background:#F2EAE0">
+          <p style="font-size:18px;font-weight:700;color:var(--caff-dark);margin:0">$20,000</p>
+          <p style="font-size:10px;color:var(--ink-light);margin:2px 0 0">9%</p>
+        </div>
+      </div>
+
+      <div class="priority-row" style="display:grid;grid-template-columns:2fr 5fr 1.5fr;align-items:center;gap:0;background:var(--white);border:.5px solid var(--border);border-left:3px solid var(--ink-light);border-radius:var(--radius);overflow:hidden">
+        <div style="padding:.75rem 1rem;background:var(--cream-dark)">
+          <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mid);margin:0 0 2px">Priority 06</p>
+          <p style="font-size:13px;font-weight:600;color:var(--ink);margin:0">Contingency</p>
+        </div>
+        <div style="padding:.75rem 1rem">
+          <p style="font-size:12px;color:var(--ink-mid);line-height:1.55;margin:0">A disciplined buffer against the inherent uncertainty of hardware development and legal prosecution timelines — not allocated to any single line item in advance.</p>
+        </div>
+        <div style="padding:.75rem 1rem;text-align:right;background:var(--cream-dark)">
+          <p style="font-size:18px;font-weight:700;color:var(--ink-mid);margin:0">$20,000</p>
+          <p style="font-size:10px;color:var(--ink-light);margin:2px 0 0">9%</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="slide-closer">Every dollar has a purpose. Together, they secure the IP and open the door to the platform's first licensing agreement.</div>
+  </div>
+
+  <!-- ── SLIDE 19 ── CLOSE -->
+  <div class="slide">
+    <p class="eyebrow">The ask</p>
+    <h2 class="slide-headline">The platform is ready. The window is open. The ask is clear.</h2>
+
+    <div class="slide-body">
+      <p>Full terms are available in the accompanying term sheet.</p>
+    </div>
+
+    <div style="background:var(--caff-dark);border-radius:var(--radius);padding:1.5rem 1.75rem;margin-bottom:1.5rem;text-align:center">
+      <p style="font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#E3B968;opacity:.85;margin:0 0 1rem">The vision</p>
+      <p style="font-size:18px;font-weight:400;font-family:var(--serif);color:#E3B968;font-style:italic;line-height:1.7;margin:0 0 1.25rem">Humanity discovered coffee in the 9th century. For over a thousand years, one of the world's most practiced rituals has changed little — the good and the bad accepted as unmovable. Simply a universal, natural human reaction to one of Earth's prized plants. The ritual changes now.</p>
+      <p style="font-size:24px;font-weight:400;font-family:var(--serif);color:#E3B968;font-style:italic;margin:0">Coffee Without a Curfew</p>
+    </div>
+
+    <div style="background:var(--cream-dark);border:.5px solid var(--border);border-radius:var(--radius);padding:.875rem 1.25rem;text-align:center">
+      <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);margin:0 0 4px">Contact</p>
+      <p style="font-size:14px;font-weight:600;color:var(--ink);margin:0">Brent Langevin, Founder &nbsp;·&nbsp; Caffevolve™ Corporation</p>
+      <p style="font-size:13px;color:var(--ink-mid);margin:4px 0 0">brent.langevin@caffevolvetech.com</p>
+    </div>
+
+  </div>
+
+</div><!-- /deck -->
+
+<script>
+/* Caffevolve deck — print/PDF pagination (screen DOM stays pristine; build only while printing). */
+(function () {
+  var FITW = 796, PGW = 796, PH = 940;
+  function build() {
+    var deck = document.querySelector('.deck');
+    if (!deck || deck.getAttribute('data-paged')) return;
+    deck.setAttribute('data-paged', '1');
+    var kids = [].slice.call(deck.children).filter(function (el) {
+      return el.nodeType === 1 && (el.classList.contains('slide') || el.classList.contains('act-divider'));
+    });
+    var fits = [];
+    kids.forEach(function (el) {
+      var page = document.createElement('div');
+      page.className = 'pdf-page' + (el.classList.contains('act-divider') ? ' div-page' : '');
+      deck.insertBefore(page, el);
+      if (el.classList.contains('act-divider')) {
+        page.appendChild(el);
+      } else {
+        var fit = document.createElement('div');
+        fit.className = 'pdf-fit';
+        page.appendChild(fit);
+        fit.appendChild(el);
+        fits.push(fit);
+      }
+    });
+    var meas = document.createElement('style');
+    meas.textContent =
+      '.deck{width:' + FITW + 'px!important;max-width:none!important;margin:0!important;padding:0!important}' +
+      '.pdf-page{display:block!important;width:' + FITW + 'px!important;height:auto!important;overflow:visible!important}' +
+      '.pdf-fit{display:block!important;width:' + FITW + 'px!important;transform:none!important;zoom:1!important}' +
+      '.slide{margin:0!important}';
+    document.head.appendChild(meas);
+    fits.forEach(function (fit) {
+      var el = fit.querySelector('.slide');
+      var h = el.offsetHeight, w = el.offsetWidth || FITW;
+      var s = Math.min(1, PGW / w, PH / h);
+      fit.style.setProperty('--fit-scale', String(s));
+    });
+    document.head.removeChild(meas);
+  }
+  function unbuild() {
+    var deck = document.querySelector('.deck');
+    if (!deck || !deck.getAttribute('data-paged')) return;
+    [].slice.call(deck.querySelectorAll(':scope > .pdf-page')).forEach(function (page) {
+      var fit = page.querySelector('.pdf-fit');
+      var content = fit ? fit.querySelector('.slide') : page.querySelector('.act-divider');
+      if (content) deck.insertBefore(content, page);
+      deck.removeChild(page);
+    });
+    deck.removeAttribute('data-paged');
+  }
+  /* pagination disabled for the continuous-document sample */
+  void build; void unbuild;
+})();
+</script>
+</body>
+</html>
