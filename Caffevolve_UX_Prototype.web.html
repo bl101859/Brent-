@@ -4479,9 +4479,10 @@ input[type="range"]::-moz-range-thumb {
     </button>
 
     <div style="text-align:center;margin-top:2px;display:flex;flex-direction:column;gap:8px;align-items:center;">
-      <!-- CaffevolveGo — away-from-home hub. Ungated: ECE (log) inside needs no
-           bedtime; OAS (advise) is gated on bedtime within the hub itself. -->
-      <button class="cgo-ps1a-btn" onclick="goto('CGO')">
+      <!-- CaffevolveGo — away-from-home hub. Bedtime-gated like QuickBrew: the
+           button flashes the bedtime prompt until a bedtime is set, then opens
+           the hub (screen-CGO) with its ECE and OAS options. -->
+      <button id="ps1a-cgo-btn" class="cgo-ps1a-btn" onclick="ps1aTryPath('cgo')" style="opacity:.4;">
         <div class="cgo-ps1a-mark">
           <span class="cgo-ps1a-mark-c">C</span><span class="cgo-ps1a-mark-go">Go</span>
         </div>
@@ -15301,6 +15302,7 @@ function ps1aTryPath(which) {
   if (!sessionBedtime.isSet()) { ps1aFlashBedtimePrompt(); return; }
   if (which === 'qb')  { setPath('B'); savePS1aBedtime(); routeFromPS1a(); }
   else if (which === 'oas') { savePS1aBedtime(); goto('OAS0'); }
+  else if (which === 'cgo') { savePS1aBedtime(); goto('CGO'); }
 }
 
 // OAS from the CaffevolveGo hub. OAS needs a bedtime (its projection depends on it),
@@ -15333,7 +15335,9 @@ function ps1aEnableBrewButtons(enabled) {
   if (rnb) { rnb.disabled = !enabled; rnb.style.opacity = enabled ? '' : '0.4'; }
   const qb = document.getElementById('ps1a-qb-btn');
   if (qb) qb.style.opacity = enabled ? '' : '0.4';
-  // OAS button relocated to the CaffevolveGo hub (screen-CGO); no longer gated here.
+  // CaffevolveGo (hub) is bedtime-gated like QuickBrew — dim until a bedtime is set.
+  const cgo = document.getElementById('ps1a-cgo-btn');
+  if (cgo) cgo.style.opacity = enabled ? '' : '0.4';
 }
 
 function cycleColor() {
