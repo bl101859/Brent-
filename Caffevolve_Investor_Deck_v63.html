@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Caffevolve™ — Investor Deck Review · Slides 01–09</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 /* ── DESIGN SYSTEM v6 ── */
 /* Signature: a thin gold rule separating slide number from content — 
@@ -985,6 +985,57 @@ body {
   .priority-row p { line-height: 1.4 !important; }
 }
 
+/* ── OAS CINEMATIC BADGE (slide 09e) — ported from portal, recolored to deck ── */
+.cgoas-stage{ --gold:#D4A853; --copper:#B8753A; --mono:'DM Mono','Courier New',monospace;
+  width:340px; height:640px; margin:0; flex-shrink:0; position:relative; overflow:hidden;
+  background:#2E1A0D; border-radius:26px; box-shadow:0 24px 60px rgba(0,0,0,.28);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; }
+#cgoasGrid, #cgoasOrbit{ position:absolute; inset:0; pointer-events:none; }
+#cgoasGrid{ opacity:.14; }
+.cgoas-glow{ position:absolute; border-radius:50%; filter:blur(40px); opacity:0; pointer-events:none; }
+.cgoas-glow-blue{ width:280px; height:280px; background:radial-gradient(circle,rgba(30,80,200,.4) 0%,transparent 70%); top:10%; left:-10%; transition:opacity 1.2s; }
+.cgoas-glow-copper{ width:220px; height:220px; background:radial-gradient(circle,rgba(184,117,58,.32) 0%,transparent 70%); bottom:15%; right:-8%; transition:opacity 1.8s; }
+.cgoas-inner{ position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; }
+.cgoas-badge{ opacity:0; visibility:hidden; transform:scale(.82) translateY(10px);
+  transition:opacity .7s ease, transform .8s cubic-bezier(.34,1.56,.64,1); position:relative; margin-bottom:28px; }
+.cgoas-halo{ position:absolute; inset:-14px; border-radius:28px; border:1px solid rgba(30,80,200,0);
+  transition:border-color 1.2s, box-shadow 1.2s; pointer-events:none; box-shadow:0 0 0px rgba(30,80,200,0); }
+.cgoas-corner{ position:absolute; width:16px; height:16px; opacity:0; }
+.cgoas-c-tl{ top:-7px; left:-7px; border-top:2px solid var(--gold); border-left:2px solid var(--gold); border-radius:4px 0 0 0; transition:opacity .4s; }
+.cgoas-c-tr{ top:-7px; right:-7px; border-top:2px solid var(--gold); border-right:2px solid var(--gold); border-radius:0 4px 0 0; transition:opacity .4s .1s; }
+.cgoas-c-bl{ bottom:-7px; left:-7px; border-bottom:2px solid var(--gold); border-left:2px solid var(--gold); border-radius:0 0 0 4px; transition:opacity .4s .2s; }
+.cgoas-c-br{ bottom:-7px; right:-7px; border-bottom:2px solid var(--gold); border-right:2px solid var(--gold); border-radius:0 0 4px 0; transition:opacity .4s .3s; }
+.cgoas-badge-body{ width:148px; height:148px; background:linear-gradient(145deg,#F8F3EC 0%,#EDE5D8 100%);
+  border:2px solid rgba(30,80,200,.55); border-radius:22px;
+  box-shadow:0 10px 50px rgba(30,80,200,.35), 0 0 0 1px rgba(184,117,58,.25), inset 0 1px 0 rgba(255,255,255,.9);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.cgoas-scan{ position:absolute; top:-100%; left:0; right:0; height:45%;
+  background:linear-gradient(180deg,transparent 0%,rgba(30,80,200,.08) 30%,rgba(30,80,200,.2) 50%,rgba(30,80,200,.08) 70%,transparent 100%); pointer-events:none; }
+.cgoas-lettering{ font-family:var(--serif); font-style:italic; font-weight:700; font-size:50px; color:#1E50C8;
+  letter-spacing:.04em; line-height:1; text-shadow:0 3px 16px rgba(30,80,200,.28); }
+.cgoas-advisory{ font-family:var(--serif); font-style:italic; font-weight:700; font-size:11px; color:var(--copper);
+  letter-spacing:.22em; text-transform:uppercase; }
+.cgoas-data{ opacity:0; transition:opacity .6s; font-family:var(--mono); font-size:9.5px; letter-spacing:.1em;
+  color:rgba(200,150,90,.9); text-align:left; line-height:2.1; margin-bottom:22px; width:210px; }
+.cgoas-data div{ opacity:0; transition:opacity .3s; }
+.cgoas-data .val{ color:#7FB0F5; }
+.cgoas-data .val-ready{ color:var(--gold); }
+.cgoas-progress-track{ width:200px; height:3px; background:rgba(30,80,200,.14); border-radius:3px; position:relative; }
+.cgoas-progress-bar{ height:100%; width:0%; background:linear-gradient(90deg,#1D3A8A,#1E50C8,var(--gold)); border-radius:3px; position:relative; z-index:1; transition:width .05s linear; }
+.cgoas-progress-glow{ position:absolute; top:-3px; left:0; width:0%; height:9px; background:rgba(184,117,58,.35); border-radius:9px; filter:blur(4px); transition:width .05s linear; }
+.cgoas-wordmark-wrap{ text-align:center; margin-top:44px; opacity:0; visibility:hidden; transition:opacity .9s; }
+.cgoas-wordmark-main{ font-family:var(--serif); font-style:italic; font-weight:300; font-size:20px; color:var(--gold); letter-spacing:.01em; }
+.cgoas-wordmark-sub{ font-family:var(--sans); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:#8FB4E8; margin-top:4px; }
+.cgoas-badge-race{ position:absolute; top:0; left:0; pointer-events:none; }
+.cgoas-badge-race-line{ animation:cgoasBadgeRace 5s linear infinite; }
+@keyframes cgoasBadgeRace{ to{ stroke-dashoffset:-548; } }
+@media print{
+  .cgoas-badge{ opacity:1 !important; visibility:visible !important; transform:none !important; }
+  .cgoas-data, .cgoas-data div, .cgoas-wordmark-wrap{ opacity:1 !important; visibility:visible !important; }
+  .cgoas-corner{ opacity:1 !important; }
+  .cgoas-glow-blue{ opacity:1 !important; }
+  .cgoas-progress-bar, .cgoas-progress-glow{ width:100% !important; }
+}
 </style>
 </head>
 <body>
@@ -1336,28 +1387,63 @@ body {
       <p style="font-size:11px;color:var(--ink-mid);line-height:1.5;margin:0">The third of CaffevolveGo's jobs — presenting venue drink options and highlighting those within your ceilings.</p>
     </div>
 
-    <div style="display:flex; align-items:center; gap:1.75rem; margin-bottom:1.25rem;">
-      <svg width="128" height="128" viewBox="0 0 128 128" style="flex-shrink:0;">
-        <defs>
-          <linearGradient id="oasDeckBadgeBg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#F8F3EC"/>
-            <stop offset="100%" stop-color="#EDE5D8"/>
-          </linearGradient>
-        </defs>
-        <rect x="4" y="4" width="120" height="120" rx="16" fill="url(#oasDeckBadgeBg)" stroke="#1E50C8" stroke-width="2"/>
-        <path d="M14,14 L14,26 M14,14 L26,14" stroke="#1E50C8" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <path d="M114,14 L114,26 M114,14 L102,14" stroke="#1E50C8" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <path d="M14,114 L14,102 M14,114 L26,114" stroke="#1E50C8" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <path d="M114,114 L114,102 M114,114 L102,114" stroke="#1E50C8" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <text x="64" y="60" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-weight="700" font-size="30" fill="#1E50C8">OAS</text>
-        <line x1="38" y1="72" x2="90" y2="72" stroke="#1E50C8" stroke-width="1.5"/>
-        <polyline points="46,68 38,72 46,76" fill="none" stroke="#1E50C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <polyline points="82,68 90,72 82,76" fill="none" stroke="#1E50C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <text x="64" y="94" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-weight="700" font-size="11" letter-spacing="2" fill="#1E50C8" opacity="0.85">ADVISORY</text>
-      </svg>
-      <div class="spine-callout" style="margin-bottom:0; flex:1;">
-        <p class="spine-text">With your current caffeine standing already showing on the app, you select your location type — worksite, café, or convenience store — and OAS presents the full menu of venue-specific beverages, highlighting and ranking first the drinks that fit within your ceilings. No calculating. No guessing. It's informed choice when it matters — the same clarity away from home that you'd have standing in front of the brewer at home.</p>
+    <div style="display:flex; justify-content:center; margin-bottom:1.25rem;">
+      <div class="cgoas-stage">
+        <canvas id="cgoasGrid"></canvas>
+        <div class="cgoas-glow cgoas-glow-blue" id="cgoasGlowA"></div>
+        <div class="cgoas-glow cgoas-glow-copper" id="cgoasGlowB"></div>
+        <canvas id="cgoasOrbit"></canvas>
+        <div class="cgoas-inner">
+          <div class="cgoas-badge" id="cgoasBadge">
+            <div class="cgoas-halo" id="cgoasHalo"></div>
+            <div class="cgoas-corner cgoas-c-tl" id="cgoasCTl"></div>
+            <div class="cgoas-corner cgoas-c-tr" id="cgoasCTr"></div>
+            <div class="cgoas-corner cgoas-c-bl" id="cgoasCBl"></div>
+            <div class="cgoas-corner cgoas-c-br" id="cgoasCBr"></div>
+            <div class="cgoas-badge-body">
+              <div class="cgoas-scan" id="cgoasScan"></div>
+              <div class="cgoas-lettering">OAS</div>
+              <svg width="72" height="14" viewBox="0 0 72 14" fill="none" style="margin:6px 0 4px;">
+                <line x1="7" y1="7" x2="65" y2="7" stroke="#1E50C8" stroke-width="1.5"/>
+                <polyline points="15,3 7,7 15,11" fill="none" stroke="#1E50C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <polyline points="57,3 65,7 57,11" fill="none" stroke="#1E50C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class="cgoas-advisory">Advisory</div>
+            </div>
+            <svg class="cgoas-badge-race" width="148" height="148" viewBox="0 0 148 148">
+              <defs>
+                <filter id="cgoasRaceGlow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="2.4" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+              <rect x="1" y="1" width="146" height="146" rx="21" ry="21" fill="none" stroke="rgba(30,80,200,.3)" stroke-width="1.5"/>
+              <rect x="1" y="1" width="146" height="146" rx="21" ry="21" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="55 493" filter="url(#cgoasRaceGlow)" class="cgoas-badge-race-line"/>
+            </svg>
+          </div>
+
+          <div class="cgoas-data" id="cgoasData">
+            <div id="cgoasDl1">PROFILE &middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot; <span class="val">LOADED</span></div>
+            <div id="cgoasDl2">RESIDUAL &middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot; <span class="val" id="cgoasDl2v">186mg</span></div>
+            <div id="cgoasDl3">CEILING CHECK &middot;&middot;&middot;&middot;&middot;&middot; <span class="val" id="cgoasDl3v">BED · 75mg</span></div>
+            <div id="cgoasDl4">WINDOW READY &middot;&middot;&middot;&middot;&middot;&middot; <span class="val-ready" id="cgoasDl4v">94mg HDR</span></div>
+          </div>
+
+          <div class="cgoas-progress-track">
+            <div class="cgoas-progress-bar" id="cgoasBar"></div>
+            <div class="cgoas-progress-glow" id="cgoasBarGlow"></div>
+          </div>
+
+          <div class="cgoas-wordmark-wrap" id="cgoasWmWrap">
+            <div class="cgoas-wordmark-main">Caffevolve&trade;</div>
+            <div class="cgoas-wordmark-sub">Offsite Advisory System</div>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div class="spine-callout">
+      <p class="spine-text">With your current caffeine standing already showing on the app, you select your location type — worksite, café, or convenience store — and OAS presents the full menu of venue-specific beverages, highlighting and ranking first the drinks that fit within your ceilings. No calculating. No guessing. It's informed choice when it matters — the same clarity away from home that you'd have standing in front of the brewer at home.</p>
     </div>
 
     <div class="slide-closer">Logging what you drink keeps your caffeine standing current. OAS takes the next step — presenting the drinks that actually fit.</div>
@@ -1858,6 +1944,121 @@ body {
   }
   /* pagination disabled for the continuous-document sample */
   void build; void unbuild;
+})();
+</script>
+
+<script>
+/* ── CaffevolveGo OAS cinematic badge driver (slide 09e) — ported from portal ── */
+(function(){
+  const badge = document.getElementById('cgoasBadge');
+  if (!badge) return;
+  const halo = document.getElementById('cgoasHalo');
+  const wmWrap = document.getElementById('cgoasWmWrap');
+  const dataBox = document.getElementById('cgoasData');
+  const glowA = document.getElementById('cgoasGlowA');
+  const glowB = document.getElementById('cgoasGlowB');
+  const scan = document.getElementById('cgoasScan');
+  const bar = document.getElementById('cgoasBar');
+  const barGlow = document.getElementById('cgoasBarGlow');
+  const dl1 = document.getElementById('cgoasDl1'), dl2 = document.getElementById('cgoasDl2'),
+        dl3 = document.getElementById('cgoasDl3'), dl4 = document.getElementById('cgoasDl4');
+  const dl2v = document.getElementById('cgoasDl2v'), dl3v = document.getElementById('cgoasDl3v'), dl4v = document.getElementById('cgoasDl4v');
+  const corners = ['cgoasCTl','cgoasCTr','cgoasCBl','cgoasCBr'].map(id => document.getElementById(id));
+  const gridCv = document.getElementById('cgoasGrid');
+  const orbitCv = document.getElementById('cgoasOrbit');
+
+  if (gridCv) {
+    gridCv.width = 340; gridCv.height = 640;
+    const gc = gridCv.getContext('2d');
+    const step = 28;
+    gc.strokeStyle = 'rgba(30,80,200,.35)';
+    gc.lineWidth = .5;
+    for (let x = 0; x < 340; x += step) { gc.beginPath(); gc.moveTo(x, 0); gc.lineTo(x, 640); gc.stroke(); }
+    for (let y = 0; y < 640; y += step) { gc.beginPath(); gc.moveTo(0, y); gc.lineTo(340, y); gc.stroke(); }
+  }
+
+  let orbitCtx, orbitPct = 0;
+  const cx = 170, cy = 250;
+  const dots = [
+    { angle: 0,       r: 105, speed: .012, size: 3,   alpha: .9,  hue: 'blue' },
+    { angle: Math.PI, r: 105, speed: .012, size: 3,   alpha: .9,  hue: 'gold' },
+    { angle: 1.2,     r: 130, speed: .008, size: 2,   alpha: .6,  hue: 'blue' },
+    { angle: 3.8,     r: 130, speed: .008, size: 2,   alpha: .6,  hue: 'gold' },
+    { angle: .6,      r: 155, speed: .005, size: 1.5, alpha: .35, hue: 'blue' },
+    { angle: 3.2,     r: 155, speed: .005, size: 1.5, alpha: .35, hue: 'gold' }
+  ];
+  if (orbitCv) {
+    orbitCv.width = 340; orbitCv.height = 640;
+    orbitCtx = orbitCv.getContext('2d');
+    const drawOrbits = () => {
+      orbitCtx.clearRect(0, 0, 340, 640);
+      const fade = Math.min(1, orbitPct / 35);
+      dots.forEach(d => {
+        d.angle += d.speed;
+        const x = cx + Math.cos(d.angle) * d.r;
+        const y = cy + Math.sin(d.angle) * d.r;
+        orbitCtx.beginPath();
+        orbitCtx.arc(cx, cy, d.r, 0, Math.PI * 2);
+        orbitCtx.strokeStyle = `rgba(30,80,200,${.06 * fade})`;
+        orbitCtx.lineWidth = .5;
+        orbitCtx.stroke();
+        const core = d.hue === 'gold' ? [212,168,83] : [30,80,200];
+        const mid = d.hue === 'gold' ? [232,204,154] : [100,160,255];
+        const g = orbitCtx.createRadialGradient(x, y, 0, x, y, d.size * 2.5);
+        g.addColorStop(0, `rgba(${core[0]},${core[1]},${core[2]},${d.alpha * fade})`);
+        g.addColorStop(.5, `rgba(${mid[0]},${mid[1]},${mid[2]},${d.alpha * .5 * fade})`);
+        g.addColorStop(1, `rgba(${core[0]},${core[1]},${core[2]},0)`);
+        orbitCtx.beginPath();
+        orbitCtx.arc(x, y, d.size * 2.5, 0, Math.PI * 2);
+        orbitCtx.fillStyle = g;
+        orbitCtx.fill();
+        orbitCtx.beginPath();
+        orbitCtx.arc(x, y, d.size, 0, Math.PI * 2);
+        orbitCtx.fillStyle = `rgba(${mid[0]},${mid[1]},${mid[2]},${d.alpha * fade})`;
+        orbitCtx.fill();
+      });
+    };
+    setInterval(drawOrbits, 30);
+  }
+
+  function resetScene(){
+    bar.style.width = '0%'; barGlow.style.width = '0%';
+    badge.style.opacity = '0'; badge.style.visibility = 'hidden'; badge.style.transform = 'scale(.82) translateY(10px)';
+    halo.style.borderColor = 'rgba(30,80,200,0)'; halo.style.boxShadow = '0 0 0px rgba(30,80,200,0)';
+    wmWrap.style.opacity = '0'; wmWrap.style.visibility = 'hidden';
+    dataBox.style.opacity = '0'; glowA.style.opacity = '0'; glowB.style.opacity = '0'; scan.style.top = '-100%';
+    [dl1,dl2,dl3,dl4].forEach(el => el.style.opacity = '0');
+    corners.forEach(el => { if (el) el.style.opacity = '0'; });
+    dl2v.textContent = '——'; dl3v.textContent = '——'; dl4v.textContent = '——';
+  }
+
+  function runScene(){
+    resetScene();
+    let scanPos = -100;
+    const scanIv = setInterval(() => { scanPos += 5; scan.style.top = scanPos + '%'; if (scanPos > 200) clearInterval(scanIv); }, 28);
+    let m20 = false, m40 = false, m60 = false, m75 = false, m90 = false, pct = 0;
+    const iv = setInterval(() => {
+      pct += 2; orbitPct = pct;
+      bar.style.width = pct + '%'; barGlow.style.width = pct + '%';
+      if (pct >= 10 && badge.style.opacity === '0') {
+        badge.style.visibility = 'visible'; badge.style.opacity = '1'; badge.style.transform = 'scale(1) translateY(0)';
+        glowA.style.opacity = '1';
+      }
+      if (pct >= 20 && !m20) { m20 = true; corners.forEach(el => { if (el) el.style.opacity = '1'; }); dataBox.style.opacity = '1'; dl1.style.opacity = '1'; }
+      if (pct >= 35 && !m40) { m40 = true; dl2.style.opacity = '1'; setTimeout(() => { dl2v.textContent = '186mg'; }, 280); }
+      if (pct >= 55 && !m60) {
+        m60 = true;
+        halo.style.borderColor = 'rgba(30,80,200,.4)';
+        halo.style.boxShadow = '0 0 30px rgba(184,117,58,.22), 0 0 30px rgba(30,80,200,.2)';
+        glowB.style.opacity = '1'; dl3.style.opacity = '1';
+        setTimeout(() => { dl3v.textContent = 'BED · 75mg'; }, 280);
+      }
+      if (pct >= 78 && !m75) { m75 = true; wmWrap.style.visibility = 'visible'; wmWrap.style.opacity = '1'; }
+      if (pct >= 90 && !m90) { m90 = true; dl4.style.opacity = '1'; setTimeout(() => { dl4v.textContent = '94mg HDR'; }, 280); }
+      if (pct >= 100) { clearInterval(iv); clearInterval(scanIv); setTimeout(runScene, 4000); }
+    }, 120);
+  }
+  runScene();
 })();
 </script>
 </body>
