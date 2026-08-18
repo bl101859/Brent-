@@ -1036,6 +1036,24 @@ body {
   .cgoas-glow-blue{ opacity:1 !important; }
   .cgoas-progress-bar, .cgoas-progress-glow{ width:100% !important; }
 }
+/* ── OAS venue-menu result screen (slide 09e) ── */
+.oas-menu{ width:272px; height:512px; flex-shrink:0; border-radius:26px; overflow:hidden;
+  background:var(--white); border:1px solid var(--border); box-shadow:0 24px 60px rgba(0,0,0,.14);
+  font-family:var(--sans); display:flex; flex-direction:column; }
+.oas-menu-top{ background:#1E50C8; color:#fff; padding:16px 16px 14px; flex-shrink:0; }
+.oas-menu-loc{ font-size:11px; font-weight:600; letter-spacing:.04em; opacity:.92; }
+.oas-menu-hdr{ font-size:12px; font-weight:400; margin-top:9px; display:flex; justify-content:space-between; align-items:baseline; color:rgba(255,255,255,.9); }
+.oas-menu-hdr b{ font-family:var(--serif); font-style:italic; font-size:22px; font-weight:600; color:#fff; }
+.oas-menu-sec{ font-size:9px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); padding:14px 16px 2px; }
+.oas-menu-sec.dim{ color:var(--ink-light); }
+.oas-menu-item{ display:flex; justify-content:space-between; align-items:center; margin:5px 12px; padding:9px 12px; border-radius:10px; }
+.oas-menu-item.fit{ background:var(--gold-light); border:1px solid #DFC880; }
+.oas-menu-item.over{ opacity:.5; }
+.oas-menu-name{ font-size:13px; font-weight:500; color:var(--ink); }
+.oas-menu-item.over .oas-menu-name{ color:var(--ink-mid); }
+.oas-menu-mg{ font-family:'DM Mono','Courier New',monospace; font-size:11px; color:var(--ink-mid); }
+.oas-menu-item.fit .oas-menu-mg{ color:var(--brown-mid); font-weight:500; }
+.oas-menu-tick{ color:#1A5C3A; font-weight:700; margin-left:5px; font-size:12px; }
 </style>
 </head>
 <body>
@@ -1387,7 +1405,7 @@ body {
       <p style="font-size:11px;color:var(--ink-mid);line-height:1.5;margin:0">The third of CaffevolveGo's jobs — presenting venue drink options and highlighting those within your ceilings.</p>
     </div>
 
-    <div style="display:flex; justify-content:center; margin-bottom:1.25rem;">
+    <div style="display:flex; justify-content:center; align-items:flex-start; gap:24px; flex-wrap:wrap; margin-bottom:1.25rem;">
       <div style="width:272px;height:512px;overflow:hidden;">
         <div class="cgoas-stage" style="transform:scale(.8);transform-origin:top left;">
         <canvas id="cgoasGrid"></canvas>
@@ -1441,6 +1459,21 @@ body {
           </div>
         </div>
       </div>
+      </div>
+
+      <div class="oas-menu">
+        <div class="oas-menu-top">
+          <div class="oas-menu-loc">☕ Corner Café · Menu</div>
+          <div class="oas-menu-hdr">Room left before bedtime <b>94 mg</b></div>
+        </div>
+        <div class="oas-menu-sec">Fits your ceilings</div>
+        <div class="oas-menu-item fit"><span class="oas-menu-name">Cortado<span class="oas-menu-tick">✓</span></span><span class="oas-menu-mg">63 mg</span></div>
+        <div class="oas-menu-item fit"><span class="oas-menu-name">Cappuccino<span class="oas-menu-tick">✓</span></span><span class="oas-menu-mg">75 mg</span></div>
+        <div class="oas-menu-item fit"><span class="oas-menu-name">Single Espresso<span class="oas-menu-tick">✓</span></span><span class="oas-menu-mg">63 mg</span></div>
+        <div class="oas-menu-sec dim">Over your ceiling</div>
+        <div class="oas-menu-item over"><span class="oas-menu-name">Latte · 12oz</span><span class="oas-menu-mg">128 mg</span></div>
+        <div class="oas-menu-item over"><span class="oas-menu-name">Pour-Over · 12oz</span><span class="oas-menu-mg">145 mg</span></div>
+        <div class="oas-menu-item over"><span class="oas-menu-name">Cold Brew · 16oz</span><span class="oas-menu-mg">205 mg</span></div>
       </div>
     </div>
 
