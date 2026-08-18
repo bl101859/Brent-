@@ -4989,8 +4989,11 @@ body{
 
     /* ── CaffevolveGo hub + "Where are you?" venue picker (portal-native mockups) ── */
     .pcg-row{ display:flex; justify-content:center; align-items:stretch; gap:2rem; flex-wrap:wrap; max-width:780px; margin:2.4rem auto 0; }
-    .pcg-phone{ position:relative; width:340px; max-width:340px; background:var(--roast-2); border:1px solid var(--copper-dim); border-radius:2.4rem; padding:2.1rem 1.4rem 1.8rem; box-shadow:0 40px 100px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(242,233,216,0.03); display:flex; flex-direction:column; }
-    .pcg-phone::before{ content:''; position:absolute; top:0.85rem; left:50%; transform:translateX(-50%); width:44px; height:4px; border-radius:3px; background:rgba(242,233,216,0.16); }
+    .pcg-phone{ position:relative; width:340px; max-width:340px; height:560px; background:var(--roast-2); border:1px solid var(--copper-dim); border-radius:2.4rem; padding:2.1rem 1.4rem 1.8rem; box-shadow:0 40px 100px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(242,233,216,0.03); display:flex; flex-direction:column; }
+    .pcg-phone::before{ content:''; position:absolute; top:0.85rem; left:50%; transform:translateX(-50%); width:44px; height:4px; border-radius:3px; background:rgba(242,233,216,0.16); z-index:3; }
+    /* OAS animation, scaled to the same phone footprint */
+    .pcg-phone--anim{ padding:0; overflow:hidden; align-items:center; justify-content:center; background:#0A0C14; }
+    .pcg-phone--anim .cgoas-stage{ flex-shrink:0; box-shadow:none; border-radius:0; }
     .pcg-top{ display:flex; align-items:center; gap:0.6rem; margin-bottom:1rem; }
     .pcg-back{ width:30px; height:30px; border-radius:50%; border:1px solid var(--copper-dim); background:var(--copper-faint); color:var(--gold); font-size:1rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
     .pcg-standing{ margin-left:auto; display:flex; align-items:center; gap:6px; background:var(--copper-faint); border:1px solid var(--copper-dim); border-radius:999px; padding:0.32rem 0.7rem; }
@@ -5031,20 +5034,33 @@ body{
     .pcg-tab-ico{ font-size:1.5rem; line-height:1; }
     .pcg-tab-lbl{ font-size:0.66rem; font-weight:600; color:var(--cream-dim); line-height:1.25; }
     .pcg-tab.sel .pcg-tab-lbl{ color:#E8C878; }
+    /* OAS café selection menu screen */
+    .pcg-menu-hdr{ background:#1E50C8; border-radius:0.8rem; padding:0.8rem 0.9rem; margin-bottom:0.7rem; }
+    .pcg-menu-loc{ font-family:var(--mono); font-size:0.58rem; letter-spacing:0.04em; color:rgba(255,255,255,0.9); text-transform:uppercase; }
+    .pcg-menu-room{ display:flex; justify-content:space-between; align-items:baseline; margin-top:0.5rem; color:rgba(255,255,255,0.82); font-size:0.68rem; }
+    .pcg-menu-room b{ font-family:var(--serif); font-style:italic; font-size:1.3rem; font-weight:600; color:#fff; }
+    .pcg-menu-sec{ font-family:var(--mono); font-size:0.54rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin:0.55rem 0 0.35rem; }
+    .pcg-menu-sec.dim{ color:var(--clay); }
+    .pcg-menu-item{ display:flex; justify-content:space-between; align-items:center; padding:0.52rem 0.7rem; border-radius:0.6rem; margin-bottom:0.32rem; }
+    .pcg-menu-item.fit{ background:var(--copper-faint); border:1px solid rgba(212,168,83,0.4); }
+    .pcg-menu-item.over{ opacity:0.5; }
+    .pcg-menu-name{ font-size:0.82rem; color:var(--cream); font-weight:500; }
+    .pcg-menu-item.over .pcg-menu-name{ color:var(--cream-dim); }
+    .pcg-menu-tick{ color:#5FBE85; font-weight:700; margin-left:5px; }
+    .pcg-menu-mg{ font-family:var(--mono); font-size:0.68rem; color:var(--cream-dim); }
+    .pcg-menu-item.fit .pcg-menu-mg{ color:var(--gold); font-weight:600; }
     @media(max-width:760px){ .pcg-row{ gap:1.4rem; } .pcg-phone{ width:100%; } }
   </style>
   <section class="narrative-section" id="caffevolvego-section">
     <div class="wrap reveal">
       <div class="eyebrow" style="justify-content:center;">CaffevolveGo</div>
       <h2>Your Caffeine Status. Wherever You Are.</h2>
-      <p>The Intelligence Center and the Device work seamlessly to craft the perfect cup at home. But most caffeine isn't decided at home — it's decided in line, at a counter, in a break room. That's what the Platform's third piece is built for.</p>
-      <p><em style="color:var(--gold); font-style:italic;">CaffevolveGo</em> is the mobile app that carries the Platform with you, sharing the same Platform Intelligence Center that drives your brewing device.</p>
-
-      <div class="cgo-subhead">Two Ways In, Wherever You Are</div>
-      <p>Open CaffevolveGo and you land on a simple choice. <em style="color:var(--gold); font-style:italic;">External Caffeine Entry (ECE)</em> logs a drink you had away from the device — folded straight into the day's picture. <em style="color:var(--gold); font-style:italic;">The Offsite Advisory System (OAS)</em> reads your standing and shows what fits before you order, opening on the question that matters: where are you?</p>
+      <p>The Intelligence Center and the Device work seamlessly to craft the perfect cup at home. But most caffeine isn't decided at home — it's decided in line, at a counter, in a break room. That's what the Platform's third component is built for.</p>
+      <div class="cgo-subhead">Your caffeine standing in the palm of your hand</div>
+      <p><em style="color:var(--gold); font-style:italic;">CaffevolveGo</em> is the mobile app that carries the Platform with you, sharing the same Platform Intelligence Center that drives your brewing device while you're away from home. It serves two distinct purposes — first, through its <em style="color:var(--gold); font-style:italic;">External Caffeine Entry (ECE)</em> feature, it provides for a quick accounting of any caffeinated drinks you enjoyed while out earlier in the day. Each entry feeds straight back into platform intelligence — restoring the connection and keeping your caffeine standing accurate to the moment, then presenting it back to you on the app to close the loop. This opens the door for the second key feature of the CaffevolveGo App — the <em style="color:var(--gold); font-style:italic;">Offsite Advisory System (OAS)</em>.</p>
 
       <div class="pcg-row">
-        <!-- CaffevolveGo hub -->
+        <!-- Row 1 · CaffevolveGo hub + OAS animation -->
         <div class="pcg-phone">
           <div class="pcg-top">
             <div class="pcg-back">&lsaquo;</div>
@@ -5071,35 +5087,9 @@ body{
           </div>
         </div>
 
-        <!-- Where are you? venue picker -->
-        <div class="pcg-phone">
-          <div class="pcg-top">
-            <div class="pcg-back">&lsaquo;</div>
-            <div class="pcg-standing"><span class="pcg-standing-dot"></span><span class="pcg-standing-txt">OAS &middot; reading you</span></div>
-          </div>
-          <div class="pcg-strip">
-            <div class="pcg-stat"><div class="pcg-stat-lbl">Residual</div><div class="pcg-stat-val">186<span style="font-size:0.7rem">mg</span></div><div class="pcg-stat-sub">24-hr clock</div></div>
-            <div class="pcg-stat"><div class="pcg-stat-lbl">Headroom</div><div class="pcg-stat-val">94<span style="font-size:0.7rem">mg</span></div><div class="pcg-stat-sub">wake window</div></div>
-            <div class="pcg-stat hi"><div class="pcg-stat-lbl">Room to bed</div><div class="pcg-stat-val">94<span style="font-size:0.7rem">mg</span></div><div class="pcg-stat-sub">10:30pm</div></div>
-          </div>
-          <div class="pcg-venue-title">Where are you?</div>
-          <div class="pcg-tabs">
-            <div class="pcg-tab"><span class="pcg-tab-ico">🏢</span><span class="pcg-tab-lbl">Worksite</span></div>
-            <div class="pcg-tab sel"><span class="pcg-tab-ico">☕</span><span class="pcg-tab-lbl">Coffee shop</span></div>
-            <div class="pcg-tab"><span class="pcg-tab-ico">🏪</span><span class="pcg-tab-lbl">Convenience<br>store</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="cgoas-intro-row">
-        <div class="cgoas-intro-text">
-          <p>Choose OAS, and the Advisory System takes over from there.</p>
-          <div class="cgo-subhead" style="text-align:left; margin-left:0;">Guidance at the Moment of Decision</div>
-          <p>OAS meets you at the decision itself — not after the fact, but in the moment you're actually choosing, wherever that happens: a break-room counter, a café line, a restaurant menu in front of you.</p>
-          <p>In each place, OAS lays out the full caffeine menu of what a venue like that typically offers, and highlights and ranks first the drinks that fit within your comfort zone. Nothing is hidden and nothing is filtered away; the complete list is always in front of you. The choices that work for you right now are simply the ones you see first, picking up right where you left off at home.</p>
-          <p>It opens on a dedicated Worksite view, because the workplace is the one place a caffeine management system usually goes blind — and, for many people, where a real share of the day's caffeine actually happens. But the guidance doesn't end at the office door. It follows you everywhere the next cup gets decided.</p>
-        </div>
-      <div class="cgoas-stage">
+        <!-- OAS animation, scaled to the same phone footprint -->
+        <div class="pcg-phone pcg-phone--anim">
+      <div class="cgoas-stage" style="transform:scale(.87); transform-origin:center center;">
         <canvas id="cgoasGrid"></canvas>
         <div class="cgoas-glow cgoas-glow-blue" id="cgoasGlowA"></div>
         <div class="cgoas-glow cgoas-glow-copper" id="cgoasGlowB"></div>
@@ -5210,11 +5200,54 @@ body{
           </div>
         </div>
       </div>
+        </div><!-- /pcg-phone--anim -->
+      </div><!-- /Row 1 -->
+
+      <div class="cgo-subhead">Guidance at the Moment of Decision</div>
+      <p>OAS meets you at the decision itself — not after the fact, but in the moment you're actually choosing, wherever that happens: a break-room counter, a café line, a restaurant menu in front of you. In each place, OAS lays out the full caffeine menu of what a venue like that typically offers, and highlights and ranks first the drinks that fit within your comfort zone. Nothing is hidden and nothing is filtered away; the complete list is always in front of you. The choices that work for you right now are simply the ones you see first, picking up right where you left off at home.</p>
+
+      <div class="pcg-row">
+        <!-- Row 2 · venue picker + café selection menu -->
+        <div class="pcg-phone">
+          <div class="pcg-top">
+            <div class="pcg-back">&lsaquo;</div>
+            <div class="pcg-standing"><span class="pcg-standing-dot"></span><span class="pcg-standing-txt">OAS &middot; reading you</span></div>
+          </div>
+          <div class="pcg-strip">
+            <div class="pcg-stat"><div class="pcg-stat-lbl">Residual</div><div class="pcg-stat-val">186<span style="font-size:0.7rem">mg</span></div><div class="pcg-stat-sub">24-hr clock</div></div>
+            <div class="pcg-stat"><div class="pcg-stat-lbl">Headroom</div><div class="pcg-stat-val">94<span style="font-size:0.7rem">mg</span></div><div class="pcg-stat-sub">wake window</div></div>
+            <div class="pcg-stat hi"><div class="pcg-stat-lbl">Room to bed</div><div class="pcg-stat-val">94<span style="font-size:0.7rem">mg</span></div><div class="pcg-stat-sub">10:30pm</div></div>
+          </div>
+          <div class="pcg-venue-title">Where are you?</div>
+          <div class="pcg-tabs">
+            <div class="pcg-tab"><span class="pcg-tab-ico">🏢</span><span class="pcg-tab-lbl">Worksite</span></div>
+            <div class="pcg-tab sel"><span class="pcg-tab-ico">☕</span><span class="pcg-tab-lbl">Coffee shop</span></div>
+            <div class="pcg-tab"><span class="pcg-tab-ico">🏪</span><span class="pcg-tab-lbl">Convenience<br>store</span></div>
+          </div>
+        </div>
+
+        <!-- OAS café selection menu -->
+        <div class="pcg-phone">
+          <div class="pcg-top">
+            <div class="pcg-back">&lsaquo;</div>
+            <div class="pcg-standing"><span class="pcg-standing-dot"></span><span class="pcg-standing-txt">Coffee shop</span></div>
+          </div>
+          <div class="pcg-menu-hdr">
+            <div class="pcg-menu-loc">Corner Café &middot; Menu</div>
+            <div class="pcg-menu-room"><span>Room left before bedtime</span><b>94 mg</b></div>
+          </div>
+          <div class="pcg-menu-sec">Fits your comfort zone</div>
+          <div class="pcg-menu-item fit"><span class="pcg-menu-name">Cortado<span class="pcg-menu-tick">✓</span></span><span class="pcg-menu-mg">63 mg</span></div>
+          <div class="pcg-menu-item fit"><span class="pcg-menu-name">Cappuccino<span class="pcg-menu-tick">✓</span></span><span class="pcg-menu-mg">75 mg</span></div>
+          <div class="pcg-menu-item fit"><span class="pcg-menu-name">Single Espresso<span class="pcg-menu-tick">✓</span></span><span class="pcg-menu-mg">63 mg</span></div>
+          <div class="pcg-menu-sec dim">Over your comfort zone</div>
+          <div class="pcg-menu-item over"><span class="pcg-menu-name">Latte &middot; 12oz</span><span class="pcg-menu-mg">128 mg</span></div>
+          <div class="pcg-menu-item over"><span class="pcg-menu-name">Pour-Over &middot; 12oz</span><span class="pcg-menu-mg">145 mg</span></div>
+          <div class="pcg-menu-item over"><span class="pcg-menu-name">Cold Brew &middot; 16oz</span><span class="pcg-menu-mg">205 mg</span></div>
+        </div>
       </div>
 
-      <div class="cgo-subhead">One Picture, Wherever It's Built</div>
-      <p>Every drink you log while away from home is sent immediately to the Platform Intelligence Center, folded into that day's caffeine calculations alongside everything brewed at home. Your next recommendation — whether it's your evening cup at home or your next away-from-home choice — is always built on the complete day.</p>
-      <p style="font-family:var(--serif); font-style:italic; color:var(--gold); font-size:1.4rem; margin-top:1.8rem;">Informed choice when it matters — at your desk, in line, or anywhere in between.</p>
+      <p style="font-family:var(--serif); font-style:italic; color:var(--gold); font-size:1.4rem; margin-top:2rem; text-align:center;">Informed choice when it matters — at your desk, in line, or anywhere in between.</p>
       <div class="hero-scroll-cue" style="margin:3rem auto 0;" onclick="scrollToSection('oas-day-section')">
         <span>Continue</span>
         <svg class="hero-scroll-arrow" viewBox="0 0 24 24" width="20" height="20">
