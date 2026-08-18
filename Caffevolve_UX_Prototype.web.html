@@ -5553,9 +5553,10 @@ input[type="range"]::-moz-range-thumb {
 ═══════════════════════════════════════════════════════ -->
 <!-- ══════════════════════════════════════════════════════
      CGO · CAFFEVOLVEGO HUB
-     Reached from PS1a (ungated). Two branded options:
-     ECE (External Caffeine Entry — log) and OAS (Offsite
-     Advisory System — advise). OAS is bedtime-gated via cgoTryOAS().
+     Reached from PS1a only after the CaffevolveGo button's bedtime
+     gate has passed, so a bedtime is already set here. Two branded
+     options: ECE (External Caffeine Entry — log) and OAS (Offsite
+     Advisory System — advise), both routing straight through.
 ═══════════════════════════════════════════════════════ -->
 <div class="screen" id="screen-CGO">
   <div class="cgo-top">
@@ -5589,8 +5590,9 @@ input[type="range"]::-moz-range-thumb {
       <div class="cgo-opt-cta cgo-opt-cta-ece">Log a drink &rarr;</div>
     </button>
 
-    <!-- OAS — Offsite Advisory System (advise) -->
-    <button class="cgo-opt" onclick="cgoTryOAS()">
+    <!-- OAS — Offsite Advisory System (advise). Bedtime already guaranteed by
+         the CaffevolveGo button's gate on PS1a, so this routes straight through. -->
+    <button class="cgo-opt" onclick="goto('OAS0')">
       <div class="cgo-opt-head">
         <div class="cgo-badge cgo-badge-oas">
           <div class="cgo-badge-text">OAS</div>
@@ -15303,19 +15305,6 @@ function ps1aTryPath(which) {
   if (which === 'qb')  { setPath('B'); savePS1aBedtime(); routeFromPS1a(); }
   else if (which === 'oas') { savePS1aBedtime(); goto('OAS0'); }
   else if (which === 'cgo') { savePS1aBedtime(); goto('CGO'); }
-}
-
-// OAS from the CaffevolveGo hub. OAS needs a bedtime (its projection depends on it),
-// but the picker lives on PS1a — so when none is set yet, return the user to PS1a
-// and flash the bedtime prompt. ECE beside it stays ungated (ps0aManualLogDrink).
-function cgoTryOAS() {
-  if (!sessionBedtime.isSet()) {
-    goto('PS1a');
-    ps1aFlashBedtimePrompt();
-    return;
-  }
-  savePS1aBedtime();
-  goto('OAS0');
 }
 function ps1aFlashBedtimePrompt() {
   const el = document.getElementById('ps1a-bed-prompt');
