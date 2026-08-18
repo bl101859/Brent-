@@ -4986,6 +4986,52 @@ body{
     .cgoas-badge-race-line{ animation:cgoasBadgeRace 5s linear infinite; }
     @keyframes cgoasBadgeRace{ to{ stroke-dashoffset:-548; } }
     .portal-hero-cup.cgoas-cup{ width:160px; height:223px; margin:0; }
+
+    /* ── CaffevolveGo hub + "Where are you?" venue picker (portal-native mockups) ── */
+    .pcg-row{ display:flex; justify-content:center; align-items:stretch; gap:2rem; flex-wrap:wrap; max-width:780px; margin:2.4rem auto 0; }
+    .pcg-phone{ position:relative; width:340px; max-width:340px; background:var(--roast-2); border:1px solid var(--copper-dim); border-radius:2.4rem; padding:2.1rem 1.4rem 1.8rem; box-shadow:0 40px 100px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(242,233,216,0.03); display:flex; flex-direction:column; }
+    .pcg-phone::before{ content:''; position:absolute; top:0.85rem; left:50%; transform:translateX(-50%); width:44px; height:4px; border-radius:3px; background:rgba(242,233,216,0.16); }
+    .pcg-top{ display:flex; align-items:center; gap:0.6rem; margin-bottom:1rem; }
+    .pcg-back{ width:30px; height:30px; border-radius:50%; border:1px solid var(--copper-dim); background:var(--copper-faint); color:var(--gold); font-size:1rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .pcg-standing{ margin-left:auto; display:flex; align-items:center; gap:6px; background:var(--copper-faint); border:1px solid var(--copper-dim); border-radius:999px; padding:0.32rem 0.7rem; }
+    .pcg-standing-dot{ width:7px; height:7px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 3px rgba(212,168,83,0.2); }
+    .pcg-standing-txt{ font-family:var(--mono); font-size:0.56rem; letter-spacing:0.06em; color:var(--gold); text-transform:uppercase; }
+    .pcg-label{ font-family:var(--mono); font-size:0.6rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--clay); }
+    .pcg-title{ font-family:var(--serif); font-size:2.2rem; font-weight:500; color:var(--gold); line-height:1.05; margin-top:0.2rem; }
+    .pcg-title .go{ font-style:italic; color:#E8C878; }
+    .pcg-tagline{ font-family:var(--serif); font-style:italic; font-size:1rem; color:var(--cream-dim); line-height:1.35; margin-top:0.4rem; }
+    .pcg-cards{ display:flex; flex-direction:column; gap:0.8rem; margin-top:auto; padding-top:1.4rem; }
+    .pcg-opt{ background:rgba(242,233,216,0.04); border:1px solid var(--copper-dim); border-radius:1rem; padding:0.9rem 0.9rem 1rem; }
+    .pcg-opt-head{ display:flex; align-items:center; gap:0.75rem; }
+    .pcg-badge{ display:inline-flex; flex-direction:column; align-items:center; justify-content:center; border-radius:0.7rem; width:52px; height:52px; flex-shrink:0; background:linear-gradient(145deg,#F8F3EC,#EDE5D8); }
+    .pcg-badge-ece{ box-shadow:0 2px 10px rgba(184,117,58,0.3); }
+    .pcg-badge-oas{ box-shadow:0 2px 10px rgba(30,80,200,0.28); }
+    .pcg-badge-text{ font-family:var(--serif); font-style:italic; font-weight:700; font-size:1.15rem; line-height:1; letter-spacing:0.04em; }
+    .pcg-badge-ece .pcg-badge-text{ color:#B8753A; }
+    .pcg-badge-oas .pcg-badge-text{ color:#1E50C8; }
+    .pcg-badge-sub{ font-family:var(--serif); font-style:italic; font-weight:600; font-size:0.5rem; letter-spacing:0.14em; text-transform:uppercase; margin-top:2px; }
+    .pcg-badge-ece .pcg-badge-sub{ color:rgba(184,117,58,0.9); }
+    .pcg-badge-oas .pcg-badge-sub{ color:rgba(30,80,200,0.8); }
+    .pcg-opt-abbr{ font-family:var(--mono); font-size:0.55rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; }
+    .pcg-opt-abbr-ece{ color:#C98A52; }
+    .pcg-opt-abbr-oas{ color:#5B9BF0; }
+    .pcg-opt-name{ font-family:var(--serif); font-size:1.15rem; font-weight:600; color:var(--cream); line-height:1.1; margin-top:1px; }
+    .pcg-opt-def{ font-size:0.74rem; color:var(--cream-dim); line-height:1.5; margin-top:0.55rem; }
+    .pcg-opt-def b{ color:var(--cream); font-weight:600; }
+    .pcg-strip{ display:flex; gap:0.5rem; }
+    .pcg-stat{ flex:1; background:rgba(242,233,216,0.04); border:1px solid var(--copper-dim); border-radius:0.7rem; padding:0.6rem 0.3rem; text-align:center; }
+    .pcg-stat.hi{ background:var(--copper-faint); border-color:rgba(212,168,83,0.5); }
+    .pcg-stat-lbl{ font-family:var(--mono); font-size:0.5rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--clay); }
+    .pcg-stat-val{ font-family:var(--serif); font-size:1.3rem; font-weight:600; color:#E8C878; margin-top:2px; line-height:1; }
+    .pcg-stat-sub{ font-family:var(--mono); font-size:0.46rem; color:var(--clay); margin-top:3px; }
+    .pcg-venue-title{ font-family:var(--serif); font-style:italic; font-size:1.6rem; color:var(--gold); text-align:center; margin:1.3rem 0 1rem; }
+    .pcg-tabs{ display:flex; gap:0.55rem; margin-top:auto; }
+    .pcg-tab{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.5rem; background:rgba(242,233,216,0.04); border:1px solid var(--copper-dim); border-radius:1rem; padding:1rem 0.4rem; text-align:center; }
+    .pcg-tab.sel{ background:var(--copper-faint); border-color:var(--gold); box-shadow:0 3px 16px rgba(212,168,83,0.14); }
+    .pcg-tab-ico{ font-size:1.5rem; line-height:1; }
+    .pcg-tab-lbl{ font-size:0.66rem; font-weight:600; color:var(--cream-dim); line-height:1.25; }
+    .pcg-tab.sel .pcg-tab-lbl{ color:#E8C878; }
+    @media(max-width:760px){ .pcg-row{ gap:1.4rem; } .pcg-phone{ width:100%; } }
   </style>
   <section class="narrative-section" id="caffevolvego-section">
     <div class="wrap reveal">
@@ -5113,6 +5159,57 @@ body{
           </div>
         </div>
       </div>
+      </div>
+
+      <div class="cgo-subhead">Two Ways In, Wherever You Are</div>
+      <p>Open CaffevolveGo and you land on a simple choice. <em style="color:var(--gold); font-style:italic;">External Caffeine Entry (ECE)</em> logs a drink you had away from the device — folded straight into the day's picture. <em style="color:var(--gold); font-style:italic;">The Offsite Advisory System (OAS)</em> reads your standing and shows what fits before you order, opening on the question that matters: where are you?</p>
+
+      <div class="pcg-row">
+        <!-- CaffevolveGo hub -->
+        <div class="pcg-phone">
+          <div class="pcg-top">
+            <div class="pcg-back">&lsaquo;</div>
+            <div class="pcg-standing"><span class="pcg-standing-dot"></span><span class="pcg-standing-txt">In your zone</span></div>
+          </div>
+          <div class="pcg-label">Away from your device</div>
+          <div class="pcg-title">Caffevolve<span class="go">Go</span></div>
+          <div class="pcg-tagline">Log what you had, or get a read on what to have next.</div>
+          <div class="pcg-cards">
+            <div class="pcg-opt">
+              <div class="pcg-opt-head">
+                <div class="pcg-badge pcg-badge-ece"><div class="pcg-badge-text">ECE</div><div class="pcg-badge-sub">Entry</div></div>
+                <div><div class="pcg-opt-abbr pcg-opt-abbr-ece">ECE</div><div class="pcg-opt-name">External Caffeine Entry</div></div>
+              </div>
+              <div class="pcg-opt-def">Had a drink somewhere other than your device? <b>Log it here</b> — it folds into your running total.</div>
+            </div>
+            <div class="pcg-opt">
+              <div class="pcg-opt-head">
+                <div class="pcg-badge pcg-badge-oas"><div class="pcg-badge-text">OAS</div><div class="pcg-badge-sub">Advisory</div></div>
+                <div><div class="pcg-opt-abbr pcg-opt-abbr-oas">OAS</div><div class="pcg-opt-name">Offsite Advisory System</div></div>
+              </div>
+              <div class="pcg-opt-def">In front of a menu? <b>OAS reads your standing and comfort zone</b> and shows which drinks keep you there.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Where are you? venue picker -->
+        <div class="pcg-phone">
+          <div class="pcg-top">
+            <div class="pcg-back">&lsaquo;</div>
+            <div class="pcg-standing"><span class="pcg-standing-dot"></span><span class="pcg-standing-txt">OAS &middot; reading you</span></div>
+          </div>
+          <div class="pcg-strip">
+            <div class="pcg-stat"><div class="pcg-stat-lbl">Residual</div><div class="pcg-stat-val">186<span style="font-size:0.7rem">mg</span></div><div class="pcg-stat-sub">24-hr clock</div></div>
+            <div class="pcg-stat"><div class="pcg-stat-lbl">Headroom</div><div class="pcg-stat-val">94<span style="font-size:0.7rem">mg</span></div><div class="pcg-stat-sub">wake window</div></div>
+            <div class="pcg-stat hi"><div class="pcg-stat-lbl">Room to bed</div><div class="pcg-stat-val">94<span style="font-size:0.7rem">mg</span></div><div class="pcg-stat-sub">10:30pm</div></div>
+          </div>
+          <div class="pcg-venue-title">Where are you?</div>
+          <div class="pcg-tabs">
+            <div class="pcg-tab"><span class="pcg-tab-ico">🏢</span><span class="pcg-tab-lbl">Worksite</span></div>
+            <div class="pcg-tab sel"><span class="pcg-tab-ico">☕</span><span class="pcg-tab-lbl">Coffee shop</span></div>
+            <div class="pcg-tab"><span class="pcg-tab-ico">🏪</span><span class="pcg-tab-lbl">Convenience<br>store</span></div>
+          </div>
+        </div>
       </div>
 
       <div class="cgo-subhead">One Picture, Wherever It's Built</div>
