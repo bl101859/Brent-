@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CaffevolveGo — Standalone Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --device-frame:   #7A4A1E;
+  --device-shadow:  #3E200A;
+  --screen-bg:      #3D1F08;
+  --card-bg:        #FFFFFF;
+  --card-bg-warm:   #FBF7F2;
+  --gold:           #D4A855;
+  --gold-light:     #E8C878;
+  --gold-dim:       #8A6A30;
+  --amber:          #E8952A;
+  --amber-dark:     #C47820;
+  --green-accent:   #3DAA6E;
+  --green-bg:       #E6F7EF;
+  --text-dark:      #1A0E04;
+  --text-mid:       #4A3020;
+  --text-muted:     #8C7260;
+  --text-label:     #6B5040;
+  --border-light:   #E8DDD0;
+  --border-mid:     #D4C4B0;
+  --white:          #ffffff;
+  --font-display:   'Cormorant Garamond', Georgia, serif;
+  --font-ui:        'DM Sans', system-ui, sans-serif;
+  --screen-w:       390px;
+  --screen-h:       780px;
+  --radius-card:    16px;
+  --radius-btn:     12px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #1C0D03;
+  background-image: radial-gradient(ellipse at 20% 20%, #2D1508 0%, transparent 60%),
+                    radial-gradient(ellipse at 80% 80%, #1A0A02 0%, transparent 60%);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 40px 16px;
+  font-family: var(--font-ui);
+}
+.caption {
+  color: rgba(255,255,255,.55); font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; margin-bottom: 22px; text-align: center;
+}
+.caption b { color: var(--gold-light); font-weight: 600; }
+
+/* ── DEVICE FRAME ── */
+.device {
+  width: calc(var(--screen-w) + 28px);
+  background: var(--device-frame);
+  background-image: linear-gradient(135deg, #9A6030 0%, #7A4A1E 40%, #5A3010 100%);
+  border-radius: 44px;
+  padding: 18px 14px;
+  box-shadow: 0 0 0 1px #5A3010, 0 30px 80px rgba(0,0,0,.8), 0 10px 30px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.1);
+  position: relative;
+}
+.device::before {
+  content: ''; position: absolute; top: 10px; left: 50%;
+  transform: translateX(-50%); width: 80px; height: 5px;
+  background: rgba(0,0,0,.3); border-radius: 3px;
+}
+.screen-viewport {
+  width: var(--screen-w); height: var(--screen-h);
+  background: var(--screen-bg); border-radius: 30px;
+  overflow: hidden; position: relative;
+}
+.screen {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
+}
+.screen::-webkit-scrollbar { display: none; }
+
+/* ── HEADER ── */
+.hub-top {
+  display: flex; align-items: center; gap: 12px;
+  padding: 22px 20px 0;
+}
+.hub-back {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid rgba(212,168,85,.35);
+  background: rgba(212,168,85,.08);
+  color: var(--gold); font-size: 17px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+}
+.hub-standing {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 7px;
+  background: rgba(61,170,110,.14);
+  border: 1px solid rgba(61,170,110,.4);
+  border-radius: 100px; padding: 6px 12px;
+}
+.hub-standing-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-accent); box-shadow: 0 0 0 3px rgba(61,170,110,.25); }
+.hub-standing-txt { font-size: 10.5px; color: #7FD3A5; font-weight: 500; letter-spacing: .02em; }
+.hub-standing-txt b { color: #A7E6C4; font-weight: 700; }
+
+.hub-label {
+  font-size: 10px; font-weight: 500; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--gold-dim);
+  padding: 18px 24px 0;
+}
+.hub-title {
+  font-family: var(--font-display); font-size: 2.35rem; font-weight: 500;
+  color: var(--gold); line-height: 1.1; padding: 4px 24px 0; letter-spacing: .01em;
+}
+.hub-title .go { font-style: italic; color: var(--gold-light); }
+.hub-tagline {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 1.02rem; color: rgba(255,255,255,.62);
+  line-height: 1.4; padding: 8px 24px 0;
+}
+
+.hub-cards { display: flex; flex-direction: column; gap: 14px; padding: 22px 20px 8px; }
+
+/* ── OPTION CARD ── */
+.opt {
+  display: block; width: 100%; text-align: left;
+  background: var(--card-bg); border: 1px solid var(--border-light);
+  border-radius: var(--radius-card); padding: 18px 18px 20px;
+  cursor: pointer; font-family: var(--font-ui);
+  transition: border-color .15s, box-shadow .15s, transform .1s;
+  position: relative;
+}
+.opt:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,.28); }
+.opt-head { display: flex; align-items: center; gap: 14px; }
+
+/* Branded badge — shared geometry, per-element color */
+.badge {
+  display: inline-flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0;
+  border-radius: 12px; width: 66px; height: 66px;
+  flex-shrink: 0; background: #F5F0E8;
+}
+.badge-ece { border: 1.5px solid rgba(200,140,40,.5); box-shadow: 0 2px 8px rgba(200,140,40,.22); }
+.badge-oas { border: 1.5px solid rgba(30,80,200,.45); box-shadow: 0 2px 8px rgba(30,80,200,.2); }
+.badge-text { font-family: var(--font-display); font-style: italic; font-weight: 700; font-size: 23px; line-height: 1; letter-spacing: .06em; }
+.badge-ece .badge-text { color: var(--amber-dark); }
+.badge-oas .badge-text { color: #1E50C8; }
+.badge-sub { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 9px; letter-spacing: .16em; text-transform: uppercase; margin-top: 3px; }
+.badge-ece .badge-sub { color: rgba(200,140,40,.9); }
+.badge-oas .badge-sub { color: rgba(30,80,200,.8); }
+
+.opt-titles { min-width: 0; }
+.opt-abbr { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.opt-abbr-ece { color: var(--amber-dark); }
+.opt-abbr-oas { color: #1E50C8; }
+.opt-name { font-family: var(--font-display); font-size: 1.42rem; font-weight: 600; color: var(--text-dark); line-height: 1.12; margin-top: 1px; }
+.opt-def { font-size: 12.5px; color: var(--text-mid); line-height: 1.5; margin-top: 12px; }
+.opt-def b { color: var(--text-dark); font-weight: 600; }
+.opt-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; letter-spacing: .02em;
+  margin-top: 13px;
+}
+.opt-cta-ece { color: var(--amber-dark); }
+.opt-cta-oas { color: #1E50C8; }
+.opt-divider { height: 1px; background: var(--border-light); margin: 14px 0 0; }
+
+.hub-foot {
+  text-align: center; font-size: 11px; color: var(--text-muted);
+  font-style: italic; padding: 6px 30px 24px; line-height: 1.5;
+}
+</style>
+</head>
+<body>
+  <div class="caption">CaffevolveGo · <b>standalone concept</b> · not yet wired into the prototype</div>
+  <div class="device">
+    <div class="screen-viewport">
+      <div class="screen">
+
+        <!-- Header row: back + live standing chip -->
+        <div class="hub-top">
+          <div class="hub-back">‹</div>
+          <div class="hub-standing">
+            <span class="hub-standing-dot"></span>
+            <span class="hub-standing-txt">Current standing · <b>in the zone</b></span>
+          </div>
+        </div>
+
+        <div class="hub-label">Away from your device</div>
+        <div class="hub-title">Caffevolve<span class="go">Go</span></div>
+        <div class="hub-tagline">Your caffeine picture travels with you. Log what you had, or get a read on what to have next.</div>
+
+        <div class="hub-cards">
+
+          <!-- ECE -->
+          <button class="opt">
+            <div class="opt-head">
+              <div class="badge badge-ece">
+                <div class="badge-text">ECE</div>
+                <div class="badge-sub">Entry</div>
+              </div>
+              <div class="opt-titles">
+                <div class="opt-abbr opt-abbr-ece">ECE</div>
+                <div class="opt-name">External Caffeine Entry</div>
+              </div>
+            </div>
+            <div class="opt-def">
+              Had a coffee, tea, or energy drink somewhere other than your device? <b>Log it here.</b> Caffevolve folds it into your running total so your standing stays accurate the moment you're back at the machine.
+            </div>
+            <div class="opt-divider"></div>
+            <div class="opt-cta opt-cta-ece">Log a drink →</div>
+          </button>
+
+          <!-- OAS -->
+          <button class="opt">
+            <div class="opt-head">
+              <div class="badge badge-oas">
+                <div class="badge-text">OAS</div>
+                <svg width="36" height="10" viewBox="0 0 36 10" fill="none" style="margin:3px 0;">
+                  <line x1="4" y1="5" x2="32" y2="5" stroke="#1E50C8" stroke-width="1"/>
+                  <polyline points="8,2 4,5 8,8" fill="none" stroke="#1E50C8" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                  <polyline points="28,2 32,5 28,8" fill="none" stroke="#1E50C8" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="badge-sub">Advisory</div>
+              </div>
+              <div class="opt-titles">
+                <div class="opt-abbr opt-abbr-oas">OAS</div>
+                <div class="opt-name">Offsite Advisory System</div>
+              </div>
+            </div>
+            <div class="opt-def">
+              Standing in front of a café menu? <b>OAS reads your current standing and your bedtime</b>, then tells you which drinks keep you in the zone — and which would push you past your ceiling.
+            </div>
+            <div class="opt-divider"></div>
+            <div class="opt-cta opt-cta-oas">See my options →</div>
+          </button>
+
+        </div>
+
+        <div class="hub-foot">Both are part of CaffevolveGo — the third element of the platform, built for everywhere the device isn't.</div>
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>
