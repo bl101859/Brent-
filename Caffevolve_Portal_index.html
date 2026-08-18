@@ -5034,21 +5034,23 @@ body{
     .pcg-tab-ico{ font-size:1.5rem; line-height:1; }
     .pcg-tab-lbl{ font-size:0.66rem; font-weight:600; color:var(--cream-dim); line-height:1.25; }
     .pcg-tab.sel .pcg-tab-lbl{ color:#E8C878; }
-    /* OAS café selection menu screen */
-    .pcg-menu-hdr{ background:#1E50C8; border-radius:0.8rem; padding:0.8rem 0.9rem; margin-bottom:0.7rem; }
-    .pcg-menu-loc{ font-family:var(--mono); font-size:0.58rem; letter-spacing:0.04em; color:rgba(255,255,255,0.9); text-transform:uppercase; }
-    .pcg-menu-room{ display:flex; justify-content:space-between; align-items:baseline; margin-top:0.5rem; color:rgba(255,255,255,0.82); font-size:0.68rem; }
-    .pcg-menu-room b{ font-family:var(--serif); font-style:italic; font-size:1.3rem; font-weight:600; color:#fff; }
-    .pcg-menu-sec{ font-family:var(--mono); font-size:0.54rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin:0.55rem 0 0.35rem; }
-    .pcg-menu-sec.dim{ color:var(--clay); }
-    .pcg-menu-item{ display:flex; justify-content:space-between; align-items:center; padding:0.52rem 0.7rem; border-radius:0.6rem; margin-bottom:0.32rem; }
-    .pcg-menu-item.fit{ background:var(--copper-faint); border:1px solid rgba(212,168,83,0.4); }
-    .pcg-menu-item.over{ opacity:0.5; }
-    .pcg-menu-name{ font-size:0.82rem; color:var(--cream); font-weight:500; }
-    .pcg-menu-item.over .pcg-menu-name{ color:var(--cream-dim); }
-    .pcg-menu-tick{ color:#5FBE85; font-weight:700; margin-left:5px; }
-    .pcg-menu-mg{ font-family:var(--mono); font-size:0.68rem; color:var(--cream-dim); }
-    .pcg-menu-item.fit .pcg-menu-mg{ color:var(--gold); font-weight:600; }
+    /* OAS café result — faithful to the prototype OAS venue drill screen */
+    .pcg-headroom{ display:flex; justify-content:space-between; align-items:baseline; background:var(--copper-faint); border:1px solid rgba(212,168,83,0.4); border-radius:0.7rem; padding:0.5rem 0.8rem; margin-bottom:0.5rem; }
+    .pcg-headroom-lbl{ font-family:var(--mono); font-size:0.54rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--clay); }
+    .pcg-headroom-val{ font-family:var(--serif); font-style:italic; font-size:1.2rem; font-weight:600; color:var(--gold); }
+    .pcg-crumb{ display:flex; align-items:center; gap:5px; font-family:var(--mono); font-size:0.56rem; color:var(--clay); margin-bottom:0.45rem; }
+    .pcg-crumb .seg{ color:var(--copper); }
+    .pcg-crumb .cur{ color:var(--gold-light); }
+    .pcg-oas-note{ font-family:var(--mono); font-size:0.5rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--clay); margin-bottom:0.5rem; }
+    .pcg-drink{ display:flex; align-items:center; justify-content:space-between; padding:0.58rem 0.7rem; border-radius:0.6rem; background:rgba(242,233,216,0.05); border:0.5px solid rgba(212,168,83,0.16); margin-bottom:0.4rem; }
+    .pcg-drink.fit{ border-color:rgba(212,168,83,0.55); background:rgba(212,168,83,0.10); }
+    .pcg-drink.over{ opacity:0.5; }
+    .pcg-drink-name{ font-size:0.82rem; color:var(--cream); }
+    .pcg-drink-name .sz{ font-size:0.66rem; color:var(--clay); margin-left:5px; }
+    .pcg-drink-r{ display:flex; align-items:center; gap:0.45rem; flex-shrink:0; }
+    .pcg-drink-mg{ font-family:var(--mono); font-size:0.62rem; font-weight:500; color:var(--copper); background:rgba(184,117,58,0.16); padding:2px 8px; border-radius:10px; white-space:nowrap; }
+    .pcg-drink.fit .pcg-drink-mg{ background:rgba(212,168,83,0.22); color:var(--gold-light); }
+    .pcg-drink-chev{ font-size:0.62rem; color:var(--clay); }
     @media(max-width:760px){ .pcg-row{ gap:1.4rem; } .pcg-phone{ width:100%; } }
   </style>
   <section class="narrative-section" id="caffevolvego-section">
@@ -5226,24 +5228,20 @@ body{
           </div>
         </div>
 
-        <!-- OAS café selection menu -->
+        <!-- OAS café result — prototype OAS venue drill screen -->
         <div class="pcg-phone">
           <div class="pcg-top">
             <div class="pcg-back">&lsaquo;</div>
-            <div class="pcg-standing"><span class="pcg-standing-dot"></span><span class="pcg-standing-txt">Coffee shop</span></div>
+            <div class="pcg-standing"><span class="pcg-standing-dot"></span><span class="pcg-standing-txt">OAS &middot; Coffee shop</span></div>
           </div>
-          <div class="pcg-menu-hdr">
-            <div class="pcg-menu-loc">Corner Café &middot; Menu</div>
-            <div class="pcg-menu-room"><span>Room left before bedtime</span><b>94 mg</b></div>
-          </div>
-          <div class="pcg-menu-sec">Fits your comfort zone</div>
-          <div class="pcg-menu-item fit"><span class="pcg-menu-name">Cortado<span class="pcg-menu-tick">✓</span></span><span class="pcg-menu-mg">63 mg</span></div>
-          <div class="pcg-menu-item fit"><span class="pcg-menu-name">Cappuccino<span class="pcg-menu-tick">✓</span></span><span class="pcg-menu-mg">75 mg</span></div>
-          <div class="pcg-menu-item fit"><span class="pcg-menu-name">Single Espresso<span class="pcg-menu-tick">✓</span></span><span class="pcg-menu-mg">63 mg</span></div>
-          <div class="pcg-menu-sec dim">Over your comfort zone</div>
-          <div class="pcg-menu-item over"><span class="pcg-menu-name">Latte &middot; 12oz</span><span class="pcg-menu-mg">128 mg</span></div>
-          <div class="pcg-menu-item over"><span class="pcg-menu-name">Pour-Over &middot; 12oz</span><span class="pcg-menu-mg">145 mg</span></div>
-          <div class="pcg-menu-item over"><span class="pcg-menu-name">Cold Brew &middot; 16oz</span><span class="pcg-menu-mg">205 mg</span></div>
+          <div class="pcg-headroom"><span class="pcg-headroom-lbl">Room before bedtime</span><span class="pcg-headroom-val">94 mg</span></div>
+          <div class="pcg-crumb"><span class="seg">Coffee shop</span><span>&rsaquo;</span><span class="cur">Coffee</span></div>
+          <div class="pcg-oas-note">Highlighted options fit your window</div>
+          <div class="pcg-drink fit"><span class="pcg-drink-name">Pour Over<span class="sz">· 6oz</span></span><span class="pcg-drink-r"><span class="pcg-drink-mg">55 mg</span><span class="pcg-drink-chev">▾</span></span></div>
+          <div class="pcg-drink fit"><span class="pcg-drink-name">French Press<span class="sz">· 8oz</span></span><span class="pcg-drink-r"><span class="pcg-drink-mg">90 mg</span><span class="pcg-drink-chev">▾</span></span></div>
+          <div class="pcg-drink fit"><span class="pcg-drink-name">Iced Coffee<span class="sz">· 8oz</span></span><span class="pcg-drink-r"><span class="pcg-drink-mg">90 mg</span><span class="pcg-drink-chev">▾</span></span></div>
+          <div class="pcg-drink over"><span class="pcg-drink-name">Drip / Filter<span class="sz">· 12oz</span></span><span class="pcg-drink-r"><span class="pcg-drink-mg">110 mg</span><span class="pcg-drink-chev">▾</span></span></div>
+          <div class="pcg-drink over"><span class="pcg-drink-name">Cold Brew<span class="sz">· 8oz</span></span><span class="pcg-drink-r"><span class="pcg-drink-mg">155 mg</span><span class="pcg-drink-chev">▾</span></span></div>
         </div>
       </div>
 
