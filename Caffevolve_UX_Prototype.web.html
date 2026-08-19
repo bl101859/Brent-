@@ -181,6 +181,28 @@ body {
   to   { opacity: 1; transform: translateX(0); }
 }
 
+/* ── "MORE BELOW" SCROLL CUE ──────────────────────────
+   A single floating chevron pinned to the bottom-center of the phone
+   viewport. It appears on any active screen whose content runs past the
+   bottom of the frame, and fades out the moment the user nears the end —
+   mirroring the scroll cue used on the Portal index. Tapping it nudges
+   the current screen down. Sits below every modal/overlay (z-index >= 200). */
+#proto-scroll-cue {
+  position: absolute; left: 50%; bottom: 12px;
+  transform: translateX(-50%) translateY(6px);
+  z-index: 45; opacity: 0; pointer-events: none;
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(28,13,3,.58); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  border: 1px solid rgba(212,168,85,.4);
+  box-shadow: 0 4px 14px rgba(0,0,0,.35);
+  color: var(--gold, #D4A855); cursor: pointer;
+  transition: opacity .4s ease, transform .4s ease;
+}
+#proto-scroll-cue.visible { opacity: .92; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+#proto-scroll-cue svg { display: block; animation: protoCueBob 1.8s ease-in-out infinite; }
+@keyframes protoCueBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+
 /* ── GLOBAL SCREEN COMPONENTS ────────────────────────── */
 .progress-bar {
   display: flex;
@@ -2944,6 +2966,13 @@ input[type="range"]::-moz-range-thumb {
   <div style="font-size:56px;line-height:1;">✓</div>
   <div id="sp-overlay-name" style="font-family:var(--font-display);font-style:italic;font-size:1.4rem;font-weight:600;color:var(--gold-light);text-align:center;padding:0 24px;"></div>
   <div style="font-size:13px;color:var(--text-muted);text-align:center;">sub-profile saved</div>
+</div>
+
+<!-- "MORE BELOW" SCROLL CUE — shown on any active screen whose content overflows -->
+<div id="proto-scroll-cue" aria-hidden="true" title="More below">
+  <svg viewBox="0 0 24 24" width="20" height="20">
+    <path d="M4 8 L12 16 L20 8" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
 </div>
 
 <!-- ══════════════════════════════════════════════════════
@@ -17375,6 +17404,53 @@ function renderGlossary() {
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();
+})();
+</script>
+
+<!-- ── "MORE BELOW" SCROLL CUE CONTROLLER ──────────────────────────────
+     Shows the floating chevron on any active screen whose content runs
+     past the bottom of the phone viewport, and hides it near the end. -->
+<script>
+(function(){
+  const cue = document.getElementById('proto-scroll-cue');
+  const viewport = document.querySelector('.screen-viewport');
+  if (!cue || !viewport) return;
+
+  function update(){
+    const scr = document.querySelector('.screen.active');
+    if (!scr){ cue.classList.remove('visible'); return; }
+    const overflow  = scr.scrollHeight - scr.clientHeight;   // total hidden below
+    const remaining = overflow - scr.scrollTop;              // still below the fold
+    // Show only when there is meaningful overflow AND the user isn't near the end.
+    const show = overflow > 24 && remaining > 40;
+    cue.classList.toggle('visible', show);
+  }
+
+  // Tap the cue to nudge the current screen down.
+  cue.addEventListener('click', function(){
+    const scr = document.querySelector('.screen.active');
+    if (scr) scr.scrollBy({ top: Math.round(scr.clientHeight * 0.7), behavior: 'smooth' });
+  });
+
+  // Scroll events don't bubble, so capture them from any inner .screen.
+  viewport.addEventListener('scroll', update, true);
+  window.addEventListener('resize', update);
+
+  // Re-check the instant a new screen is shown.
+  if (typeof window.goto === 'function'){
+    const _prevGoto = window.goto;
+    window.goto = function(id){
+      const r = _prevGoto.apply(this, arguments);
+      requestAnimationFrame(update);
+      setTimeout(update, 260);   // after content/images settle
+      return r;
+    };
+  }
+
+  // Safety net for late layout shifts (image loads, dynamic content).
+  setInterval(update, 800);
+  window.addEventListener('load', update);
+  update();
 })();
 </script>
 
