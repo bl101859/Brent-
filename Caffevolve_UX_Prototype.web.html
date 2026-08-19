@@ -4838,6 +4838,14 @@ input[type="range"]::-moz-range-thumb {
       <div class="seg-opt selected" onclick="segSelect(this);ps2aSync()">Medium</div>
       <div class="seg-opt" onclick="segSelect(this);ps2aSync()" id="strong-opt" data-goto-auto="true">Strong</div>
     </div>
+    <!-- Sub-profile window active — strength pre-set from the window; parallels the additive note -->
+    <div id="ps2a-subprofile-strength" style="display:none;align-items:center;gap:6px;background:rgba(61,170,110,.08);border:1px solid rgba(61,170,110,.25);border-radius:8px;padding:6px 10px;margin-top:8px;">
+      <span style="font-size:13px;">⏱</span>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--green-accent);">Sub-profile window active</div>
+        <div style="font-size:10px;color:var(--text-muted);">Strength set to <span id="ps2a-subprofile-strength-val" style="font-weight:700;color:var(--green-accent);">Medium</span> — adjust above if needed</div>
+      </div>
+    </div>
   </div>
 
   <!-- Additives section — always shown, content depends on path and sub-profile window -->
@@ -7727,6 +7735,7 @@ function goto(id) {
       if (spRow) spRow.style.display = '';
       if (carouselWrap) carouselWrap.style.display = '';
       // Pre-select the strength selector to the sub-profile window's saved strength
+      const strNote = document.getElementById('ps2a-subprofile-strength');
       if (sp.strength) {
         const strSel = document.getElementById('ps2a-strength-selector');
         if (strSel) {
@@ -7735,12 +7744,22 @@ function goto(id) {
           });
           ps2aSync(); // fold the pre-selected strength into the brew baseline
         }
+        // Surface a note that the strength came from the active window
+        if (strNote) {
+          const strVal = document.getElementById('ps2a-subprofile-strength-val');
+          if (strVal) strVal.textContent = sp.strength;
+          strNote.style.display = 'flex';
+        }
+      } else if (strNote) {
+        strNote.style.display = 'none';
       }
       // Pre-load SP additives then render carousel
       renderPS2aAdditives(sp);
     } else {
       // No sub-profile window — show SU12 preferred list carousel
       if (spRow) spRow.style.display = 'none';
+      const strNote = document.getElementById('ps2a-subprofile-strength');
+      if (strNote) strNote.style.display = 'none';
       if (carouselWrap) carouselWrap.style.display = '';
       renderPS2aAdditives();
     }
