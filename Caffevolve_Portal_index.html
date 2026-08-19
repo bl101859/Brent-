@@ -3557,6 +3557,30 @@ body{
 }
 .hero-choice-badge .badge-star{ letter-spacing:0; }
 
+/* ── Full-access return welcome banner ── */
+#fullAccessWelcome{
+  border:1px solid rgba(212,168,83,.5);
+  background:linear-gradient(135deg, rgba(184,117,58,.16), rgba(46,26,13,.28));
+  border-radius:14px; padding:1.1rem 1.3rem 1.2rem; margin-bottom:1.7rem;
+  box-shadow:0 6px 22px rgba(184,117,58,.16);
+}
+.fa-welcome-badge{
+  display:inline-block; font-family:var(--mono); font-size:0.56rem; font-weight:700;
+  letter-spacing:0.16em; text-transform:uppercase; color:var(--roast-2);
+  background:linear-gradient(90deg, var(--copper), var(--gold)); padding:0.24rem 0.62rem;
+  border-radius:100px; margin-bottom:0.7rem;
+}
+.fa-welcome-badge .badge-star{ letter-spacing:0; }
+.fa-welcome-title{ font-family:var(--serif); font-size:2rem; color:var(--gold); line-height:1.1; margin-bottom:0.45rem; }
+.fa-welcome-sub{ font-family:var(--sans); font-size:0.92rem; color:var(--cream); line-height:1.5; margin-bottom:0.8rem; }
+.fa-welcome-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.5rem; }
+.fa-welcome-list li{
+  font-family:var(--sans); font-size:0.85rem; color:var(--cream-dim); line-height:1.5;
+  padding-left:1.4rem; position:relative;
+}
+.fa-welcome-list li::before{ content:"✓"; position:absolute; left:0; top:0; color:var(--gold); font-weight:700; }
+.fa-welcome-list li b{ color:var(--cream); font-weight:600; }
+
 
 /* ── Section Directory overlay (jump to any section from anywhere) ── */
 .section-directory-overlay{
@@ -3991,11 +4015,21 @@ body{
 
   <div class="portal-hero" id="portal-hero-section">
     <div class="portal-hero-text">
+      <!-- Full-access return welcome — hidden until Full Access is active; shown by revealFullAccessDocs() -->
+      <div id="fullAccessWelcome" style="display:none;">
+        <div class="fa-welcome-badge"><span class="badge-star">★</span> Full Access</div>
+        <div class="fa-welcome-title">Welcome back.</div>
+        <p class="fa-welcome-sub">Your Full Access is active — a couple of things are now open to you that weren't before:</p>
+        <ul class="fa-welcome-list">
+          <li><b>The Live Interactive Prototype</b> — launch it any time from the highlighted card below.</li>
+          <li><b>Every investor &amp; licensee document</b> — the deck, term sheet, founder profile, platform reference, and cap table model, each open for online review or download. No request needed.</li>
+        </ul>
+      </div>
       <div class="eyebrow">Investor Portal / Licensee Portal</div>
       <h1>You're in. We are glad you are here.</h1>
       <p>Welcome to the Caffevolve platform portal. Before you review the documents, please spend a few minutes with the Platform itself — because Caffevolve is best understood not just with words, but in motion.</p>
       <p>Here you'll find the platform brought to life: a step-by-step walkthrough of how it thinks and brews, from reading a person's unique situation to delivering a precisely tailored cup. You'll see it work through real, everyday cases — different people, different needs, different recommendations — the same intelligence adapting to each. And you'll see the larger idea behind it all: a platform built to reshape one of the world's most practiced daily rituals, so that billions can keep the benefits of coffee while leaving behind the cost it so often carries.</p>
-      <p>Once you've seen it, the business is laid out in full. The core package — investor deck, term sheet, and founder background — is yours now under the NDA you just signed. The platform architecture documentation, Full UX prototype and cap table model can also be viewed by requesting access in the documents section.</p>
+      <p id="heroDocsParagraph">Once you've seen it, the business is laid out in full. The core package — investor deck, term sheet, and founder background — is yours now under the NDA you just signed. The platform architecture documentation, Full UX prototype and cap table model can also be viewed by requesting access in the documents section.</p>
     </div>
     <svg class="portal-hero-cup" viewBox="0 -10 140 185" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <g class="steam-wisp" fill="none" stroke="var(--copper)" stroke-width="2.6" stroke-linecap="round">
@@ -6712,6 +6746,16 @@ function revealFullAccessDocs(){
   // only once Full Access (2nd-level approval) is granted.
   const uxBox = document.getElementById('uxPrototypeHeroChoice');
   if (uxBox) uxBox.style.display = '';
+
+  // Full-access return: greet them on the welcome screen and spell out the
+  // privileges they've been granted, replacing the first-visit "request access"
+  // copy that no longer applies to them.
+  const welcome = document.getElementById('fullAccessWelcome');
+  if (welcome) welcome.style.display = '';
+  const docsPara = document.getElementById('heroDocsParagraph');
+  if (docsPara){
+    docsPara.innerHTML = "Once you've seen it, the business is laid out in full. Every investor and licensee document — the deck, term sheet, founder background, platform architecture reference, and cap table model — is now yours to review online or download. And the Full UX Prototype is live above, whenever you'd like to step inside the product.";
+  }
 
   const referenceCard = Array.from(document.querySelectorAll('.doc-card'))
     .find(c => c.querySelector('h3') && c.querySelector('h3').textContent.includes('Platform Reference'));
