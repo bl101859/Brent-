@@ -7726,6 +7726,16 @@ function goto(id) {
       // Sub-profile window active — show note, pre-load additives into carousel as defaults
       if (spRow) spRow.style.display = '';
       if (carouselWrap) carouselWrap.style.display = '';
+      // Pre-select the strength selector to the sub-profile window's saved strength
+      if (sp.strength) {
+        const strSel = document.getElementById('ps2a-strength-selector');
+        if (strSel) {
+          strSel.querySelectorAll('.seg-opt').forEach(opt => {
+            opt.classList.toggle('selected', opt.textContent.trim() === sp.strength);
+          });
+          ps2aSync(); // fold the pre-selected strength into the brew baseline
+        }
+      }
       // Pre-load SP additives then render carousel
       renderPS2aAdditives(sp);
     } else {
@@ -8442,18 +8452,34 @@ function renderPS2aAdditives(activeSP) {
     })
     .filter(Boolean);
 
-  // Filter to only those the user selected in SU12 (profile additive list)
-  // su12DefaultState[id] === true means the user toggled it ON in SU12
-  const assigned = deviceLoaded.filter(a => su12DefaultState[a.id] === true);
-
-  // Profile-selected additives NOT currently loaded in the device — shown struck-through
-  const unavailable = savedAdditives
-    .filter(s => su12DefaultState[s.id] === true && !deviceLoaded.find(a => a.id === s.id))
-    .map(s => {
-      const a = ADDITIVE_CATALOG.find(x => x.id === s.id);
-      return a ? { ...a, _unavailable: true, _savedMult: s.mult } : null;
-    })
-    .filter(Boolean);
+  let assigned, unavailable;
+  if (activeSP) {
+    // Sub-profile window active — the sub-profile's saved additives ARE the
+    // authoritative selection for this window. Surface every saved additive
+    // (toggled ON below via savedAdditives) directly from the catalog, rather
+    // than filtering through the device-global SU12 default list — that list is
+    // not synced to preset profiles, so filtering here silently dropped the
+    // window's saved additives and the screen showed "none selected".
+    assigned = savedAdditives
+      .map(s => {
+        const a = ADDITIVE_CATALOG.find(x => x.id === s.id);
+        return a ? { ...a, slot: canisterSlots[s.id] } : null;
+      })
+      .filter(Boolean);
+    unavailable = [];
+  } else {
+    // No sub-profile — show the profile's SU12 preferred additive list.
+    // su12DefaultState[id] === true means the user toggled it ON in SU12.
+    assigned = deviceLoaded.filter(a => su12DefaultState[a.id] === true);
+    // Profile-selected additives NOT currently loaded in the device — struck-through
+    unavailable = savedAdditives
+      .filter(s => su12DefaultState[s.id] === true && !deviceLoaded.find(a => a.id === s.id))
+      .map(s => {
+        const a = ADDITIVE_CATALOG.find(x => x.id === s.id);
+        return a ? { ...a, _unavailable: true, _savedMult: s.mult } : null;
+      })
+      .filter(Boolean);
+  }
 
   // Full list: available first, then unavailable
   const allItems = [...assigned, ...unavailable];
