@@ -4322,7 +4322,7 @@ input[type="range"]::-moz-range-thumb {
     <div class="divider" style="margin-bottom:12px;"></div>
 
     <div class="summary-row">
-      <span class="sum-label">Grind setting</span>
+      <span class="sum-label"><span class="term-link" onclick="showTerm('grind-setting')">Grind setting</span></span>
       <span class="sum-val" style="display:flex;align-items:center;gap:10px;">
         <span id="su13-grind">Medium</span>
         <button onclick="setupMode='edit';goto('SU-GRIND')" style="background:none;border:1px solid rgba(139,69,19,.25);border-radius:6px;font-family:var(--font-ui);font-size:11px;color:var(--accent);cursor:pointer;padding:3px 10px;letter-spacing:.02em;">Edit</button>
@@ -17160,6 +17160,11 @@ const GLOSSARY = [
     def:  'The ratio of caffeinated to decaf beans Caffevolve™ calculates for your next brew. Computed fresh every session using your current residual caffeine, your Wake Hours Ceiling, your Bedtime Ceiling, and how long until you sleep. The goal: keep you in your Peak Zone and clear by bedtime.',
   },
   {
+    id:   'grind-setting',
+    term: 'Grind Setting',
+    def:  'How coarse or fine the beans are ground for your brew, on a numbered scale — coarser grinds make a lighter, brighter cup, while finer grinds extract deeper and bolder. You set your preference during setup and the device grinds to it on every brew; you can change it anytime.',
+  },
+  {
     id:   'work-bedtime',
     term: 'Work-day Bedtime',
     def:  'The time you declared as your typical sleep time after a work shift. Caffevolve™ uses this to ensure your caffeine blend recommendation keeps your residual caffeine at or below your Bedtime Ceiling by the time you sleep.',
@@ -17193,7 +17198,7 @@ const GLOSSARY_GROUPS = [
   },
   {
     label: 'Brew Intelligence',
-    ids: ['blend-recommendation'],
+    ids: ['blend-recommendation','grind-setting'],
   },
   {
     label: 'Bedtime & Schedule',
