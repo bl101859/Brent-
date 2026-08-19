@@ -8914,7 +8914,11 @@ function launchBrewNow() {
 
   // Determine recommended caf% against both ceilings
   const bn          = p ? (p.bnProfile || {}) : {};
-  const strengthMult = STRENGTH_MULT[bn.strength || 'Medium'] || STRENGTH_MULT.Medium;
+  // An active sub-profile window takes priority over the bnProfile defaults —
+  // its strength (like its additives) drives this brew.
+  const activeSP    = getActiveSubProfile();
+  const effStrength = (activeSP && activeSP.strength) ? activeSP.strength : (bn.strength || 'Medium');
+  const strengthMult = STRENGTH_MULT[effStrength] || STRENGTH_MULT.Medium;
   const servingOz   = parseInt(bn.size || '12') || 12;
   const cafMg       = servingOz * BASE_CAF_PER_OZ * strengthMult * beanFamilyMult() * (bn.count || 1);
 
@@ -8934,7 +8938,6 @@ function launchBrewNow() {
 
   // Pull serving, strength, additives from bnProfile / active sub-profile
   // Additives — sub-profile window takes priority over bnProfile
-  const activeSP = getActiveSubProfile();
   let bnAddText = 'None';
   if (activeSP && activeSP.additives) {
     const lines = [];
@@ -8970,7 +8973,7 @@ function launchBrewNow() {
   brewSession.blendLabel   = recCafPct + '% Caf · ' + (100 - recCafPct) + '% Decaf';
   brewSession.servingSize  = bn.size     || '12 oz';
   brewSession.servingCount = bn.count    || 1;
-  brewSession.strength     = bn.strength || 'Medium';
+  brewSession.strength     = effStrength;
   brewSession.additives    = bnAddText;
   brewSession._bnAddSource = activeSP ? activeSP.name : null;
   // Store exact mg for daily log — same calculation as the engine
@@ -13491,9 +13494,16 @@ function renderPS5aAdditives() {
     // Outside sub-profile window → all OFF (user actively selects)
     let isOn = false;
     let initMult = su12MultState[a.id] || '1.0x';
-    if (activeSP && activeSP.additives && activeSP.additives[a.id]) {
-      isOn    = activeSP.additives[a.id].on !== false;
-      initMult = activeSP.additives[a.id].mult || initMult;
+    if (activeSP && activeSP.additives) {
+      if (Array.isArray(activeSP.additives)) {
+        // New format: [{id, name, mult}] — presence means ON
+        const spA = activeSP.additives.find(x => x.id === a.id);
+        if (spA) { isOn = true; initMult = spA.mult || initMult; }
+      } else if (activeSP.additives[a.id]) {
+        // Legacy format: {id: {on, mult}}
+        isOn    = activeSP.additives[a.id].on !== false;
+        initMult = activeSP.additives[a.id].mult || initMult;
+      }
     }
 
     const item = document.createElement('div');
