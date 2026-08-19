@@ -3,3 +3,7 @@
 ref_screens/
 ref_screens2/
 ref_extract/
+
+# rendered PDF preview scratch
+_pdfpage_*.png
+_pdf_contact.png
