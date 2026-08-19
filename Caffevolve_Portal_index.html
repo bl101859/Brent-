@@ -4034,6 +4034,15 @@ body{
         </div>
         <div class="hero-choice-desc">The full guided walkthrough — see the platform think and brew, start to finish.</div>
       </div>
+      <!-- User-Experience Prototype — hidden until Full Access (2nd-level approval)
+           is granted; revealed by revealFullAccessDocs(). Sits just right of "Platform in Action". -->
+      <div class="hero-choice" id="uxPrototypeHeroChoice" style="display:none;" onclick="window.open('Caffevolve_UX_Prototype.web.html','_blank','noopener')">
+        <div class="hero-choice-top">
+          <div class="hero-choice-num" style="font-style:normal;font-size:0.95rem;line-height:1.1;">▶</div>
+          <div class="hero-choice-title"><span>User-Experience Prototype</span></div>
+        </div>
+        <div class="hero-choice-desc">See what the User sees as they interact with the Caffevolve Platform.</div>
+      </div>
       <div class="hero-choice" onclick="openSectionDirectory()">
         <div class="hero-choice-top">
           <div class="hero-choice-num">02</div>
@@ -5657,14 +5666,6 @@ body{
         <a class="doc-link full-access-request-btn" href="#" onclick="openFullAccessModal(); return false;">Request Full Access →</a>
       </div>
     </div>
-    <div class="doc-card">
-      <div class="doc-icon">06</div>
-      <h3>UX Prototype</h3>
-      <p>The full interactive prototype — guest profiles, sub-profile scheduling, OAS drill-down, and the Adaptive Feedback System, click by click. View only.</p>
-      <div class="doc-links">
-        <a class="doc-link full-access-request-btn" href="#" onclick="openFullAccessModal(); return false;">Request Full Access →</a>
-      </div>
-    </div>
   </div>
 
   <div class="hero-scroll-cue reverse" style="margin:3rem auto 0;" onclick="scrollToSection('portal-hero-section', true)">
@@ -6670,10 +6671,14 @@ function revealFullAccessDocs(){
 
   if (!fullAccess) return;
 
+  // The UX Prototype is surfaced as a fourth choice on the welcome screen
+  // (right of "Platform in Action"), not in the documents library. Reveal it
+  // only once Full Access (2nd-level approval) is granted.
+  const uxBox = document.getElementById('uxPrototypeHeroChoice');
+  if (uxBox) uxBox.style.display = '';
+
   const referenceCard = Array.from(document.querySelectorAll('.doc-card'))
     .find(c => c.querySelector('h3') && c.querySelector('h3').textContent.includes('Platform Reference'));
-  const prototypeCard = Array.from(document.querySelectorAll('.doc-card'))
-    .find(c => c.querySelector('h3') && c.querySelector('h3').textContent.includes('UX Prototype'));
 
   if (referenceCard && !referenceCard.dataset.fullAccessRevealed){
     const links = referenceCard.querySelector('.doc-links');
@@ -6681,13 +6686,6 @@ function revealFullAccessDocs(){
       '<a class="doc-link" href="Caffevolve_Platform_Reference.web.html" target="_blank" rel="noopener">View Now <span style="color:var(--clay); font-size:0.8em;">(opens in a new tab)</span></a>' +
       '<a class="doc-link doc-link-secondary" href="Caffevolve_Platform_Reference.web.pdf" download>Download ↓</a>';
     referenceCard.dataset.fullAccessRevealed = 'true';
-  }
-  if (prototypeCard && !prototypeCard.dataset.fullAccessRevealed){
-    const links = prototypeCard.querySelector('.doc-links');
-    links.innerHTML =
-      '<a class="doc-link" href="Caffevolve_UX_Prototype.web.html" target="_blank" rel="noopener">View Now <span style="color:var(--clay); font-size:0.8em;">(opens in a new tab)</span></a>';
-    prototypeCard.querySelector('p').textContent = 'The full interactive prototype — guest profiles, sub-profile scheduling, OAS drill-down, and the Adaptive Feedback System, click by click. View only.';
-    prototypeCard.dataset.fullAccessRevealed = 'true';
   }
 }
 
