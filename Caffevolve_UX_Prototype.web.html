@@ -4313,7 +4313,7 @@ input[type="range"]::-moz-range-thumb {
       <div class="summary-row" style="padding:10px 14px;border-bottom:1px solid var(--border-light);"><span class="sum-label"><span class="term-link" onclick="showTerm('tipping-point-ceiling')">Wake-Hours Ceiling</span></span><span class="sum-val" id="su13-tpc">300 mg</span></div>
       <div class="summary-row" style="padding:10px 14px;border-bottom:1px solid var(--border-light);"><span class="sum-label"><span class="term-link" onclick="showTerm('bedtime-ceiling')">Bedtime Ceiling</span></span><span class="sum-val" id="su13-bc">50 mg</span></div>
       <div class="summary-row" style="padding:10px 14px;border-bottom:1px solid var(--border-light);"><span class="sum-label"><span class="term-link" onclick="showTerm('peak-zone')">Peak-Zone Floor</span></span><span class="sum-val" id="su13-floor">40 mg</span></div>
-      <div class="summary-row" style="padding:10px 14px;"><span class="sum-label">Caffeine Decay Rate</span><span class="sum-val" id="su13-t12">6.0 hr</span></div>
+      <div class="summary-row" style="padding:10px 14px;"><span class="sum-label"><span class="term-link" onclick="showTerm('caffeine-decay-rate')">Caffeine Decay Rate</span></span><span class="sum-val" id="su13-t12">6.0 hr</span></div>
     </div>
     <div style="text-align:right;margin-bottom:14px;">
       <button onclick="setupMode='edit';goto('SU9a')" style="background:none;border:none;font-family:var(--font-ui);font-size:11px;color:var(--accent);cursor:pointer;padding:4px 2px;text-decoration:underline;text-underline-offset:3px;letter-spacing:.01em;">Fine-tune ceilings →</button>
@@ -5229,6 +5229,7 @@ input[type="range"]::-moz-range-thumb {
       <!-- ── SLIDE-UP TERM PANEL — must be inside screen-viewport for position:absolute to clip correctly ── -->
       <div id="term-panel-backdrop" onclick="closeTerm()" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:8000;border-radius:30px;"></div>
       <div id="term-panel" style="display:none;position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:20px 20px 0 0;z-index:8001;padding:24px 22px 32px;box-shadow:0 -8px 32px rgba(0,0,0,.18);overflow-y:auto;max-height:85%;">
+        <button onclick="closeTerm()" style="position:absolute;top:14px;left:14px;background:none;border:none;font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--gold-dim);cursor:pointer;padding:4px 6px;display:flex;align-items:center;gap:2px;line-height:1;"><span style="font-size:18px;line-height:1;">&lsaquo;</span> Back</button>
         <div style="width:36px;height:4px;background:#e0d4c8;border-radius:4px;margin:0 auto 18px;"></div>
         <div style="font-family:var(--font-display);font-style:italic;font-size:20px;color:var(--text-dark);margin-bottom:10px;" id="term-panel-title">Term</div>
         <div style="font-size:14px;color:var(--text-mid);line-height:1.65;" id="term-panel-body">Definition.</div>
@@ -17149,6 +17150,11 @@ const GLOSSARY = [
     def:  'The range between your minimum effective caffeine level (the floor) and your Wake Hours Ceiling. Inside the Peak Zone you\'re alert and performing well — not too little, not too much. Caffevolve™ aims to keep you here during your active hours while ensuring you clear it before bed.',
   },
   {
+    id:   'caffeine-decay-rate',
+    term: 'Caffeine Decay Rate',
+    def:  'How quickly your body clears caffeine — expressed as the time it takes for half of a given amount to leave your system (its half-life). Caffevolve™ derives this for you and uses it to project how your residual caffeine falls through the day and toward bedtime, so every blend recommendation reflects your own clearance speed.',
+  },
+  {
     id:   'blend-recommendation',
     term: 'Caffeine Blend Recommendation',
     def:  'The ratio of caffeinated to decaf beans Caffevolve™ calculates for your next brew. Computed fresh every session using your current residual caffeine, your Wake Hours Ceiling, your Bedtime Ceiling, and how long until you sleep. The goal: keep you in your Peak Zone and clear by bedtime.',
@@ -17183,7 +17189,7 @@ const GLOSSARY = [
 const GLOSSARY_GROUPS = [
   {
     label: 'Your Caffeine Profile',
-    ids: ['sensitivity-tier','residual-caffeine','tipping-point-ceiling','bedtime-ceiling','peak-zone'],
+    ids: ['sensitivity-tier','residual-caffeine','tipping-point-ceiling','bedtime-ceiling','peak-zone','caffeine-decay-rate'],
   },
   {
     label: 'Brew Intelligence',
