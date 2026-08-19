@@ -3522,6 +3522,41 @@ body{
   .hero-choice-list{ flex-direction:column; }
 }
 
+/* ── Featured "call-out" for the UX Prototype — our clearest show of progress:
+      a living, interactive product, not another PDF. Warm gradient, a soft
+      breathing glow, a gilded top ribbon, and a gently pulsing launch mark. ── */
+.hero-choice--featured{
+  position:relative; overflow:hidden; padding-top:1.75rem;
+  border-color:rgba(212,168,83,.6);
+  background:linear-gradient(135deg, rgba(184,117,58,.20), rgba(46,26,13,.30));
+  box-shadow:0 0 0 1px rgba(212,168,83,.20), 0 8px 24px rgba(184,117,58,.18);
+  animation:featuredGlow 3.6s ease-in-out infinite;
+}
+@keyframes featuredGlow{
+  0%,100%{ box-shadow:0 0 0 1px rgba(212,168,83,.18), 0 8px 20px rgba(184,117,58,.14); }
+  50%    { box-shadow:0 0 0 1px rgba(212,168,83,.42), 0 12px 32px rgba(184,117,58,.32); }
+}
+.hero-choice--featured:hover{
+  border-color:var(--gold);
+  background:linear-gradient(135deg, rgba(184,117,58,.28), rgba(46,26,13,.34));
+}
+.hero-choice--featured .hero-choice-title{ color:var(--gold); }
+.hero-choice--featured .hero-choice-desc{ color:var(--cream); }
+.hero-choice--featured .hero-choice-num{
+  color:var(--gold);
+  animation:featuredNudge 1.7s ease-in-out infinite; transform-origin:center;
+}
+@keyframes featuredNudge{ 0%,100%{ transform:translateX(0); opacity:.85; } 50%{ transform:translateX(3px); opacity:1; } }
+.hero-choice-badge{
+  position:absolute; top:0; left:0; right:0; text-align:center;
+  font-family:var(--mono); font-weight:700; font-size:0.54rem;
+  letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--roast-2);
+  background:linear-gradient(90deg, var(--copper), var(--gold), var(--copper));
+  padding:0.32rem 0.4rem;
+}
+.hero-choice-badge .badge-star{ letter-spacing:0; }
+
 
 /* ── Section Directory overlay (jump to any section from anywhere) ── */
 .section-directory-overlay{
@@ -4036,7 +4071,8 @@ body{
       </div>
       <!-- User-Experience Prototype — hidden until Full Access (2nd-level approval)
            is granted; revealed by revealFullAccessDocs(). Sits just right of "Platform in Action". -->
-      <div class="hero-choice" id="uxPrototypeHeroChoice" style="display:none;" onclick="window.open('Caffevolve_UX_Prototype.web.html','_blank','noopener')">
+      <div class="hero-choice hero-choice--featured" id="uxPrototypeHeroChoice" style="display:none;" onclick="window.open('Caffevolve_UX_Prototype.web.html','_blank','noopener')">
+        <div class="hero-choice-badge"><span class="badge-star">★</span> Live Interactive Demo</div>
         <div class="hero-choice-top">
           <div class="hero-choice-num" style="font-style:normal;font-size:0.95rem;line-height:1.1;">▶</div>
           <div class="hero-choice-title"><span>User-Experience Prototype</span></div>
