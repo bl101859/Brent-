@@ -259,7 +259,9 @@
 
   @media print {
     html, body { background: white; margin: 0; padding: 0; }
-    .page-cont .page-header { display: none !important; }
+    /* Running header (doc title + section label) removed from the PDF entirely.
+       TOC page numbers are reconciled to the resulting pagination below. */
+    .page-header { display: none !important; }
 
     /* ── PAGE STRUCTURE ── */
     .page {
@@ -462,25 +464,25 @@
   <a class="toc-row toc-l2" href="#sec-2d"><span class="toc-title">D&nbsp;&nbsp;Building the Caffeine Recommendation</span><span class="toc-dots"></span><span class="toc-pg">13</span></a>
   <a class="toc-row toc-l2" href="#sec-2-cases"><span class="toc-title">Case Studies</span><span class="toc-dots"></span><span class="toc-pg">15</span></a>
 
-  <a class="toc-row toc-l1" href="#sec-3"><span class="toc-title">3&nbsp;&nbsp;The Adaptive Feedback System</span><span class="toc-dots"></span><span class="toc-pg">20</span></a>
+  <a class="toc-row toc-l1" href="#sec-3"><span class="toc-title">3&nbsp;&nbsp;The Adaptive Feedback System</span><span class="toc-dots"></span><span class="toc-pg">19</span></a>
 
-  <a class="toc-row toc-l1" href="#sec-4"><span class="toc-title">4&nbsp;&nbsp;The User Profile</span><span class="toc-dots"></span><span class="toc-pg">29</span></a>
+  <a class="toc-row toc-l1" href="#sec-4"><span class="toc-title">4&nbsp;&nbsp;The User Profile</span><span class="toc-dots"></span><span class="toc-pg">28</span></a>
 
-  <a class="toc-row toc-l1" href="#sec-5"><span class="toc-title">5&nbsp;&nbsp;The Device</span><span class="toc-dots"></span><span class="toc-pg">31</span></a>
-  <a class="toc-row toc-l2" href="#sec-51"><span class="toc-title">5.1&nbsp;&nbsp;The Hardware</span><span class="toc-dots"></span><span class="toc-pg">32</span></a>
-  <a class="toc-row toc-l3" href="#sec-51a"><span class="toc-title">5.1a&nbsp;&nbsp;Brew Components</span><span class="toc-dots"></span><span class="toc-pg">32</span></a>
-  <a class="toc-row toc-l3" href="#sec-51b"><span class="toc-title">5.1b&nbsp;&nbsp;The Additive System</span><span class="toc-dots"></span><span class="toc-pg">38</span></a>
+  <a class="toc-row toc-l1" href="#sec-5"><span class="toc-title">5&nbsp;&nbsp;The Device</span><span class="toc-dots"></span><span class="toc-pg">30</span></a>
+  <a class="toc-row toc-l2" href="#sec-51"><span class="toc-title">5.1&nbsp;&nbsp;The Hardware</span><span class="toc-dots"></span><span class="toc-pg">31</span></a>
+  <a class="toc-row toc-l3" href="#sec-51a"><span class="toc-title">5.1a&nbsp;&nbsp;Brew Components</span><span class="toc-dots"></span><span class="toc-pg">31</span></a>
+  <a class="toc-row toc-l3" href="#sec-51b"><span class="toc-title">5.1b&nbsp;&nbsp;The Additive System</span><span class="toc-dots"></span><span class="toc-pg">37</span></a>
 
-  <a class="toc-row toc-l1" href="#sec-6"><span class="toc-title">6&nbsp;&nbsp;CaffevolveGo</span><span class="toc-dots"></span><span class="toc-pg">44</span></a>
+  <a class="toc-row toc-l1" href="#sec-6"><span class="toc-title">6&nbsp;&nbsp;CaffevolveGo</span><span class="toc-dots"></span><span class="toc-pg">43</span></a>
 
   <a class="toc-row toc-l1" href="#sec-7"><span class="toc-title">7&nbsp;&nbsp;The User Experience</span><span class="toc-dots"></span><span class="toc-pg">45</span></a>
   <a class="toc-row toc-l2" href="#sec-6-setup"><span class="toc-title">Device Set-up</span><span class="toc-dots"></span><span class="toc-pg">45</span></a>
   <a class="toc-row toc-l2" href="#sec-6-household"><span class="toc-title">Resident User — User Profile Set-up</span><span class="toc-dots"></span><span class="toc-pg">51</span></a>
   <a class="toc-row toc-l2" href="#sec-6-household-brew"><span class="toc-title">Resident User Brew Paths</span><span class="toc-dots"></span><span class="toc-pg">59</span></a>
-  <a class="toc-row toc-l2" href="#sec-6-guest"><span class="toc-title">Guest User</span><span class="toc-dots"></span><span class="toc-pg">69</span></a>
-  <a class="toc-row toc-l2" href="#sec-6-cgo"><span class="toc-title">CaffevolveGo</span><span class="toc-dots"></span><span class="toc-pg">76</span></a>
-  <a class="toc-row toc-l3" href="#sec-6-ece"><span class="toc-title">External Caffeine Entry (ECE)</span><span class="toc-dots"></span><span class="toc-pg">77</span></a>
-  <a class="toc-row toc-l3" href="#sec-6-oas"><span class="toc-title">Offsite Advisory System (OAS)</span><span class="toc-dots"></span><span class="toc-pg">80</span></a>
+  <a class="toc-row toc-l2" href="#sec-6-guest"><span class="toc-title">Guest User</span><span class="toc-dots"></span><span class="toc-pg">68</span></a>
+  <a class="toc-row toc-l2" href="#sec-6-cgo"><span class="toc-title">CaffevolveGo</span><span class="toc-dots"></span><span class="toc-pg">75</span></a>
+  <a class="toc-row toc-l3" href="#sec-6-ece"><span class="toc-title">External Caffeine Entry (ECE)</span><span class="toc-dots"></span><span class="toc-pg">76</span></a>
+  <a class="toc-row toc-l3" href="#sec-6-oas"><span class="toc-title">Offsite Advisory System (OAS)</span><span class="toc-dots"></span><span class="toc-pg">79</span></a>
 
   <a class="toc-row toc-l1" href="#index"><span class="toc-title">Index</span><span class="toc-dots"></span><span class="toc-pg">83</span></a>
 </div>
