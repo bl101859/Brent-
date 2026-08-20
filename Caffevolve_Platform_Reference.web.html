@@ -178,6 +178,7 @@
   .idx-row { font-family:'EB Garamond',serif; font-size:10.5pt; line-height:1.5; margin-bottom:4px;
     padding-left:14px; text-indent:-14px; break-inside:avoid; page-break-inside:avoid; color:var(--text); }
   .idx-pg { color:var(--text-muted); }
+  .idx-note { display:none; }
   a.idx-term { color:inherit; text-decoration:none; }
 
   @page {
@@ -262,6 +263,11 @@
     /* Running header (doc title + section label) removed from the PDF entirely.
        TOC page numbers are reconciled to the resulting pagination below. */
     .page-header { display: none !important; }
+    /* Index page numbers are individually hyperlinked (links added to the PDF
+       in post-processing); tint them so readers can see they are clickable. */
+    .idx-note { display:block !important; font-family:'EB Garamond',serif; font-style:italic;
+      font-size:9.5pt; color:var(--text-muted); margin:-4px 0 14px !important; }
+    .idx-pg { color: var(--gold) !important; }
 
     /* ── PAGE STRUCTURE ── */
     .page {
@@ -1230,6 +1236,7 @@
   <span class="section-label">Index</span>
 </div>
 <div class="h-section" id="index">Index</div>
+<p class="idx-note">Every page number below is a live link — click any number to jump straight to that page.</p>
 <div class="idx">
   <div class="idx-letter first">A</div>
   <div class="idx-row"><a class="idx-term" href="#sec-3">Adaptive Feedback System</a> <span class="idx-pg">7, 11, 20</span></div>
