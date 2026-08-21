@@ -7918,14 +7918,15 @@ function goto(id) {
       grindEl.textContent = grindLabels[g] || ('Step ' + g);
     }
 
-    // Locked demo presets cannot be edited — hide their edit controls
+    // Presets are fully editable (edits persist for the session; a reload
+    // restores the clean demo personas). Show all edit controls.
     const _isPreset    = isPresetProfile(currentProfileIdx);
     const _editProfBtn = document.getElementById('su13-edit-profile-btn');
     const _editBnBtn   = document.getElementById('su13-edit-bn-btn');
     const _editAddBtn  = document.getElementById('su13-edit-additives-btn');
-    if (_editProfBtn) _editProfBtn.style.display = _isPreset ? 'none' : '';
+    if (_editProfBtn) _editProfBtn.style.display = '';
     if (_editBnBtn)   _editBnBtn.style.display   = '';
-    if (_editAddBtn)  _editAddBtn.style.display  = _isPreset ? 'none' : '';
+    if (_editAddBtn)  _editAddBtn.style.display  = '';
 
     // Bottom button: when SU13 is a REVIEW of an existing profile (a preset, or a
     // profile that's already been committed) — as opposed to the setup-complete step
@@ -8112,6 +8113,15 @@ function goto(id) {
       .map(sid => { const a = ADDITIVE_CATALOG.find(x => x.id === sid); return a ? { ...a, slot: canisterSlots[sid] } : null; })
       .filter(Boolean)
       .sort((a, b) => SLOT_LAYOUT.indexOf(a.slot) - SLOT_LAYOUT.indexOf(b.slot));
+    // Editing a preset: open the editor on the profile's own stored additive
+    // state (bnProfile.additives) rather than the shared global, so the toggles
+    // reflect reality and edits round-trip. su12ConfirmAndContinue persists back.
+    if (isPresetProfile(currentProfileIdx)) {
+      const _bn = profiles[currentProfileIdx].bnProfile && profiles[currentProfileIdx].bnProfile.additives;
+      if (_bn) assigned.forEach(a => {
+        if (_bn[a.id]) { su12DefaultState[a.id] = _bn[a.id].on === true; su12MultState[a.id] = _bn[a.id].mult || '1.0x'; }
+      });
+    }
     renderSU12Additives(assigned);
   }
   if (id === 'SU12b') {
@@ -13459,6 +13469,20 @@ let su12ReturnScreen = 'SU12c'; // default: setup flow routes to SU12c first
 // SU12 → SU12c (in setup flow) or back to brew screen (if entered from PS5a)
 function su12ConfirmAndContinue() {
   propagateAdditives();
+  // Persist a preset's preferred-additive edits back onto the profile's own
+  // stored additives (only the device-loaded ones are editable here; others,
+  // e.g. an unloaded flavour, are left untouched). SU13 reads this for presets.
+  if (isPresetProfile(currentProfileIdx)) {
+    const _prof = profiles[currentProfileIdx];
+    if (_prof.bnProfile && _prof.bnProfile.additives) {
+      Array.from(su4aState.selected).forEach(id => {
+        const on = su12DefaultState[id] === true;
+        const mult = su12MultState[id] || '1.0x';
+        if (_prof.bnProfile.additives[id]) _prof.bnProfile.additives[id].on = on;
+        else _prof.bnProfile.additives[id] = { on, mult };
+      });
+    }
+  }
   const dest = su12ReturnScreen;
   su12ReturnScreen = dest === 'PS5a' ? 'SU12a' : 'SU12c'; // reset correctly based on context
   goto(dest);
