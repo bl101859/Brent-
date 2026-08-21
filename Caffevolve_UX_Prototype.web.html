@@ -3278,6 +3278,9 @@ input[type="range"]::-moz-range-thumb {
         <div class="sbx-opt-hint">I'll set each hopper</div>
       </button>
     </div>
+    <div style="margin-top:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,200,80,.18);border-radius:8px;padding:9px 12px;font-size:10.5px;color:var(--text-muted);line-height:1.5;font-style:italic;">
+      Note: all brand and partner detail shown in this section is for demonstration purposes only. No <span style="color:var(--gold-dim);font-style:normal;">Twin Bean Program</span> partnerships are in place at this time.
+    </div>
   </div>
 
   <div id="subean-manual">
@@ -3484,20 +3487,30 @@ input[type="range"]::-moz-range-thumb {
   </div>
   <div class="screen-title">Select the Additives<br>You Are Loading<br>into the Device</div>
   <div class="card" style="margin-top:10px;padding:14px;">
-    <div class="info-note" style="margin-bottom:12px;">Select the additives you want to load into your device. You'll assign each one to a canister slot on the next screen.</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start;">
-      <!-- Wellness column -->
-      <div>
-        <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green-accent);margin-bottom:8px;">Wellness</div>
-        <div id="su4a-list-wellness" style="display:flex;flex-direction:column;gap:6px;"></div>
-      </div>
-      <!-- Flavor column -->
-      <div>
-        <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--amber-dark);margin-bottom:8px;">Flavor</div>
-        <div id="su4a-list-flavor" style="display:flex;flex-direction:column;gap:6px;"></div>
-      </div>
-    </div>
+    <div class="info-note" style="margin-bottom:12px;">Your device has <strong>6 canisters</strong> — 3 Flavor, 3 Wellness. Scroll the catalog below and load an additive. If its side has an open canister it drops right in; if that side is full, you'll pick which additive to replace.</div>
+
+    <!-- Live device canisters -->
+    <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--amber-dark);margin-bottom:6px;">Flavor canisters</div>
+    <div id="su4a-bins-flavor" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;"></div>
+    <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green-accent);margin-bottom:6px;">Wellness canisters</div>
+    <div id="su4a-bins-wellness" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;"></div>
+
+    <div class="divider"></div>
+
+    <!-- Catalog scroll wheel -->
+    <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px;">Additive Catalog</div>
+    <div id="su4a-wheel"></div>
     <div id="su4a-count-note" style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:10px;"></div>
+  </div>
+
+  <!-- Replace-which-canister chooser (shown when the matching side is full) -->
+  <div id="su4a-replace-modal" style="display:none;position:absolute;inset:0;background:rgba(20,10,4,.9);z-index:150;align-items:center;justify-content:center;padding:24px;border-radius:30px;">
+    <div style="background:var(--card-bg);border-radius:16px;padding:18px;width:100%;max-width:320px;">
+      <div id="su4a-replace-title" style="font-family:var(--font-display);font-size:1.25rem;font-weight:600;color:var(--text-dark);margin-bottom:6px;line-height:1.15;"></div>
+      <div id="su4a-replace-sub" style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.5;"></div>
+      <div id="su4a-replace-options" style="display:flex;flex-direction:column;gap:8px;"></div>
+      <button onclick="su4aCloseReplace()" style="margin-top:14px;width:100%;background:none;border:1px solid var(--border-mid);border-radius:10px;padding:10px;font-family:var(--font-ui);font-size:13px;color:var(--text-muted);cursor:pointer;">Cancel</button>
+    </div>
   </div>
   <div class="btn-row">
     <button class="btn btn-primary" id="su4a-confirm-btn" onclick="su4aConfirm()">Confirm Selections — Assign Slots →</button>
@@ -13107,6 +13120,13 @@ const ADDITIVE_CATALOG = [
   { id: 'collagen',   name: 'Collagen Peptides', category: 'Wellness', serving: '1 scoop', unit: 'scoop' },
   { id: 'ltheanine',  name: 'L-Theanine',        category: 'Wellness', serving: '100 mg',  unit: 'mg'    },
   { id: 'mct',        name: 'MCT Oil Powder',    category: 'Wellness', serving: '1 tbsp',  unit: 'tbsp'  },
+  // Seasonal / new catalog additions (available to load into the device)
+  { id: 'pumpkin',    name: 'Pumpkin Spice',     category: 'Flavor',   serving: '1/4 tsp', unit: 'tsp'   },
+  { id: 'peppermint', name: 'Peppermint',        category: 'Flavor',   serving: '1/4 tsp', unit: 'tsp'   },
+  { id: 'caramel',    name: 'Caramel',           category: 'Flavor',   serving: '1 tsp',   unit: 'tsp'   },
+  { id: 'ashwagandha',name: 'Ashwagandha',       category: 'Wellness', serving: '300 mg',  unit: 'mg'    },
+  { id: 'lionsmane',  name: "Lion's Mane",       category: 'Wellness', serving: '500 mg',  unit: 'mg'    },
+  { id: 'electrolyte',name: 'Electrolyte Blend', category: 'Wellness', serving: '1 scoop', unit: 'scoop' },
 ];
 
 // Slot layout per tier (prototype uses Advancara = 6 slots)
@@ -13114,10 +13134,12 @@ const SLOT_LAYOUT = ['F-1','F-2','F-3','W-1','W-2','W-3'];
 const SLOT_TYPE   = { 'F-1':'Flavor','F-2':'Flavor','F-3':'Flavor',
                       'W-1':'Wellness','W-2':'Wellness','W-3':'Wellness' };
 
-// SU4a selection state — set of additive IDs
+// SU4a selection state — set of additive IDs. The demo device ships with all
+// six canisters loaded, so loading a new catalog additive requires a swap.
 const su4aState = {
-  selected:    new Set(['cinnamon','collagen']), // defaults pre-selected
+  selected:    new Set(['cinnamon','vanilla','coconut','collagen','ltheanine','mct']),
   activeFilter: 'All',
+  wheelIdx:    0,
 };
 
 // SU4 slot assignments — { additiveId: slotCode } — e.g. { cinnamon: 'F-1' }
@@ -13131,11 +13153,17 @@ const su12DefaultState = {};
 // key = additive id, value = string from multSteps e.g. '1.0x'
 const su12MultState = {};
 
-// Initialize defaults
-canisterSlots['cinnamon'] = 'F-1';
-canisterSlots['collagen'] = 'W-1';
-canisterAudit['cinnamon'] = { changedBy: 'Admin', changedAt: new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) };
-canisterAudit['collagen'] = { changedBy: 'Admin', changedAt: new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) };
+// Initialize defaults — all six canisters loaded from the factory
+const _su4aInitDate = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+canisterSlots['cinnamon']  = 'F-1';
+canisterSlots['vanilla']   = 'F-2';
+canisterSlots['coconut']   = 'F-3';
+canisterSlots['collagen']  = 'W-1';
+canisterSlots['ltheanine'] = 'W-2';
+canisterSlots['mct']       = 'W-3';
+['cinnamon','vanilla','coconut','collagen','ltheanine','mct'].forEach(id => {
+  canisterAudit[id] = { changedBy: 'Admin', changedAt: _su4aInitDate };
+});
 
 // SU12 defaults — cinnamon and collagen enabled, 1.0x dose
 su12DefaultState['cinnamon'] = true;
@@ -13145,64 +13173,128 @@ su12MultState['collagen']    = '1.0x';
 
 // ── SU4a RENDER & INTERACTION ─────────────────────────
 
+function _su4aSlotsOfType(type) { return SLOT_LAYOUT.filter(s => SLOT_TYPE[s] === type); }
+function _su4aInSlot(slot) { return Object.keys(canisterSlots).find(id => canisterSlots[id] === slot) || null; }
+function _su4aColor(type) { return type === 'Flavor' ? 'var(--amber)' : 'var(--green-accent)'; }
+
+function _su4aAssign(id, slot) {
+  su4aState.selected.add(id);
+  canisterSlots[id] = slot;
+  const changedBy = (typeof profiles !== 'undefined' && profiles[currentProfileIdx])
+    ? (profiles[currentProfileIdx].initials || profiles[currentProfileIdx].name) : 'Admin';
+  canisterAudit[id] = { changedBy, changedAt: new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) };
+}
+
 function renderSU4a() {
-  const wellnessList = document.getElementById('su4a-list-wellness');
-  const flavorList   = document.getElementById('su4a-list-flavor');
-  const note         = document.getElementById('su4a-count-note');
-  if (!wellnessList || !flavorList) return;
-
-  function buildItems(container, category) {
-    container.innerHTML = '';
-    const items = ADDITIVE_CATALOG.filter(a => a.category === category);
-    items.forEach(additive => {
-      const isSelected = su4aState.selected.has(additive.id);
-      const row = document.createElement('div');
-      row.className = 'additive-row' + (isSelected ? ' selected-additive' : '');
-      row.style.borderColor = isSelected ? (category === 'Wellness' ? 'var(--green-accent)' : 'var(--amber)') : '';
-      row.style.background  = isSelected ? (category === 'Wellness' ? 'var(--green-bg)' : '#FFF8EE') : '';
-      row.style.padding     = '8px 10px';
-      row.dataset.id = additive.id;
-      row.innerHTML =
-        '<div class="add-name" style="font-size:12px;">' + additive.name + '</div>' +
-        '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:2px;">' +
-          '<div class="add-srv" style="font-size:10px;">' + additive.serving + '</div>' +
-          (isSelected ? '<div style="width:16px;height:16px;background:' + (category === 'Wellness' ? 'var(--green-accent)' : 'var(--amber)') + ';border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;flex-shrink:0;">\u2713</div>' : '') +
-        '</div>';
-      row.onclick = () => su4aToggle(row, additive.id);
-      container.appendChild(row);
+  // \u2500\u2500 Canisters \u2500\u2500
+  ['Flavor','Wellness'].forEach(type => {
+    const el = document.getElementById(type === 'Flavor' ? 'su4a-bins-flavor' : 'su4a-bins-wellness');
+    if (!el) return;
+    el.innerHTML = '';
+    _su4aSlotsOfType(type).forEach(slot => {
+      const id = _su4aInSlot(slot);
+      const a  = id ? ADDITIVE_CATALOG.find(x => x.id === id) : null;
+      const color = _su4aColor(type);
+      const cell = document.createElement('div');
+      cell.style.cssText = 'border:1.5px solid ' + (a ? color : 'var(--border-mid)') + ';border-radius:10px;padding:7px 5px;text-align:center;background:' +
+        (a ? (type === 'Flavor' ? '#FFF8EE' : 'var(--green-bg)') : 'transparent') + ';min-height:50px;display:flex;flex-direction:column;justify-content:center;gap:2px;';
+      cell.innerHTML = '<div style="font-size:9px;font-weight:700;letter-spacing:.05em;color:var(--text-muted);">' + slot + '</div>' +
+        (a ? '<div style="font-size:10.5px;font-weight:600;color:var(--text-dark);line-height:1.12;">' + a.name + '</div>'
+           : '<div style="font-size:10px;color:var(--text-muted);font-style:italic;">Open</div>');
+      el.appendChild(cell);
     });
-  }
-
-  buildItems(wellnessList, 'Wellness');
-  buildItems(flavorList,   'Flavor');
-
-  const total   = su4aState.selected.size;
-  const maxSlots = SLOT_LAYOUT.length;
-  if (note) {
-    note.textContent = total === 0
-      ? 'No additives selected'
-      : total + ' of ' + maxSlots + ' slots selected';
-    note.style.color = total > maxSlots ? 'var(--red-warn)' : '';
-  }
+  });
+  renderSU4aWheel();
+  const note = document.getElementById('su4a-count-note');
+  if (note) note.textContent = su4aState.selected.size + ' of ' + SLOT_LAYOUT.length + ' canisters loaded';
 }
 
-function su4aToggle(row, id) {
-  const maxSlots = SLOT_LAYOUT.length;
-  if (!su4aState.selected.has(id)) {
-    if (su4aState.selected.size >= maxSlots) return; // at capacity
-    su4aState.selected.add(id);
-  } else {
-    su4aState.selected.delete(id);
-  }
+function renderSU4aWheel() {
+  const wrap = document.getElementById('su4a-wheel');
+  if (!wrap) return;
+  const items = ADDITIVE_CATALOG;
+  let idx = su4aState.wheelIdx || 0;
+  if (idx < 0 || idx >= items.length) idx = 0;
+  su4aState.wheelIdx = idx;
+  const a = items[idx];
+  const loaded = su4aState.selected.has(a.id);
+  const slot   = canisterSlots[a.id];
+  const color  = _su4aColor(a.category);
+  wrap.innerHTML =
+    '<div style="position:relative;background:var(--card-bg-warm);border:1.5px solid ' + (loaded ? color : 'var(--border-light)') + ';border-radius:14px;padding:14px 12px 12px;">' +
+      '<div onclick="su4aWheelNav(-1)" style="position:absolute;left:3px;top:50%;transform:translateY(-50%);width:32px;height:54px;display:flex;align-items:center;justify-content:center;background:rgba(212,168,85,.3);border:2px solid rgba(212,168,85,.7);border-radius:10px;font-size:26px;color:var(--gold);cursor:pointer;user-select:none;">\u2039</div>' +
+      '<div onclick="su4aWheelNav(1)"  style="position:absolute;right:3px;top:50%;transform:translateY(-50%);width:32px;height:54px;display:flex;align-items:center;justify-content:center;background:rgba(212,168,85,.3);border:2px solid rgba(212,168,85,.7);border-radius:10px;font-size:26px;color:var(--gold);cursor:pointer;user-select:none;">\u203a</div>' +
+      '<div style="text-align:center;padding:0 40px;">' +
+        '<div style="display:inline-block;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:' + color + ';border:1px solid ' + color + ';border-radius:100px;padding:2px 9px;margin-bottom:6px;">' + a.category + '</div>' +
+        '<div style="font-size:16px;font-weight:700;color:var(--text-dark);line-height:1.15;">' + a.name + '</div>' +
+        '<div style="font-size:11px;color:var(--text-muted);margin:2px 0 10px;">Serving \xb7 ' + a.serving + '</div>' +
+        (loaded
+          ? '<div style="font-size:12px;font-weight:600;color:' + color + ';margin-bottom:8px;">\u2713 Loaded in canister ' + slot + '</div>' +
+            '<button onclick="su4aUnload(\'' + a.id + '\')" style="background:none;border:1px solid var(--border-mid);border-radius:10px;padding:8px 16px;font-family:var(--font-ui);font-size:12px;color:var(--text-muted);cursor:pointer;">Unload</button>'
+          : '<button onclick="su4aLoadCurrent()" style="background:' + color + ';border:none;border-radius:10px;padding:10px 20px;font-family:var(--font-ui);font-size:13px;font-weight:600;color:#fff;cursor:pointer;">\uff0b Load into device</button>') +
+      '</div>' +
+      '<div style="display:flex;justify-content:center;flex-wrap:wrap;gap:4px;margin-top:12px;">' +
+        items.map((it, i) => '<div style="width:5px;height:5px;border-radius:50%;background:' + (i === idx ? 'var(--gold)' : 'rgba(0,0,0,.15)') + ';"></div>').join('') +
+      '</div>' +
+    '</div>';
+}
+
+function su4aWheelNav(dir) {
+  const n = ADDITIVE_CATALOG.length;
+  su4aState.wheelIdx = ((su4aState.wheelIdx || 0) + dir + n) % n;
+  renderSU4aWheel();
+}
+
+function su4aLoadCurrent() {
+  const a = ADDITIVE_CATALOG[su4aState.wheelIdx || 0];
+  if (!a || su4aState.selected.has(a.id)) return;
+  const openSlot = _su4aSlotsOfType(a.category).find(s => !_su4aInSlot(s));
+  if (openSlot) { _su4aAssign(a.id, openSlot); renderSU4a(); }
+  else su4aOpenReplace(a.id);
+}
+
+function su4aUnload(id) {
+  su4aState.selected.delete(id);
+  delete canisterSlots[id];
+  delete canisterAudit[id];
   renderSU4a();
 }
 
-function su4aFilter(filter, tabEl) {
-  su4aState.activeFilter = filter;
-  const tabRow = tabEl.closest('.tab-row');
-  tabRow.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  tabEl.classList.add('active');
+function su4aOpenReplace(newId) {
+  const a = ADDITIVE_CATALOG.find(x => x.id === newId);
+  if (!a) return;
+  document.getElementById('su4a-replace-title').textContent = 'Load ' + a.name;
+  document.getElementById('su4a-replace-sub').textContent =
+    'All ' + a.category + ' canisters are full. Choose which additive to replace with ' + a.name + '.';
+  const opts = document.getElementById('su4a-replace-options');
+  opts.innerHTML = '';
+  _su4aSlotsOfType(a.category).forEach(slot => {
+    const curId = _su4aInSlot(slot);
+    const cur   = curId ? ADDITIVE_CATALOG.find(x => x.id === curId) : null;
+    const btn = document.createElement('button');
+    btn.style.cssText = 'display:flex;align-items:center;gap:10px;background:var(--card-bg-warm);border:1.5px solid var(--border-mid);border-radius:10px;padding:10px 14px;cursor:pointer;font-family:var(--font-ui);text-align:left;';
+    btn.innerHTML =
+      '<span style="font-size:9px;font-weight:700;color:var(--text-muted);flex-shrink:0;">' + slot + '</span>' +
+      '<span style="font-size:13px;font-weight:600;color:var(--text-dark);flex:1;">' + (cur ? cur.name : 'Open') + '</span>' +
+      '<span style="font-size:11px;font-weight:600;color:var(--red-warn);flex-shrink:0;">Replace \u2192</span>';
+    btn.onclick = () => su4aDoReplace(slot, newId);
+    opts.appendChild(btn);
+  });
+  const m = document.getElementById('su4a-replace-modal');
+  if (m) m.style.display = 'flex';
+}
+
+function su4aDoReplace(slot, newId) {
+  const oldId = _su4aInSlot(slot);
+  if (oldId) { su4aState.selected.delete(oldId); delete canisterSlots[oldId]; delete canisterAudit[oldId]; }
+  _su4aAssign(newId, slot);
+  su4aCloseReplace();
   renderSU4a();
+}
+
+function su4aCloseReplace() {
+  const m = document.getElementById('su4a-replace-modal');
+  if (m) m.style.display = 'none';
 }
 
 function su4aConfirm() {
