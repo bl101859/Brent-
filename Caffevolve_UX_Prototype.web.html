@@ -8071,7 +8071,8 @@ function goto(id) {
         const bnAddLines = [];
         if (savedBn.additives) {
           Object.entries(savedBn.additives).forEach(([addId, state]) => {
-            if (state.on) {
+            // Only surface additives that are on AND still loaded in the device.
+            if (state.on && su4aState.selected.has(addId)) {
               const cat = ADDITIVE_CATALOG.find(x => x.id === addId);
               if (cat) bnAddLines.push(cat.name + ' (' + (state.mult || '1.0x') + ')');
             }
@@ -13634,6 +13635,11 @@ function hydrateBrewFromProfile(idx) {
   bnProfile.size     = src.size     || '12 oz';
   bnProfile.count    = src.count    || 1;
   bnProfile.strength = src.strength || 'Medium';
+  // Prune additives the device no longer has loaded from the STORED profile so a
+  // stale pre-setup-change pick can't linger in the BrewNow set or its summaries.
+  if (src.additives) Object.keys(src.additives).forEach(k => {
+    if (!su4aState.selected.has(k)) delete src.additives[k];
+  });
   bnProfile.additives = {};
   if (src.additives) Object.entries(src.additives).forEach(([k, v]) => {
     bnProfile.additives[k] = { on: v && v.on === true, mult: (v && v.mult) || '1.0x' };
@@ -13685,13 +13691,17 @@ function su12cRender() {
   const container = document.getElementById('su12c-additive-items');
   if (!container) return;
 
+  // BrewNow! offers every additive CURRENTLY LOADED in the device as a toggle —
+  // not a pre-curated subset — so any loaded additive can be added to the
+  // automatic brew. An additive that was unloaded from the device drops off the
+  // list here (and is pruned from the stored profile by hydrateBrewFromProfile).
   const assigned = Array.from(su4aState.selected)
     .map(sid => { const a = ADDITIVE_CATALOG.find(x => x.id === sid); return a ? { ...a, slot: canisterSlots[sid] } : null; })
     .filter(Boolean)
-    .filter(a => su12DefaultState[a.id] === true); // My Additives list only — not all device canisters
+    .sort((a, b) => SLOT_LAYOUT.indexOf(a.slot) - SLOT_LAYOUT.indexOf(b.slot));
 
   if (assigned.length === 0) {
-    container.innerHTML = '<div style="font-size:13px;color:var(--text-muted);text-align:center;padding:12px 0;line-height:1.55;">No additives in your My Additives list yet — add them in the previous step to include them here.</div>';
+    container.innerHTML = '<div style="font-size:13px;color:var(--text-muted);text-align:center;padding:12px 0;line-height:1.55;">No additives are loaded in the device yet — load additives in Device Setup to include them here.</div>';
     return;
   }
 
@@ -13762,8 +13772,25 @@ function su12cSave() {
   const strSel  = document.querySelector('#su12c-strength-selector .seg-opt.selected');
   if (sizeSel) bnProfile.size     = sizeSel.textContent.trim();
   if (strSel)  bnProfile.strength = strSel.textContent.trim();
-  // Save to active profile
-  profiles[currentProfileIdx].bnProfile = { ...bnProfile, additives: { ...bnProfile.additives } };
+  // SU12c lists EVERY loaded additive so any can be toggled into BrewNow, but
+  // merely displaying one shouldn't make it a permanent list member. Persist an
+  // additive only if it's turned on, was already a member, or is held by a
+  // sub-profile — and never persist one the device no longer has loaded.
+  const prof = profiles[currentProfileIdx];
+  const prevAdd = (prof.bnProfile && prof.bnProfile.additives) || {};
+  const subUses = (id) => (prof.subProfiles || []).some(sp => {
+    const a = sp.additives;
+    if (Array.isArray(a)) return a.some(x => x && x.id === id);
+    if (a && typeof a === 'object') return !!a[id];
+    return false;
+  });
+  const persisted = {};
+  Object.entries(bnProfile.additives).forEach(([id, st]) => {
+    if (!su4aState.selected.has(id)) return; // not loaded — drop
+    const isMember = st.on === true || prevAdd[id] !== undefined || subUses(id);
+    if (isMember) persisted[id] = { on: st.on === true, mult: st.mult || '1.0x' };
+  });
+  prof.bnProfile = { ...bnProfile, additives: persisted };
   // Return to SU13 if editing from profile summary, otherwise continue to grind setting
   goto(setupMode === 'edit' ? 'SU13' : 'SU-GRIND');
 }
