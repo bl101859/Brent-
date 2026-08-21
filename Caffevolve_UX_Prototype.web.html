@@ -7895,7 +7895,23 @@ function goto(id) {
     if (pName)       pName.textContent   = userProfile.name;
     if (colorDot)    colorDot.style.background = userProfile.color;
     if (colorName)   colorName.textContent     = userProfile.colorName;
-    if (addEl)       addEl.textContent         = brewSession.additives || 'None';
+    if (addEl) {
+      // Preferred additives for a preset profile come from the profile's own
+      // stored preferences (bnProfile.additives) — NOT the session-global
+      // su12DefaultState, which is shared and gets cleared/reset by the
+      // new-profile setup flow and never re-synced when viewing another profile.
+      const _revP  = profiles[currentProfileIdx];
+      const _bnAdd = isPresetProfile(currentProfileIdx) && _revP && _revP.bnProfile && _revP.bnProfile.additives;
+      if (_bnAdd) {
+        const _list = Object.entries(_bnAdd)
+          .filter(([, v]) => v && v.on)
+          .map(([aid]) => { const a = ADDITIVE_CATALOG.find(x => x.id === aid); return a ? a.name : null; })
+          .filter(Boolean);
+        addEl.textContent = _list.length ? _list.join(' \xb7 ') : 'None';
+      } else {
+        addEl.textContent = brewSession.additives || 'None';
+      }
+    }
     if (grindEl) {
       const grindLabels = { 1:'1 — Coarse', 2:'2 — Med-Coarse', 3:'3 — Medium', 4:'4 — Med-Fine', 5:'5 — Fine', 6:'6 — Extra Fine' };
       const g = userProfile.grind || 3;
@@ -8551,8 +8567,15 @@ function renderPS2aAdditives(activeSP) {
       })
       .filter(Boolean);
     unavailable = [];
+  } else if (currentPath === 'C1' || currentPath === 'C2') {
+    // Guest — a guest has no profile additive list, so don't filter by
+    // su12DefaultState. Offer an OPEN picker of everything currently loaded in
+    // the device; nothing is pre-selected (a returning guest's last picks are
+    // restored below via savedAdditives).
+    assigned = deviceLoaded.slice();
+    unavailable = [];
   } else {
-    // No sub-profile — show the profile's SU12 preferred additive list.
+    // Registered, no sub-profile — show the profile's SU12 preferred additive list.
     // su12DefaultState[id] === true means the user toggled it ON in SU12.
     assigned = deviceLoaded.filter(a => su12DefaultState[a.id] === true);
     // Profile-selected additives NOT currently loaded in the device — struck-through
