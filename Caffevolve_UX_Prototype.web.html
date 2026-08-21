@@ -2468,6 +2468,8 @@ input[type="range"]::-moz-range-thumb {
 .conf-row-edit { flex-direction: column; align-items: stretch; gap: 7px; }
 .conf-seg .seg-opt { padding: 8px 6px; font-size: 12px; }
 .conf-edit-hint { font-size: 10.5px; color: var(--gold); font-style: italic; opacity: .9; }
+/* Caffeine blend value — slightly larger and italic on the Confirm Brew card */
+.conf-blend { font-size: 16px; font-style: italic; }
 
 /* ── SU-BEAN · INLINE EXPAND SELECTORS ───────────────── */
 .subean-text-link {
@@ -5193,7 +5195,7 @@ input[type="range"]::-moz-range-thumb {
   <div class="card" style="margin-top:10px;">
     <div class="conf-row"><span class="conf-key">Active bedtime</span><span class="conf-val amber" id="ps6a-bedtime-val">10:30 PM</span></div>
     <div class="conf-row"><span class="conf-key"><span class="term-link" onclick="showTerm('bedtime-ceiling')">Bedtime Ceiling</span></span><span class="conf-val" id="ps6a-bed-ceil">50 mg</span></div>
-    <div class="conf-row"><span class="conf-key">Caffeine blend<span id="ps6a-blend-asterisk" style="display:none;color:var(--text-muted);font-size:10px;vertical-align:super;margin-left:1px;">*</span></span><span class="conf-val" id="ps6a-blend-val">65% Caf · 35% Decaf</span></div>
+    <div class="conf-row"><span class="conf-key">Caffeine blend<span id="ps6a-blend-asterisk" style="display:none;color:var(--text-muted);font-size:10px;vertical-align:super;margin-left:1px;">*</span></span><span class="conf-val conf-blend" id="ps6a-blend-val">65% Caf · 35% Decaf</span></div>
     <div class="conf-row"><span class="conf-key"><span class="term-link" onclick="showTerm('residual-caffeine')">Projected residual @ bedtime</span></span><span class="conf-val" id="ps6a-residual-val" style="color:var(--green-accent);">43 mg ✓</span></div>
     <div class="conf-row"><span class="conf-key">Projected wake hours peak</span><span class="conf-val" id="ps6a-peak-val">—</span></div>
     <div class="conf-row conf-row-edit">
@@ -5247,7 +5249,7 @@ input[type="range"]::-moz-range-thumb {
   <div class="card" style="margin-top:10px;">
     <div class="conf-row"><span class="conf-key">Bedtime (tonight)</span><span class="conf-val amber" id="ps6c1-bedtime-val">10:30 PM</span></div>
     <div class="conf-row"><span class="conf-key"><span class="term-link" onclick="showTerm('bedtime-ceiling')">Bedtime Ceiling</span></span><span class="conf-val" id="ps6c1-bed-ceil">50 mg</span></div>
-    <div class="conf-row"><span class="conf-key">Caffeine blend<span id="ps6c1-blend-asterisk" style="display:none;color:var(--text-muted);font-size:10px;vertical-align:super;margin-left:1px;">*</span></span><span class="conf-val" id="ps6c1-blend-val">65% Caf · 35% Decaf</span></div>
+    <div class="conf-row"><span class="conf-key">Caffeine blend<span id="ps6c1-blend-asterisk" style="display:none;color:var(--text-muted);font-size:10px;vertical-align:super;margin-left:1px;">*</span></span><span class="conf-val conf-blend" id="ps6c1-blend-val">65% Caf · 35% Decaf</span></div>
     <div class="conf-row"><span class="conf-key"><span class="term-link" onclick="showTerm('residual-caffeine')">Projected residual @ bedtime</span></span><span class="conf-val" id="ps6c1-residual-val">—</span></div>
     <div class="conf-row"><span class="conf-key">Projected wake hours peak</span><span class="conf-val" id="ps6c1-peak-val">—</span></div>
     <div class="conf-row conf-row-edit">
@@ -9405,7 +9407,7 @@ function ps6SetStrength(str) {
 
 function syncBrewDisplays() {
   const s = brewSession;
-  const blendHtml = s.blendLabel + (s.isManual ? ' <span style="font-size:10px;font-weight:400;color:var(--amber);">(Manual)</span>' : '');
+  const blendHtml = s.blendLabel + (s.isManual ? ' <span style="font-size:10px;font-weight:400;font-style:normal;color:var(--text-muted);">(Manual)</span>' : '');
   const servingStr = s.servingSize + ' \xd7 ' + s.servingCount;
   const addHtml    = s.additives ? s.additives.split(' \xb7 ').join('<br>') : 'None';
 
@@ -9514,14 +9516,14 @@ function syncBrewDisplays() {
       : ('This blend would leave you above your ' + _termCeil + ' (' + _ceilTxt + ') at ' + _bedLbl + '. More decaf, a smaller serving, or a lighter strength brings you back under.');
   }
   if (ps6aBlend)    { ps6aBlend.innerHTML = blendHtml; }
-  if (ps6aResidual) { const _pb = s._projBedtime !== undefined ? s._projBedtime : 43; const _ok = _pb <= bedCeil; ps6aResidual.textContent = _pb + ' mg' + (_ok ? ' \u2713' : ''); ps6aResidual.style.color = _ok ? 'var(--green-accent)' : 'var(--amber)'; }
-  if (ps6aPeak)     { ps6aPeak.textContent = projPeak > 0 ? projPeak + ' mg' : '\u2014'; ps6aPeak.style.color = projPeak > tpc ? 'var(--amber)' : 'var(--text-dark)'; }
+  if (ps6aResidual) { const _pb = s._projBedtime !== undefined ? s._projBedtime : 43; const _ok = _pb <= bedCeil; ps6aResidual.textContent = _pb + ' mg' + (_ok ? ' \u2713' : ''); ps6aResidual.style.color = _ok ? 'var(--green-accent)' : 'var(--red-warn)'; }
+  if (ps6aPeak)     { ps6aPeak.textContent = projPeak > 0 ? projPeak + ' mg' : '\u2014'; ps6aPeak.style.color = projPeak > tpc ? 'var(--red-warn)' : 'var(--green-accent)'; }
   if (ps6aSize)     { ps6aSize.textContent     = s.servingSize; }
   if (ps6aCount)    { ps6aCount.textContent    = s.servingCount; }
   if (ps6aStrength) { ps6aStrength.textContent = s.strength; }
-  if (ps6aAdds)     { ps6aAdds.innerHTML       = addHtml; }
+  if (ps6aAdds)     { ps6aAdds.innerHTML       = addHtml; ps6aAdds.style.color = 'var(--blue-path)'; }
   if (ps6aBedtime)  { ps6aBedtime.textContent  = eceBedtimeLabel(); }
-  if (ps6aBedCeil)  { ps6aBedCeil.textContent  = bedCeil + ' mg'; }
+  if (ps6aBedCeil)  { ps6aBedCeil.textContent  = bedCeil + ' mg'; ps6aBedCeil.style.color = 'var(--green-accent)'; }
 
   // ── PS6-C1 ──
   const ps6c1Residual = document.getElementById('ps6c1-residual-val');
@@ -9533,15 +9535,15 @@ function syncBrewDisplays() {
   const ps6c1Bedtime  = document.getElementById('ps6c1-bedtime-val');
   const ps6c1BedCeil  = document.getElementById('ps6c1-bed-ceil');
   const ps6c1Peak     = document.getElementById('ps6c1-peak-val');
-  if (ps6c1Residual) { ps6c1Residual.textContent = s.residual; ps6c1Residual.style.color = s.residualOk ? 'var(--green-accent)' : 'var(--amber)'; }
+  if (ps6c1Residual) { ps6c1Residual.textContent = s.residual; ps6c1Residual.style.color = s.residualOk ? 'var(--green-accent)' : 'var(--red-warn)'; }
   if (ps6c1Blend)    { ps6c1Blend.innerHTML = blendHtml; ps6c1Blend.style.color = 'var(--text-dark)'; }
-  if (ps6c1Adds)     { ps6c1Adds.innerHTML  = addHtml;   ps6c1Adds.style.color  = 'var(--text-dark)'; }
+  if (ps6c1Adds)     { ps6c1Adds.innerHTML  = addHtml;   ps6c1Adds.style.color  = 'var(--blue-path)'; }
   if (ps6c1Size)     { ps6c1Size.textContent   = s.servingSize;  ps6c1Size.style.color     = 'var(--amber)'; }
   if (ps6c1Count)    { ps6c1Count.textContent  = s.servingCount; ps6c1Count.style.color    = 'var(--text-dark)'; }
   if (ps6c1Strength) { ps6c1Strength.textContent = s.strength;   ps6c1Strength.style.color = 'var(--text-dark)'; }
   if (ps6c1Bedtime)  { ps6c1Bedtime.textContent  = eceBedtimeLabel(); }
-  if (ps6c1BedCeil)  { ps6c1BedCeil.textContent  = bedCeil + ' mg'; }
-  if (ps6c1Peak)     { ps6c1Peak.textContent = projPeak + ' mg'; ps6c1Peak.style.color = projPeak > tpc ? 'var(--amber)' : 'var(--green-accent)'; }
+  if (ps6c1BedCeil)  { ps6c1BedCeil.textContent  = bedCeil + ' mg'; ps6c1BedCeil.style.color = 'var(--green-accent)'; }
+  if (ps6c1Peak)     { ps6c1Peak.textContent = projPeak + ' mg'; ps6c1Peak.style.color = projPeak > tpc ? 'var(--red-warn)' : 'var(--green-accent)'; }
 
   // Reflect current serving size / strength in the inline Confirm-Brew pickers
   _ps6MarkSeg('ps6a-size-seg',     s.servingSize);
