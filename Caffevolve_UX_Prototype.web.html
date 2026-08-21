@@ -7796,6 +7796,7 @@ function goto(id) {
   }
   if (id === 'PS2a') {
     ps2aRecalcMax();
+    ensureBrewHydrated(); // preset/committed: load My-Additive membership so the picker isn't empty
     // Guest context elements — show only on C2
     const guestNote    = document.getElementById('ps2a-guest-note');
     const guestAddNote = document.getElementById('ps2a-guest-additive-note');
@@ -7891,6 +7892,7 @@ function goto(id) {
     if (bcPill)  bcPill.textContent  = (isInstr ? 'Computed · ' : 'Default · ') + bcVal  + ' mg';
   }
   if (id === 'SU13') {
+    ensureBrewHydrated();
     // Always sync subProfileSaved from the stored profile before rendering
     const storedSubs = (profiles[currentProfileIdx] && profiles[currentProfileIdx].subProfiles) || [];
     subProfileSaved = storedSubs.map(sp => ({ ...sp }));
@@ -7909,16 +7911,15 @@ function goto(id) {
     if (colorDot)    colorDot.style.background = userProfile.color;
     if (colorName)   colorName.textContent     = userProfile.colorName;
     if (addEl) {
-      // Preferred additives for a preset profile come from the profile's own
-      // stored preferences (bnProfile.additives) — NOT the session-global
-      // su12DefaultState, which is shared and gets cleared/reset by the
-      // new-profile setup flow and never re-synced when viewing another profile.
-      const _revP  = profiles[currentProfileIdx];
-      const _bnAdd = isPresetProfile(currentProfileIdx) && _revP && _revP.bnProfile && _revP.bnProfile.additives;
-      if (_bnAdd) {
-        const _list = Object.entries(_bnAdd)
-          .filter(([, v]) => v && v.on)
-          .map(([aid]) => { const a = ADDITIVE_CATALOG.find(x => x.id === aid); return a ? a.name : null; })
+      // "Preferred additives" = the profile's My Additive List (membership) —
+      // every additive in the profile's palette or referenced by a sub-profile,
+      // not just the ones toggled on for the automatic BrewNow. The separate
+      // "BrewNow! Profile" section below shows the on-set. Computed from the
+      // profile's own stored state, not the session-global su12DefaultState.
+      const _revP = profiles[currentProfileIdx];
+      if (isPresetProfile(currentProfileIdx) && _revP && _revP.bnProfile) {
+        const _list = profileMemberAdditiveIds(currentProfileIdx)
+          .map(aid => { const a = ADDITIVE_CATALOG.find(x => x.id === aid); return a ? a.name : null; })
           .filter(Boolean);
         addEl.textContent = _list.length ? _list.join(' \xb7 ') : 'None';
       } else {
@@ -8126,15 +8127,11 @@ function goto(id) {
       .map(sid => { const a = ADDITIVE_CATALOG.find(x => x.id === sid); return a ? { ...a, slot: canisterSlots[sid] } : null; })
       .filter(Boolean)
       .sort((a, b) => SLOT_LAYOUT.indexOf(a.slot) - SLOT_LAYOUT.indexOf(b.slot));
-    // Editing a preset: open the editor on the profile's own stored additive
-    // state (bnProfile.additives) rather than the shared global, so the toggles
-    // reflect reality and edits round-trip. su12ConfirmAndContinue persists back.
-    if (isPresetProfile(currentProfileIdx)) {
-      const _bn = profiles[currentProfileIdx].bnProfile && profiles[currentProfileIdx].bnProfile.additives;
-      if (_bn) assigned.forEach(a => {
-        if (_bn[a.id]) { su12DefaultState[a.id] = _bn[a.id].on === true; su12MultState[a.id] = _bn[a.id].mult || '1.0x'; }
-      });
-    }
+    // Editing a preset/committed profile: reload My-Additive membership from the
+    // profile's own stored state (guarded so mid-session edits aren't clobbered)
+    // so the toggles reflect reality and edits round-trip. su12ConfirmAndContinue
+    // persists membership back.
+    ensureBrewHydrated();
     renderSU12Additives(assigned);
   }
   if (id === 'SU12b') {
@@ -8170,7 +8167,7 @@ function goto(id) {
   }
   if (id === 'SU12b-CONFIRM') { spShowWeeklyPicture(); }
   if (id === 'PS5a') { renderPS5aAdditives(); }
-  if (id === 'SU12c') { su12cRender(); }
+  if (id === 'SU12c') { ensureBrewHydrated(); su12cRender(); }
   if (id === 'PS4') {
     if (brewSession._recCaf === undefined) {
       const resN = brewSession.residualNow || 0;
@@ -13561,17 +13558,30 @@ let su12ReturnScreen = 'SU12c'; // default: setup flow routes to SU12c first
 // SU12 → SU12c (in setup flow) or back to brew screen (if entered from PS5a)
 function su12ConfirmAndContinue() {
   propagateAdditives();
-  // Persist a preset's preferred-additive edits back onto the profile's own
-  // stored additives (only the device-loaded ones are editable here; others,
-  // e.g. an unloaded flavour, are left untouched). SU13 reads this for presets.
+  // Persist a preset's My-Additive-List edits back onto the profile. My Additives
+  // is MEMBERSHIP (which loaded additives are in the list), NOT the automatic
+  // BrewNow on/off — so add/remove additive keys here and leave each additive's
+  // stored .on state untouched (that's edited on SU12c). Only device-loaded
+  // additives are editable here; an additive still used by a sub-profile is kept
+  // even if unchecked. SU13 + SU12c read this for presets.
   if (isPresetProfile(currentProfileIdx)) {
     const _prof = profiles[currentProfileIdx];
-    if (_prof.bnProfile && _prof.bnProfile.additives) {
+    if (_prof.bnProfile) {
+      if (!_prof.bnProfile.additives) _prof.bnProfile.additives = {};
+      const _add = _prof.bnProfile.additives;
+      const _subUses = (id) => (_prof.subProfiles || []).some(sp => {
+        const a = sp.additives;
+        if (Array.isArray(a)) return a.some(x => x && x.id === id);
+        if (a && typeof a === 'object') return !!a[id];
+        return false;
+      });
       Array.from(su4aState.selected).forEach(id => {
-        const on = su12DefaultState[id] === true;
-        const mult = su12MultState[id] || '1.0x';
-        if (_prof.bnProfile.additives[id]) _prof.bnProfile.additives[id].on = on;
-        else _prof.bnProfile.additives[id] = { on, mult };
+        const inList = su12DefaultState[id] === true;
+        if (inList) {
+          if (!_add[id]) _add[id] = { on: false, mult: su12MultState[id] || '1.0x' };
+        } else if (_add[id] && !_subUses(id)) {
+          delete _add[id]; // removed from the list and not held by any sub-profile
+        }
       });
     }
   }
@@ -13590,6 +13600,67 @@ const bnProfile = {
   strength: 'Medium',
   additives: {}, // { [addId]: { on: bool, mult: '1.0x' } }
 };
+
+// The working bnProfile / su12DefaultState above are session singletons. They
+// must be reloaded from the selected profile whenever we switch profiles, or a
+// preset's BrewNow editor shows leftover state from the last profile viewed.
+// _brewHydratedForIdx tracks which profile that working state currently mirrors
+// (reset to -1 on every profile switch, see loadProfileSubProfiles()).
+let _brewHydratedForIdx = -1;
+
+// A profile's "My Additive List" is the union of its BrewNow additive palette
+// (keys of bnProfile.additives) and every additive referenced by its
+// sub-profiles, restricted to what is currently loaded in the device.
+function profileMemberAdditiveIds(idx) {
+  const p = profiles[idx];
+  if (!p) return [];
+  const set = new Set();
+  if (p.bnProfile && p.bnProfile.additives) Object.keys(p.bnProfile.additives).forEach(k => set.add(k));
+  (p.subProfiles || []).forEach(sp => {
+    const a = sp.additives;
+    if (Array.isArray(a)) a.forEach(x => { if (x && x.id) set.add(x.id); });
+    else if (a && typeof a === 'object') Object.keys(a).forEach(k => set.add(k));
+  });
+  return Array.from(set).filter(id => su4aState.selected.has(id));
+}
+
+// Load the working BrewNow state + My-Additive membership from a stored profile.
+// My Additives = membership (which loaded additives are in the list); the
+// per-additive BrewNow on/off lives separately in bnProfile.additives[id].on.
+function hydrateBrewFromProfile(idx) {
+  const p = profiles[idx];
+  if (!p || !p.bnProfile) return;
+  const src = p.bnProfile;
+  bnProfile.size     = src.size     || '12 oz';
+  bnProfile.count    = src.count    || 1;
+  bnProfile.strength = src.strength || 'Medium';
+  bnProfile.additives = {};
+  if (src.additives) Object.entries(src.additives).forEach(([k, v]) => {
+    bnProfile.additives[k] = { on: v && v.on === true, mult: (v && v.mult) || '1.0x' };
+  });
+  const memberSet = new Set(profileMemberAdditiveIds(idx));
+  Array.from(su4aState.selected).forEach(id => {
+    const inList = memberSet.has(id);
+    su12DefaultState[id] = inList;
+    if (inList) {
+      if (!su12MultState[id]) su12MultState[id] = (bnProfile.additives[id] && bnProfile.additives[id].mult) || '1.0x';
+      // Ensure a BrewNow entry exists so the SU12c toggle has real state (off by default).
+      if (!bnProfile.additives[id]) bnProfile.additives[id] = { on: false, mult: su12MultState[id] || '1.0x' };
+    }
+  });
+}
+
+// Reload working brew state for a preset/committed profile if it isn't already
+// mirroring that profile. Safe to call on every SU12/SU12c/SU13 entry: the guard
+// prevents clobbering in-progress edits while navigating within one profile.
+function ensureBrewHydrated() {
+  const p = profiles[currentProfileIdx];
+  if (!p) return;
+  if (!(isPresetProfile(currentProfileIdx) || p._committed === true)) return;
+  if (_brewHydratedForIdx === currentProfileIdx) return;
+  hydrateBrewFromProfile(currentProfileIdx);
+  _brewHydratedForIdx = currentProfileIdx;
+}
 
 function su12cRender() {
   // Serving count display
@@ -14488,6 +14559,9 @@ function loadProfileSubProfiles() {
   const sp = profiles[currentProfileIdx].subProfiles || [];
   subProfileSaved  = sp.slice();
   subProfileCount  = sp.length;
+  // Switching profiles: force the working BrewNow state to re-hydrate from the
+  // newly-selected profile the next time SU12/SU12c/SU13 is entered.
+  _brewHydratedForIdx = -1;
 }
 
 // ── NEW-PROFILE GATE (household member vs. guest) ──────
@@ -14684,7 +14758,7 @@ const profiles = [
     _instrFloor: 40, _instrWHC: 195, _instrBed: 28, _instrT12: 7.5, _instrFlags: [],
     _priorMg: 12.8, _priorMins: 9 * 60,
     bnProfile: { size: '10 oz', count: 1, strength: 'Light',
-      additives: { collagen:{on:false,mult:'1.0x'}, ltheanine:{on:true,mult:'1.0x'}, mct:{on:false,mult:'1.0x'}, cinnamon:{on:false,mult:'1.0x'}, vanilla:{on:false,mult:'1.0x'}, coconut:{on:false,mult:'1.0x'} } },
+      additives: { ltheanine:{on:true,mult:'1.0x'} } },
     subProfiles: [
       { name: 'Morning Ease', days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], sh:7,sm:0,sap:'AM', eh:9,em:0,eap:'AM', strength:'Light', color:'#5B9E6F',
         additives: [{id:'ltheanine',name:'L-Theanine',mult:'1.0x'}] },
@@ -14701,7 +14775,7 @@ const profiles = [
     _instrFloor: 40, _instrWHC: 295, _instrBed: 50, _instrT12: 6.0, _instrFlags: [],
     _priorMg: 18.7, _priorMins: 9 * 60,
     bnProfile: { size: '12 oz', count: 1, strength: 'Medium',
-      additives: { collagen:{on:false,mult:'1.0x'}, ltheanine:{on:true,mult:'1.0x'}, mct:{on:false,mult:'1.0x'}, cinnamon:{on:true,mult:'1.0x'}, vanilla:{on:false,mult:'1.0x'}, coconut:{on:false,mult:'1.0x'} } },
+      additives: { ltheanine:{on:true,mult:'1.0x'}, cinnamon:{on:true,mult:'1.0x'} } },
     subProfiles: [
       { name: 'Morning Ritual', days:['Mon','Tue','Wed','Thu','Fri'], sh:7,sm:0,sap:'AM', eh:10,em:0,eap:'AM', strength:'Medium', color:'#E8952A',
         additives: [{id:'ltheanine',name:'L-Theanine',mult:'1.0x'},{id:'cinnamon',name:'Cinnamon Spice',mult:'1.0x'}] },
@@ -14718,7 +14792,7 @@ const profiles = [
     _instrFloor: 60, _instrWHC: 490, _instrBed: 75, _instrT12: 4.5, _instrFlags: [],
     _priorMg: 20.2, _priorMins: 9 * 60,
     bnProfile: { size: '12 oz', count: 1, strength: 'Strong',
-      additives: { collagen:{on:true,mult:'1.0x'}, ltheanine:{on:false,mult:'1.0x'}, mct:{on:false,mult:'1.0x'}, cinnamon:{on:false,mult:'1.0x'}, vanilla:{on:true,mult:'1.0x'}, coconut:{on:false,mult:'1.0x'} } },
+      additives: { collagen:{on:true,mult:'1.0x'}, vanilla:{on:true,mult:'1.0x'} } },
     subProfiles: [
       { name: 'AM Boost', days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], sh:6,sm:30,sap:'AM', eh:8,em:30,eap:'AM', strength:'Strong', color:'#E8952A',
         additives: [{id:'collagen',name:'Collagen Peptides',mult:'1.0x'},{id:'vanilla',name:'Vanilla Powder',mult:'1.0x'}] },
