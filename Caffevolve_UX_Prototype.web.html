@@ -5177,7 +5177,7 @@ input[type="range"]::-moz-range-thumb {
   <div id="ps6a-advisory" style="display:none;margin:8px 20px 0;">
     <div style="background:rgba(220,80,60,.12);border:1.5px solid rgba(220,80,60,.35);border-radius:12px;padding:14px 16px;">
       <div style="font-size:13px;font-weight:700;color:var(--red-warn);margin-bottom:6px;">⚠ Caffeine Ceiling Advisory</div>
-      <div style="font-size:12px;color:var(--text-muted);line-height:1.55;">Your current caffeine level is already above your <span class="term-link" onclick="showTerm('bedtime-ceiling')">Bedtime Ceiling</span>. Even a fully decaf blend won't bring you under <span id="ps6a-adv-ceil">50 mg</span> by <span id="ps6a-adv-bedtime">10:30 PM</span>.</div>
+      <div id="ps6a-adv-desc" style="font-size:12px;color:var(--text-muted);line-height:1.55;">Your current caffeine level is already above your <span class="term-link" onclick="showTerm('bedtime-ceiling')">Bedtime Ceiling</span>. Even a fully decaf blend won't bring you under <span id="ps6a-adv-ceil">50 mg</span> by <span id="ps6a-adv-bedtime">10:30 PM</span>.</div>
       <div style="border-top:1px solid rgba(220,80,60,.2);margin-top:10px;padding-top:10px;display:flex;justify-content:space-between;align-items:center;">
         <div style="font-size:12px;color:var(--text-muted);">Projected residual @ bedtime</div>
         <div style="font-size:13px;font-weight:700;color:var(--red-warn);" id="ps6a-adv-proj-bed">— mg</div>
@@ -9372,17 +9372,35 @@ function _ps6MarkSeg(id, val) {
   if (!seg) return;
   seg.querySelectorAll('.seg-opt').forEach(o => o.classList.toggle('selected', o.textContent.trim() === val));
 }
+function ps6RecomputeAfterEdit() {
+  if (brewSession.isManual) {
+    // Preserve a manually-set blend ratio. Only the projections recompute for
+    // the new serving/strength: a larger serving means more water, so the
+    // device pulls proportionally more beans from BOTH hoppers at the same
+    // ratio — total caffeine rises, and the projected peak / bedtime residual
+    // update to match (the over-ceiling warning appears if they now cross a
+    // ceiling). updateBlendSlider does exactly this recompute for the current
+    // blend %.
+    updateBlendSlider(brewSession.blendCaf);
+    // updateBlendSlider refreshes _projPeak/_projBedtime but not the residual
+    // string the guest confirm card reads — keep it in sync.
+    const _bc = getCeilings().bed;
+    const _pb = brewSession._projBedtime || 0;
+    brewSession.residual   = _pb + ' mg' + (_pb <= _bc ? ' ✓' : '');
+    brewSession.residualOk = _pb <= _bc;
+  } else {
+    // No manual override — recompute the recommended blend for the new inputs.
+    initBrewBaseline();
+  }
+  syncBrewDisplays();
+}
 function ps6SetSize(size) {
   brewSession.servingSize = size;
-  brewSession.isManual = false;   // changing inputs recomputes the recommended blend
-  initBrewBaseline();
-  syncBrewDisplays();
+  ps6RecomputeAfterEdit();
 }
 function ps6SetStrength(str) {
   brewSession.strength = str;
-  brewSession.isManual = false;
-  initBrewBaseline();
-  syncBrewDisplays();
+  ps6RecomputeAfterEdit();
 }
 
 function syncBrewDisplays() {
@@ -9482,6 +9500,19 @@ function syncBrewDisplays() {
   if (ps6aAdvCeil)  ps6aAdvCeil.textContent    = bedCeil + ' mg';
   if (ps6aAdvBed)   ps6aAdvBed.textContent     = eceBedtimeLabel();
   if (ps6aAdvProj)  ps6aAdvProj.textContent    = _ps6aProjBed + ' mg';
+  // Advisory wording depends on WHY the projection is over the bedtime ceiling:
+  //   • baseline already over  → even a fully decaf brew can't help
+  //   • this brew pushes over  → more decaf / smaller / lighter brings it back under
+  const ps6aAdvDesc = document.getElementById('ps6a-adv-desc');
+  if (ps6aAdvDesc && _ps6aOver) {
+    const _termCeil = '<span class="term-link" onclick="showTerm(\'bedtime-ceiling\')">Bedtime Ceiling</span>';
+    const _ceilTxt  = bedCeil + ' mg';
+    const _bedLbl   = eceBedtimeLabel();
+    const _baselineOver = (s._residualBed !== undefined ? s._residualBed : 0) > bedCeil;
+    ps6aAdvDesc.innerHTML = _baselineOver
+      ? ('Your current caffeine level is already above your ' + _termCeil + '. Even a fully decaf blend won’t bring you under ' + _ceilTxt + ' by ' + _bedLbl + '.')
+      : ('This blend would leave you above your ' + _termCeil + ' (' + _ceilTxt + ') at ' + _bedLbl + '. More decaf, a smaller serving, or a lighter strength brings you back under.');
+  }
   if (ps6aBlend)    { ps6aBlend.innerHTML = blendHtml; }
   if (ps6aResidual) { const _pb = s._projBedtime !== undefined ? s._projBedtime : 43; const _ok = _pb <= bedCeil; ps6aResidual.textContent = _pb + ' mg' + (_ok ? ' \u2713' : ''); ps6aResidual.style.color = _ok ? 'var(--green-accent)' : 'var(--amber)'; }
   if (ps6aPeak)     { ps6aPeak.textContent = projPeak > 0 ? projPeak + ' mg' : '\u2014'; ps6aPeak.style.color = projPeak > tpc ? 'var(--amber)' : 'var(--text-dark)'; }
