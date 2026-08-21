@@ -2464,6 +2464,11 @@ input[type="range"]::-moz-range-thumb {
 .conf-val.blue { color: var(--blue-path); }
 .conf-val.amber { color: var(--amber); }
 
+/* Inline editable rows on the Confirm Brew card (serving size / brew strength) */
+.conf-row-edit { flex-direction: column; align-items: stretch; gap: 7px; }
+.conf-seg .seg-opt { padding: 8px 6px; font-size: 12px; }
+.conf-edit-hint { font-size: 10.5px; color: var(--gold); font-style: italic; opacity: .9; }
+
 /* ── SU-BEAN · INLINE EXPAND SELECTORS ───────────────── */
 .subean-text-link {
   background: none; border: none; padding: 0;
@@ -5191,9 +5196,24 @@ input[type="range"]::-moz-range-thumb {
     <div class="conf-row"><span class="conf-key">Caffeine blend<span id="ps6a-blend-asterisk" style="display:none;color:var(--text-muted);font-size:10px;vertical-align:super;margin-left:1px;">*</span></span><span class="conf-val" id="ps6a-blend-val">65% Caf · 35% Decaf</span></div>
     <div class="conf-row"><span class="conf-key"><span class="term-link" onclick="showTerm('residual-caffeine')">Projected residual @ bedtime</span></span><span class="conf-val" id="ps6a-residual-val" style="color:var(--green-accent);">43 mg ✓</span></div>
     <div class="conf-row"><span class="conf-key">Projected wake hours peak</span><span class="conf-val" id="ps6a-peak-val">—</span></div>
-    <div class="conf-row"><span class="conf-key">Serving size</span><span class="conf-val" id="ps6a-size-val">12 oz</span></div>
+    <div class="conf-row conf-row-edit">
+      <div style="display:flex;justify-content:space-between;align-items:center;"><span class="conf-key">Serving size</span><span class="conf-edit-hint">✎ tap to change</span></div>
+      <div class="seg-selector conf-seg" id="ps6a-size-seg">
+        <div class="seg-opt" onclick="ps6SetSize('8 oz')">8 oz</div>
+        <div class="seg-opt" onclick="ps6SetSize('12 oz')">12 oz</div>
+        <div class="seg-opt" onclick="ps6SetSize('16 oz')">16 oz</div>
+        <div class="seg-opt" onclick="ps6SetSize('20 oz')">20 oz</div>
+      </div>
+    </div>
     <div class="conf-row"><span class="conf-key">Serving count</span><span class="conf-val" id="ps6a-count-val">2</span></div>
-    <div class="conf-row"><span class="conf-key">Brew strength</span><span class="conf-val" id="ps6a-strength-val">Medium</span></div>
+    <div class="conf-row conf-row-edit">
+      <div style="display:flex;justify-content:space-between;align-items:center;"><span class="conf-key">Brew strength</span><span class="conf-edit-hint">✎ tap to change</span></div>
+      <div class="seg-selector conf-seg" id="ps6a-strength-seg">
+        <div class="seg-opt" onclick="ps6SetStrength('Light')">Light</div>
+        <div class="seg-opt" onclick="ps6SetStrength('Medium')">Medium</div>
+        <div class="seg-opt" onclick="ps6SetStrength('Strong')">Strong</div>
+      </div>
+    </div>
     <div class="conf-row" style="border-bottom:none;"><span class="conf-key">Additives</span><span class="conf-val" id="ps6a-additives-val" style="text-align:right;font-size:12px;">Cinnamon (1.0x)<br>Collagen (1.0x)</span></div>
   </div>
   <div class="btn-row">
@@ -5230,9 +5250,24 @@ input[type="range"]::-moz-range-thumb {
     <div class="conf-row"><span class="conf-key">Caffeine blend<span id="ps6c1-blend-asterisk" style="display:none;color:var(--text-muted);font-size:10px;vertical-align:super;margin-left:1px;">*</span></span><span class="conf-val" id="ps6c1-blend-val">65% Caf · 35% Decaf</span></div>
     <div class="conf-row"><span class="conf-key"><span class="term-link" onclick="showTerm('residual-caffeine')">Projected residual @ bedtime</span></span><span class="conf-val" id="ps6c1-residual-val">—</span></div>
     <div class="conf-row"><span class="conf-key">Projected wake hours peak</span><span class="conf-val" id="ps6c1-peak-val">—</span></div>
-    <div class="conf-row"><span class="conf-key">Serving size</span><span class="conf-val" id="ps6c1-size-val">12 oz</span></div>
+    <div class="conf-row conf-row-edit">
+      <div style="display:flex;justify-content:space-between;align-items:center;"><span class="conf-key">Serving size</span><span class="conf-edit-hint">✎ tap to change</span></div>
+      <div class="seg-selector conf-seg" id="ps6c1-size-seg">
+        <div class="seg-opt" onclick="ps6SetSize('8 oz')">8 oz</div>
+        <div class="seg-opt" onclick="ps6SetSize('12 oz')">12 oz</div>
+        <div class="seg-opt" onclick="ps6SetSize('16 oz')">16 oz</div>
+        <div class="seg-opt" onclick="ps6SetSize('20 oz')">20 oz</div>
+      </div>
+    </div>
     <div class="conf-row"><span class="conf-key">Serving count</span><span class="conf-val" id="ps6c1-count-val">1</span></div>
-    <div class="conf-row"><span class="conf-key">Brew strength</span><span class="conf-val" id="ps6c1-strength-val">Medium</span></div>
+    <div class="conf-row conf-row-edit">
+      <div style="display:flex;justify-content:space-between;align-items:center;"><span class="conf-key">Brew strength</span><span class="conf-edit-hint">✎ tap to change</span></div>
+      <div class="seg-selector conf-seg" id="ps6c1-strength-seg">
+        <div class="seg-opt" onclick="ps6SetStrength('Light')">Light</div>
+        <div class="seg-opt" onclick="ps6SetStrength('Medium')">Medium</div>
+        <div class="seg-opt" onclick="ps6SetStrength('Strong')">Strong</div>
+      </div>
+    </div>
     <div class="conf-row" style="border-bottom:none;"><span class="conf-key">Additives</span><span class="conf-val" id="ps6c1-additives-val" style="text-align:right;font-size:12px;">None</span></div>
   </div>
   <div id="ps6c1-adjust-link" style="display:block;text-align:center;margin:8px 20px 0;">
@@ -9329,6 +9364,27 @@ function ibLaunchBrew() {
 }
 
 // ── END INSTABREW ─────────────────────────────────────
+
+// Inline edits on the Confirm Brew screen (PS6-A / PS6-C1): change serving size
+// or brew strength, recompute the recommendation, and refresh the whole card.
+function _ps6MarkSeg(id, val) {
+  const seg = document.getElementById(id);
+  if (!seg) return;
+  seg.querySelectorAll('.seg-opt').forEach(o => o.classList.toggle('selected', o.textContent.trim() === val));
+}
+function ps6SetSize(size) {
+  brewSession.servingSize = size;
+  brewSession.isManual = false;   // changing inputs recomputes the recommended blend
+  initBrewBaseline();
+  syncBrewDisplays();
+}
+function ps6SetStrength(str) {
+  brewSession.strength = str;
+  brewSession.isManual = false;
+  initBrewBaseline();
+  syncBrewDisplays();
+}
+
 function syncBrewDisplays() {
   const s = brewSession;
   const blendHtml = s.blendLabel + (s.isManual ? ' <span style="font-size:10px;font-weight:400;color:var(--amber);">(Manual)</span>' : '');
@@ -9455,6 +9511,12 @@ function syncBrewDisplays() {
   if (ps6c1Bedtime)  { ps6c1Bedtime.textContent  = eceBedtimeLabel(); }
   if (ps6c1BedCeil)  { ps6c1BedCeil.textContent  = bedCeil + ' mg'; }
   if (ps6c1Peak)     { ps6c1Peak.textContent = projPeak + ' mg'; ps6c1Peak.style.color = projPeak > tpc ? 'var(--amber)' : 'var(--green-accent)'; }
+
+  // Reflect current serving size / strength in the inline Confirm-Brew pickers
+  _ps6MarkSeg('ps6a-size-seg',     s.servingSize);
+  _ps6MarkSeg('ps6a-strength-seg', s.strength);
+  _ps6MarkSeg('ps6c1-size-seg',    s.servingSize);
+  _ps6MarkSeg('ps6c1-strength-seg', s.strength);
 
   // ── PS7 HTB summary ──
   const htbBlend    = document.getElementById('htb-blend-val');
