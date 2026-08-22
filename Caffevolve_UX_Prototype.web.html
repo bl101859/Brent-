@@ -4356,7 +4356,7 @@ input[type="range"]::-moz-range-thumb {
     <!-- Caffeine Comfort Zone block — pill label + four parameters + edit link -->
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
       <span id="su13-tier-label" style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);"><span class="term-link" onclick="showTerm('sensitivity-tier')">Caffeine Comfort Zone</span></span>
-      <span id="su13-tier-pill" style="font-size:11px;font-weight:500;color:var(--accent);background:rgba(139,69,19,.07);border:1px solid rgba(139,69,19,.18);border-radius:20px;padding:3px 11px;letter-spacing:.01em;">Moderate sensitivity</span>
+      <span id="su13-tier-pill" style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.01em;">Moderate sensitivity</span>
     </div>
     <div style="display:flex;flex-direction:column;gap:0;background:#F8F4EE;border-radius:12px;overflow:hidden;margin-bottom:4px;">
       <div class="summary-row" style="padding:10px 14px;border-bottom:1px solid var(--border-light);"><span class="sum-label"><span class="term-link" onclick="showTerm('tipping-point-ceiling')">Wake-Hours Ceiling</span></span><span class="sum-val" id="su13-tpc">300 mg</span></div>
@@ -8031,10 +8031,10 @@ function goto(id) {
     const sensitivityLabel = { Lower: 'Higher sensitivity', Moderate: 'Moderate sensitivity', Higher: 'Lower sensitivity' };
     const sensText = sensitivityLabel[userProfile.tier] || 'Moderate sensitivity';
     if (tierEl) {
+      // Plain text label (not an editable control) — only the text color shifts
+      // to signal a Custom-adjusted zone; no pill/border chrome.
       tierEl.textContent = isAdjusted ? sensText + ' - Custom' : sensText;
-      tierEl.style.color      = isAdjusted ? 'var(--red-warn)' : '';
-      tierEl.style.borderColor = isAdjusted ? 'rgba(220,38,38,.3)' : '';
-      tierEl.style.background  = isAdjusted ? 'rgba(220,38,38,.06)' : '';
+      tierEl.style.color = isAdjusted ? 'var(--red-warn)' : '';
     }
     if (labelEl) {
       const adjWord = isAdjusted ? 'Adjusted' : isInstrCalib ? 'Calibrated' : 'Recommended';
