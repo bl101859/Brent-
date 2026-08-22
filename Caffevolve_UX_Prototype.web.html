@@ -13562,26 +13562,21 @@ function su12ConfirmAndContinue() {
   // Persist a preset's My-Additive-List edits back onto the profile. My Additives
   // is MEMBERSHIP (which loaded additives are in the list), NOT the automatic
   // BrewNow on/off — so add/remove additive keys here and leave each additive's
-  // stored .on state untouched (that's edited on SU12c). Only device-loaded
-  // additives are editable here; an additive still used by a sub-profile is kept
-  // even if unchecked. SU13 + SU12c read this for presets.
+  // stored .on state untouched (that's edited on SU12c). Edits are honored
+  // literally: unchecking an additive removes it even if a sub-profile window
+  // still uses it (that window brews it independently). Only device-loaded
+  // additives are editable here. SU13 + SU12c read this for presets.
   if (isPresetProfile(currentProfileIdx)) {
     const _prof = profiles[currentProfileIdx];
     if (_prof.bnProfile) {
       if (!_prof.bnProfile.additives) _prof.bnProfile.additives = {};
       const _add = _prof.bnProfile.additives;
-      const _subUses = (id) => (_prof.subProfiles || []).some(sp => {
-        const a = sp.additives;
-        if (Array.isArray(a)) return a.some(x => x && x.id === id);
-        if (a && typeof a === 'object') return !!a[id];
-        return false;
-      });
       Array.from(su4aState.selected).forEach(id => {
         const inList = su12DefaultState[id] === true;
         if (inList) {
           if (!_add[id]) _add[id] = { on: false, mult: su12MultState[id] || '1.0x' };
-        } else if (_add[id] && !_subUses(id)) {
-          delete _add[id]; // removed from the list and not held by any sub-profile
+        } else if (_add[id]) {
+          delete _add[id]; // removed from the list — honored literally
         }
       });
     }
@@ -13609,20 +13604,17 @@ const bnProfile = {
 // (reset to -1 on every profile switch, see loadProfileSubProfiles()).
 let _brewHydratedForIdx = -1;
 
-// A profile's "My Additive List" is the union of its BrewNow additive palette
-// (keys of bnProfile.additives) and every additive referenced by its
-// sub-profiles, restricted to what is currently loaded in the device.
+// A profile's "My Additive List" is EXPLICIT: the keys of bnProfile.additives,
+// restricted to what is currently loaded in the device. It is seeded to include
+// each sub-profile's additives (see the preset data / sub-profile creation), but
+// once seeded the user's edits are honored literally — removing an additive here
+// sticks even if a sub-profile window still uses it (that window brews it on its
+// own). Deriving membership from sub-profiles on every render would make such
+// removals silently reappear.
 function profileMemberAdditiveIds(idx) {
   const p = profiles[idx];
-  if (!p) return [];
-  const set = new Set();
-  if (p.bnProfile && p.bnProfile.additives) Object.keys(p.bnProfile.additives).forEach(k => set.add(k));
-  (p.subProfiles || []).forEach(sp => {
-    const a = sp.additives;
-    if (Array.isArray(a)) a.forEach(x => { if (x && x.id) set.add(x.id); });
-    else if (a && typeof a === 'object') Object.keys(a).forEach(k => set.add(k));
-  });
-  return Array.from(set).filter(id => su4aState.selected.has(id));
+  if (!p || !p.bnProfile || !p.bnProfile.additives) return [];
+  return Object.keys(p.bnProfile.additives).filter(id => su4aState.selected.has(id));
 }
 
 // Load the working BrewNow state + My-Additive membership from a stored profile.
@@ -13774,20 +13766,14 @@ function su12cSave() {
   if (strSel)  bnProfile.strength = strSel.textContent.trim();
   // SU12c lists EVERY loaded additive so any can be toggled into BrewNow, but
   // merely displaying one shouldn't make it a permanent list member. Persist an
-  // additive only if it's turned on, was already a member, or is held by a
-  // sub-profile — and never persist one the device no longer has loaded.
+  // additive only if it's turned on or was already a list member — never one the
+  // device no longer has loaded, and never re-add one the user removed on SU12.
   const prof = profiles[currentProfileIdx];
   const prevAdd = (prof.bnProfile && prof.bnProfile.additives) || {};
-  const subUses = (id) => (prof.subProfiles || []).some(sp => {
-    const a = sp.additives;
-    if (Array.isArray(a)) return a.some(x => x && x.id === id);
-    if (a && typeof a === 'object') return !!a[id];
-    return false;
-  });
   const persisted = {};
   Object.entries(bnProfile.additives).forEach(([id, st]) => {
     if (!su4aState.selected.has(id)) return; // not loaded — drop
-    const isMember = st.on === true || prevAdd[id] !== undefined || subUses(id);
+    const isMember = st.on === true || prevAdd[id] !== undefined;
     if (isMember) persisted[id] = { on: st.on === true, mult: st.mult || '1.0x' };
   });
   prof.bnProfile = { ...bnProfile, additives: persisted };
@@ -14785,7 +14771,7 @@ const profiles = [
     _instrFloor: 40, _instrWHC: 195, _instrBed: 28, _instrT12: 7.5, _instrFlags: [],
     _priorMg: 12.8, _priorMins: 9 * 60,
     bnProfile: { size: '10 oz', count: 1, strength: 'Light',
-      additives: { ltheanine:{on:true,mult:'1.0x'} } },
+      additives: { ltheanine:{on:true,mult:'1.0x'}, collagen:{on:false,mult:'1.0x'} } },
     subProfiles: [
       { name: 'Morning Ease', days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], sh:7,sm:0,sap:'AM', eh:9,em:0,eap:'AM', strength:'Light', color:'#5B9E6F',
         additives: [{id:'ltheanine',name:'L-Theanine',mult:'1.0x'}] },
@@ -14802,7 +14788,7 @@ const profiles = [
     _instrFloor: 40, _instrWHC: 295, _instrBed: 50, _instrT12: 6.0, _instrFlags: [],
     _priorMg: 18.7, _priorMins: 9 * 60,
     bnProfile: { size: '12 oz', count: 1, strength: 'Medium',
-      additives: { ltheanine:{on:true,mult:'1.0x'}, cinnamon:{on:true,mult:'1.0x'} } },
+      additives: { ltheanine:{on:true,mult:'1.0x'}, cinnamon:{on:true,mult:'1.0x'}, vanilla:{on:false,mult:'1.0x'} } },
     subProfiles: [
       { name: 'Morning Ritual', days:['Mon','Tue','Wed','Thu','Fri'], sh:7,sm:0,sap:'AM', eh:10,em:0,eap:'AM', strength:'Medium', color:'#E8952A',
         additives: [{id:'ltheanine',name:'L-Theanine',mult:'1.0x'},{id:'cinnamon',name:'Cinnamon Spice',mult:'1.0x'}] },
@@ -14819,7 +14805,7 @@ const profiles = [
     _instrFloor: 60, _instrWHC: 490, _instrBed: 75, _instrT12: 4.5, _instrFlags: [],
     _priorMg: 20.2, _priorMins: 9 * 60,
     bnProfile: { size: '12 oz', count: 1, strength: 'Strong',
-      additives: { collagen:{on:true,mult:'1.0x'}, vanilla:{on:true,mult:'1.0x'} } },
+      additives: { collagen:{on:true,mult:'1.0x'}, vanilla:{on:true,mult:'1.0x'}, ltheanine:{on:false,mult:'1.0x'}, cinnamon:{on:false,mult:'1.0x'} } },
     subProfiles: [
       { name: 'AM Boost', days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], sh:6,sm:30,sap:'AM', eh:8,em:30,eap:'AM', strength:'Strong', color:'#E8952A',
         additives: [{id:'collagen',name:'Collagen Peptides',mult:'1.0x'},{id:'vanilla',name:'Vanilla Powder',mult:'1.0x'}] },
