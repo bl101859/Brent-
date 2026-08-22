@@ -7893,6 +7893,7 @@ function goto(id) {
   }
   if (id === 'SU13') {
     ensureBrewHydrated();
+    refreshAdditiveImpact(currentProfileIdx); // clear the review flag once gaps are resolved
     // Always sync subProfileSaved from the stored profile before rendering
     const storedSubs = (profiles[currentProfileIdx] && profiles[currentProfileIdx].subProfiles) || [];
     subProfileSaved = storedSubs.map(sp => ({ ...sp }));
@@ -13326,6 +13327,11 @@ function su4aConfirm() {
     canisterAudit[id] = { changedBy, changedAt };
   });
 
+  // Immediately note, across every profile, whether this loadout change orphaned
+  // an additive a sub-profile or BrewNow! relies on. Silent here — the notice is
+  // deferred until the impacted user activates their profile for a brew.
+  detectAdditiveImpacts();
+
   goto('SU4');
 }
 
@@ -13581,6 +13587,7 @@ function su12ConfirmAndContinue() {
       });
     }
   }
+  refreshAdditiveImpact(currentProfileIdx); // resolved gaps clear the review flag
   const dest = su12ReturnScreen;
   su12ReturnScreen = dest === 'PS5a' ? 'SU12a' : 'SU12c'; // reset correctly based on context
   goto(dest);
@@ -13658,6 +13665,90 @@ function ensureBrewHydrated() {
   if (_brewHydratedForIdx === currentProfileIdx) return;
   hydrateBrewFromProfile(currentProfileIdx);
   _brewHydratedForIdx = currentProfileIdx;
+}
+
+// ── ADDITIVE-CHANGE IMPACT DETECTION ──────────────────
+// A device additive change (add/replace) can orphan an additive a profile's
+// sub-profile window or BrewNow! default relies on. computeAdditiveGaps returns
+// which of a profile's saved additives are no longer loaded in the device.
+function computeAdditiveGaps(idx) {
+  const res = { subs: [], brew: [], hasAny: false };
+  const p = profiles[idx];
+  if (!p) return res;
+  const loaded = su4aState.selected;
+  const nameOf = id => { const c = ADDITIVE_CATALOG.find(a => a.id === id); return c ? c.name : id; };
+  (p.subProfiles || []).forEach(sp => {
+    const a = sp.additives;
+    const ids = Array.isArray(a) ? a.map(x => x && x.id).filter(Boolean)
+              : (a && typeof a === 'object') ? Object.keys(a) : [];
+    const miss = ids.filter(id => !loaded.has(id));
+    if (miss.length) res.subs.push({ name: sp.name || 'Sub-profile', adds: miss.map(nameOf) });
+  });
+  const bn = p.bnProfile && p.bnProfile.additives;
+  if (bn) Object.entries(bn).forEach(([id, st]) => {
+    if (st && st.on === true && !loaded.has(id)) res.brew.push(nameOf(id));
+  });
+  res.hasAny = res.subs.length > 0 || res.brew.length > 0;
+  return res;
+}
+
+// Stamp (or clear) a profile's review-needed flag from its current gaps.
+function refreshAdditiveImpact(idx) {
+  const p = profiles[idx];
+  if (!p) return;
+  const g = computeAdditiveGaps(idx);
+  if (g.hasAny) p._additiveReviewNeeded = g;
+  else delete p._additiveReviewNeeded;
+}
+
+// Immediately note impact across EVERY profile — run at device-setup confirm,
+// before any per-profile pruning, so orphaned BrewNow! additives are captured.
+function detectAdditiveImpacts() {
+  profiles.forEach((_, i) => refreshAdditiveImpact(i));
+}
+
+// Gate a brew action behind the impact notice: if the active profile was flagged
+// impacted, show the notice first (deferred from the silent device-setup change);
+// otherwise proceed straight to the brew.
+let _pendingBrewProceed = null;
+function maybeShowAdditiveNotice(proceed) {
+  const p = profiles[currentProfileIdx];
+  const g = p && p._additiveReviewNeeded;
+  if (!g || !g.hasAny) { if (typeof proceed === 'function') proceed(); return; }
+  _pendingBrewProceed = (typeof proceed === 'function') ? proceed : null;
+  const body = document.getElementById('additive-review-body');
+  if (body) {
+    let html = '<div style="margin-bottom:10px;">A recent device additive change affects <strong style="color:var(--gold-light);">' +
+      (p.name || 'this profile') + '</strong>. These saved selections use an additive that’s no longer loaded:</div>';
+    html += '<div style="background:rgba(255,180,80,.06);border:1px solid rgba(255,180,80,.16);border-radius:10px;padding:10px 12px;">';
+    g.subs.forEach(s => {
+      html += '<div style="margin-bottom:6px;"><span style="color:var(--gold-dim);font-weight:600;">' + s.name +
+        '</span> <span style="color:var(--text-muted);">— ' + s.adds.join(', ') + '</span></div>';
+    });
+    if (g.brew.length) {
+      html += '<div><span style="color:var(--gold-dim);font-weight:600;">BrewNow! Profile</span> <span style="color:var(--text-muted);">— ' +
+        g.brew.join(', ') + '</span></div>';
+    }
+    html += '</div>';
+    html += '<div style="margin-top:12px;color:var(--text-muted);">Update these before your next brew so they use a loaded additive.</div>';
+    body.innerHTML = html;
+  }
+  const ov = document.getElementById('additive-review-overlay');
+  if (ov) ov.style.display = 'flex';
+}
+function additiveNoticeReview() {
+  const ov = document.getElementById('additive-review-overlay');
+  if (ov) ov.style.display = 'none';
+  _pendingBrewProceed = null;
+  setupMode = 'edit';
+  goto('SU13');
+}
+function additiveNoticeProceed() {
+  const ov = document.getElementById('additive-review-overlay');
+  if (ov) ov.style.display = 'none';
+  const fn = _pendingBrewProceed;
+  _pendingBrewProceed = null;
+  if (typeof fn === 'function') fn();
 }
 
 function su12cRender() {
@@ -13777,6 +13868,7 @@ function su12cSave() {
     if (isMember) persisted[id] = { on: st.on === true, mult: st.mult || '1.0x' };
   });
   prof.bnProfile = { ...bnProfile, additives: persisted };
+  refreshAdditiveImpact(currentProfileIdx); // resolved gaps clear the review flag
   // Return to SU13 if editing from profile summary, otherwise continue to grind setting
   goto(setupMode === 'edit' ? 'SU13' : 'SU-GRIND');
 }
@@ -14753,7 +14845,7 @@ function renderPS1aCarousel() {
   if (bnBtn) {
     const hasBn = !!(profiles[currentProfileIdx].bnProfile);
     bnBtn.innerHTML = hasBn
-      ? '<button class="btn btn-amber" onclick="savePS1aBedtime();launchBrewNow()" style="text-align:left;padding:13px 16px;background:rgba(160,104,32,.22);border-color:rgba(255,200,80,.28);color:var(--gold-light);width:100%;flex-direction:column;align-items:flex-start;">' +
+      ? '<button class="btn btn-amber" onclick="savePS1aBedtime();maybeShowAdditiveNotice(launchBrewNow)" style="text-align:left;padding:13px 16px;background:rgba(160,104,32,.22);border-color:rgba(255,200,80,.28);color:var(--gold-light);width:100%;flex-direction:column;align-items:flex-start;">' +
           '<div style="font-size:13px;font-weight:600;">⚡ BrewNow!</div>' +
           '<div style="font-size:11px;opacity:.7;margin-top:2px;font-style:italic;">The fastest way to your perfect java!</div>' +
         '</button>'
@@ -15707,7 +15799,7 @@ function ps1aTimeTouch() {
 // tappable and flash a prompt to the left of the picker when no bedtime is set yet.
 function ps1aTryPath(which) {
   if (!sessionBedtime.isSet()) { ps1aFlashBedtimePrompt(); return; }
-  if (which === 'qb')  { setPath('B'); savePS1aBedtime(); routeFromPS1a(); }
+  if (which === 'qb')  { setPath('B'); savePS1aBedtime(); maybeShowAdditiveNotice(routeFromPS1a); }
   else if (which === 'oas') { savePS1aBedtime(); goto('OAS0'); }
   else if (which === 'cgo') { savePS1aBedtime(); goto('CGO'); }
 }
@@ -17355,6 +17447,27 @@ function renderSU5a() {
     <div style="display:flex;flex-direction:column;gap:10px;">
       <button id="exit-setup-confirm-btn" onclick="confirmExitSetup()" style="width:100%;padding:13px;background:#991B1B;color:#fff;border:none;border-radius:var(--radius-btn);font-family:var(--font-ui);font-size:14px;font-weight:500;cursor:pointer;">Exit &amp; Discard Profile</button>
       <button onclick="dismissExitSetup()" style="width:100%;padding:12px;background:transparent;color:var(--gold-dim);border:1px solid rgba(255,200,80,.25);border-radius:var(--radius-btn);font-family:var(--font-ui);font-size:13px;cursor:pointer;">Keep Going</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════
+     ADDITIVE REVIEW NOTICE
+     Fires when an impacted profile is activated for a brew after a
+     device additive change (add/replace) orphaned one of its
+     sub-profile or BrewNow! additives.
+═══════════════════════════════════════════════════════ -->
+<div id="additive-review-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:8100;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:#1A0C04;border:1px solid rgba(255,180,80,.35);border-radius:18px;padding:24px 22px 20px;width:340px;max-width:92vw;box-shadow:0 12px 40px rgba(0,0,0,.7);">
+    <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">
+      <span style="font-size:20px;line-height:1;">⚠️</span>
+      <span style="font-size:1.05rem;font-family:var(--font-display);color:var(--gold);">Your additives changed</span>
+    </div>
+    <div id="additive-review-body" style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:18px;"></div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button onclick="additiveNoticeReview()" style="width:100%;padding:13px;background:rgba(212,168,85,.14);color:var(--gold-light);border:1px solid rgba(255,200,80,.35);border-radius:var(--radius-btn);font-family:var(--font-ui);font-size:14px;font-weight:600;cursor:pointer;">Review my profile →</button>
+      <button onclick="additiveNoticeProceed()" style="width:100%;padding:12px;background:transparent;color:var(--gold-dim);border:1px solid rgba(255,200,80,.2);border-radius:var(--radius-btn);font-family:var(--font-ui);font-size:13px;cursor:pointer;">Continue brewing anyway</button>
     </div>
   </div>
 </div>
