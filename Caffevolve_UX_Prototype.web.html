@@ -13673,11 +13673,14 @@ function ensureBrewHydrated() {
 }
 
 // ── ADDITIVE-CHANGE IMPACT DETECTION ──────────────────
-// A device additive change (add/replace) can orphan an additive a profile's
-// sub-profile window or BrewNow! default relies on. computeAdditiveGaps returns
-// which of a profile's saved additives are no longer loaded in the device.
+// A device additive change (add/replace) can orphan an additive a profile relies
+// on in three places: a sub-profile window, or — used whenever no sub-profile
+// window is active — the profile's My Additive List (preferred additives) and its
+// BrewNow! defaults. computeAdditiveGaps returns which of a profile's saved
+// additives are no longer loaded in the device. The preferred-list members are
+// the bnProfile.additives KEYS; the ones flagged .on are also BrewNow! defaults.
 function computeAdditiveGaps(idx) {
-  const res = { subs: [], brew: [], hasAny: false };
+  const res = { subs: [], pref: [], hasAny: false };
   const p = profiles[idx];
   if (!p) return res;
   const loaded = su4aState.selected;
@@ -13690,10 +13693,10 @@ function computeAdditiveGaps(idx) {
     if (miss.length) res.subs.push({ name: sp.name || 'Sub-profile', adds: miss.map(nameOf) });
   });
   const bn = p.bnProfile && p.bnProfile.additives;
-  if (bn) Object.entries(bn).forEach(([id, st]) => {
-    if (st && st.on === true && !loaded.has(id)) res.brew.push(nameOf(id));
+  if (bn) Object.keys(bn).forEach(id => {
+    if (!loaded.has(id)) res.pref.push({ name: nameOf(id), brewNow: bn[id] && bn[id].on === true });
   });
-  res.hasAny = res.subs.length > 0 || res.brew.length > 0;
+  res.hasAny = res.subs.length > 0 || res.pref.length > 0;
   return res;
 }
 
@@ -13730,9 +13733,10 @@ function maybeShowAdditiveNotice(proceed) {
       html += '<div style="margin-bottom:6px;"><span style="color:var(--gold-dim);font-weight:600;">' + s.name +
         '</span> <span style="color:var(--text-muted);">— ' + s.adds.join(', ') + '</span></div>';
     });
-    if (g.brew.length) {
-      html += '<div><span style="color:var(--gold-dim);font-weight:600;">BrewNow! Profile</span> <span style="color:var(--text-muted);">— ' +
-        g.brew.join(', ') + '</span></div>';
+    if (g.pref.length) {
+      const parts = g.pref.map(x => x.name + (x.brewNow ? ' (BrewNow! default)' : ''));
+      html += '<div><span style="color:var(--gold-dim);font-weight:600;">Preferred additives</span> <span style="color:var(--text-muted);">— ' +
+        parts.join(', ') + '</span></div>';
     }
     html += '</div>';
     html += '<div style="margin-top:12px;color:var(--text-muted);">Update these before your next brew so they use a loaded additive.</div>';
