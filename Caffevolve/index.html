@@ -4546,9 +4546,108 @@ input[type="range"]::-moz-range-thumb {
         </div>
         <span class="cgo-ps1a-arrow">›</span>
       </button>
+      <!-- Manage my Day — full-day pre-planning path for the well-versed user.
+           Bedtime-gated like the other action buttons: dims until a bedtime
+           is set, then opens the MDAY planner. -->
+      <button id="ps1a-mday-btn" onclick="ps1aTryPath('mday')"
+        style="width:100%;display:flex;align-items:center;gap:12px;text-align:left;background:rgba(59,130,246,.10);border:1px solid rgba(59,130,246,.35);border-radius:12px;padding:12px 14px;font-family:var(--font-ui);cursor:pointer;opacity:.4;">
+        <span style="font-size:20px;line-height:1;">🗓️</span>
+        <span style="flex:1;">
+          <span style="display:block;font-size:14px;font-weight:600;color:var(--blue-path);">Manage my Day</span>
+          <span style="display:block;font-size:11px;color:var(--text-muted);margin-top:2px;font-style:italic;">Know your routine? Plan the whole day and protect bedtime.</span>
+        </span>
+        <span style="color:var(--blue-path);font-size:18px;">›</span>
+      </button>
       <button onclick="goto('PS0a')" style="background:none;border:none;font-family:var(--font-ui);font-size:12px;color:var(--text-muted);cursor:pointer;padding:6px 12px;text-decoration:underline;text-underline-offset:3px;opacity:.7;">Cancel Brew</button>
     </div>
   </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     MDAY · MANAGE MY DAY — full-day pre-planning path (path 'D')
+     For the well-versed user who plans a consistent routine up front
+     rather than managing one drink at a time. Builds a full-day
+     sub-profile of drinks, projects the whole day's caffeine, and
+     protects bedtime. Home drinks: blend + size controllable.
+     Out drinks (office / cafe): size only, caffeine fixed by catalog.
+═══════════════════════════════════════════════════════ -->
+<div class="screen" id="screen-MDAY">
+  <div class="screen-label">MANAGE MY DAY</div>
+  <div class="screen-title" style="padding-top:8px;">Manage<br>my Day</div>
+
+  <!-- Intro + saved-day loader -->
+  <div class="card" style="margin-top:10px;padding:14px 16px;">
+    <div class="card-label" style="margin-bottom:8px;">FULL-DAY PLAN</div>
+    <div style="font-size:13px;color:var(--text-mid);line-height:1.5;">
+      Lay out your usual routine once, and Caffevolve works backward from
+      bedtime so your last drink lands without regret.
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-top:12px;">
+      <span style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-label);">Day</span>
+      <input id="mday-name" type="text" value="Workday" maxlength="24"
+        oninput="mdayRender()"
+        style="flex:1;font-family:var(--font-ui);font-size:14px;font-weight:600;color:var(--text-dark);border:1px solid var(--border-mid);border-radius:8px;padding:8px 10px;outline:none;background:var(--card-bg-warm);" />
+    </div>
+    <div id="mday-saved-wrap" style="display:none;margin-top:10px;">
+      <div style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-label);margin-bottom:6px;">Saved days</div>
+      <div id="mday-saved-list" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+    </div>
+  </div>
+
+  <!-- Whole-day projection -->
+  <div class="card" id="mday-proj-card" style="padding:16px;">
+    <div class="card-label" style="margin-bottom:10px;">YOUR DAY, PROJECTED</div>
+    <div style="position:relative;">
+      <svg id="mday-curve" viewBox="0 0 320 130" width="100%" height="130" preserveAspectRatio="none" style="display:block;overflow:visible;"></svg>
+    </div>
+    <div id="mday-curve-axis" style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-top:2px;padding:0 2px;"></div>
+
+    <div style="display:flex;gap:10px;margin-top:14px;">
+      <div style="flex:1;background:var(--card-bg-warm);border:1px solid var(--border-light);border-radius:12px;padding:10px 12px;">
+        <div style="font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-label);">Day Peak</div>
+        <div id="mday-peak-val" style="font-family:var(--font-display);font-size:1.5rem;font-weight:500;color:var(--text-dark);line-height:1.1;margin-top:2px;">— mg</div>
+        <div id="mday-peak-sub" style="font-size:10px;color:var(--text-muted);margin-top:1px;">of — mg limit</div>
+      </div>
+      <div style="flex:1;border-radius:12px;padding:10px 12px;border:1px solid var(--border-light);" id="mday-bed-tile">
+        <div style="font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-label);">At Bedtime <span id="mday-bed-clock" style="opacity:.8;"></span></div>
+        <div id="mday-bed-val" style="font-family:var(--font-display);font-size:1.5rem;font-weight:500;color:var(--text-dark);line-height:1.1;margin-top:2px;">— mg</div>
+        <div id="mday-bed-sub" style="font-size:10px;color:var(--text-muted);margin-top:1px;">of — mg ceiling</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Verdict banner (color + copy set by JS) -->
+  <div id="mday-verdict" style="margin:0 20px 4px;border-radius:12px;padding:12px 14px;display:none;"></div>
+
+  <!-- Fix-it-for-me -->
+  <div style="padding:6px 20px 0;">
+    <button id="mday-fix-btn" onclick="mdayFixIt()"
+      style="width:100%;display:none;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--gold),var(--amber));border:none;border-radius:12px;padding:13px 16px;font-family:var(--font-ui);font-size:14px;font-weight:600;color:#2A1600;cursor:pointer;">
+      ✨ Fix it for me
+    </button>
+    <div id="mday-fix-panel" style="display:none;margin-top:10px;"></div>
+  </div>
+
+  <!-- The day's drinks -->
+  <div class="card" style="padding:14px 16px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+      <div class="card-label" style="margin-bottom:0;">The Day's Drinks <span id="mday-count" style="color:var(--text-muted);"></span></div>
+    </div>
+    <div id="mday-drink-list"></div>
+    <button onclick="mdayOpenAdd()"
+      style="width:100%;margin-top:8px;background:rgba(200,140,40,.1);border:1px dashed var(--gold-dim);border-radius:10px;padding:11px;font-family:var(--font-ui);font-size:13px;font-weight:600;color:var(--gold-dim);cursor:pointer;">
+      ＋ Add a drink
+    </button>
+  </div>
+
+  <!-- Inline add/edit editor (filled by JS) -->
+  <div id="mday-editor" style="display:none;"></div>
+
+  <div class="btn-row">
+    <button class="btn btn-amber" onclick="mdaySaveDay()">Save this Day</button>
+    <button class="btn btn-ghost" onclick="goto('PS1a')">Done</button>
+  </div>
+  <div style="height:28px;"></div>
 </div>
 
 <!-- ══════════════════════════════════════════════════════
@@ -7574,7 +7673,7 @@ const screenOrder = [
   'SU-ADMIN',
   'SU0','SU1','SU2','SU3','SU-BEAN','SU5','SU4a','SU4','SU5a',
   'SU6','SU7','SU8','SU8-CONFIRM','SU9','SU9a','SU12','SU12c','SU-GRIND','SU12a','SU12b','SU12b-CONFIRM','SU13',
-  'PS0','PS0a','PS1a','PS1b','PS1c','PS1d','PS2a','PS2rg','PS3a-C2',
+  'PS0','PS0a','PS1a','MDAY','PS1b','PS1c','PS1d','PS2a','PS2rg','PS3a-C2',
   'PS4','PS5a','PS6-A','PS6-C1',
   'ECE',
   'PS7b','PS8','BN-HTB','BN-Decaf',
@@ -7778,6 +7877,7 @@ function goto(id) {
     renderPS1aCarousel();
     renderPS1aBedtimeCard();
   }
+  if (id === 'MDAY') { mdayInit(); }
   if (id === 'SU-ADMIN') { suAdminInit(); }
   if (id === 'SU7')      { renderSU7(); }
   if (id === 'SU9') {
@@ -15811,6 +15911,7 @@ function ps1aTryPath(which) {
   if (which === 'qb')  { setPath('B'); savePS1aBedtime(); maybeShowAdditiveNotice(routeFromPS1a); }
   else if (which === 'oas') { savePS1aBedtime(); goto('OAS0'); }
   else if (which === 'cgo') { savePS1aBedtime(); goto('CGO'); }
+  else if (which === 'mday') { setPath('D'); savePS1aBedtime(); goto('MDAY'); }
 }
 function ps1aFlashBedtimePrompt() {
   const el = document.getElementById('ps1a-bed-prompt');
@@ -15833,6 +15934,9 @@ function ps1aEnableBrewButtons(enabled) {
   // CaffevolveGo (hub) is bedtime-gated like QuickBrew — dim until a bedtime is set.
   const cgo = document.getElementById('ps1a-cgo-btn');
   if (cgo) cgo.style.opacity = enabled ? '' : '0.4';
+  // Manage my Day is bedtime-gated too — its whole purpose is bedtime protection.
+  const mday = document.getElementById('ps1a-mday-btn');
+  if (mday) mday.style.opacity = enabled ? '' : '0.4';
 }
 
 function cycleColor() {
@@ -17894,6 +17998,560 @@ function renderGlossary() {
   window.addEventListener('load', update);
   update();
 })();
+</script>
+
+<!-- ══════════════════════════════════════════════════════
+     MANAGE MY DAY — engine (path 'D')
+     Full-day pre-planning: builds a day of drinks, projects the whole
+     day's caffeine with the shared pharmacokinetic helpers, and works
+     backward from bedtime. Home drinks expose blend + size; out drinks
+     (office / cafe) expose size only, caffeine fixed by the ECE catalog.
+═══════════════════════════════════════════════════════ -->
+<script>
+// ── State & constants ─────────────────────────────────
+let mdayState = {
+  name: 'Workday',
+  drinks: [],       // {id,timeMins,cat,name,place:'home'|'out',size,blendCaf}
+  _seq: 1,
+  _loaded: false,
+  _draft: null,
+  _editIdx: null,
+  _fix: null,
+};
+let _mdayGuestPlans = [];                         // saved days for guest paths (session-only)
+const MDAY_SIZE_MULT = { S:0.70, R:1.00, L:1.40, XL:1.80 };   // out, non-espresso
+const MDAY_SIZE_NAME = { S:'Small', R:'Regular', L:'Large', XL:'Extra large' };
+const MDAY_SIZE_ORDER = ['S','R','L','XL'];
+const MDAY_HOME_OZ = [8,10,12,16,20];            // home brew sizes
+const MDAY_MINS = [0,15,30,45];
+
+function mdayIsEspresso(d){ return d && d.cat === 'espresso'; }
+
+// ── Caffeine math (reuses the app's locked helpers) ───
+function mdayDrinkMg(d){
+  if (d.place === 'home') {
+    // Home-brewed: controllable size (oz) and blend (caf %). Uses the same
+    // cafPerOz() the brew engine uses; blend scales the caffeinated fraction.
+    const oz    = (typeof d.size === 'number') ? d.size : 12;
+    const blend = (d.blendCaf == null ? 100 : d.blendCaf) / 100;
+    return Math.round(oz * cafPerOz('Medium') * blend);
+  }
+  // Out (office / cafe): caffeine fixed by the ECE catalog; size only.
+  const base = ECE_CAF_MG[d.name] || 100;
+  if (mdayIsEspresso(d)) { const shots = (typeof d.size === 'number') ? d.size : 1; return Math.round(base * shots); }
+  const mult = (MDAY_SIZE_MULT[d.size] != null) ? MDAY_SIZE_MULT[d.size] : 1.0;
+  return Math.round(base * mult);
+}
+
+function mdayTotalAt(atMins, drinks){
+  // Total active caffeine at atMins. A drink not yet consumed contributes 0 —
+  // eceDecayedMg() returns the full dose for future times (correct for ECE's
+  // "log a drink" use), so we must gate on consumption time for a day curve.
+  let t = 0;
+  drinks.forEach(d => { if (d.timeMins <= atMins) t += eceDecayedMg(mdayDrinkMg(d), d.timeMins, atMins); });
+  return t;
+}
+
+function mdayProject(drinks){
+  drinks = drinks || mdayState.drinks;
+  const ceil = getCeilings();                     // { tpc, bed, peakFloor }
+  const bedMins = eceBedtimeMins();
+  const sorted = drinks.slice().sort((a,b)=>a.timeMins-b.timeMins);
+  const bedMg = Math.round(mdayTotalAt(bedMins, sorted));
+  // Peak of a sum of instantaneous decaying doses occurs at a dose time.
+  let peak = 0, peakAt = null;
+  sorted.forEach(d => {
+    const tot = mdayTotalAt(d.timeMins, sorted);
+    if (tot > peak) { peak = tot; peakAt = d.timeMins; }
+  });
+  return { bedMg, peak: Math.round(peak), peakAt, bedMins, tpc: ceil.tpc, bedCeil: ceil.bed };
+}
+
+// ── Small helpers ─────────────────────────────────────
+function mdayFmtTime(mins){
+  mins = ((Math.round(mins)%1440)+1440)%1440;
+  let h = Math.floor(mins/60), m = mins%60;
+  const ap = h>=12 ? 'p' : 'a';
+  let hh = h%12; if (hh===0) hh=12;
+  return m===0 ? (hh+ap) : (hh+':'+String(m).padStart(2,'0')+ap);
+}
+function mday24(h12,m,ap){ let H = h12%12; if (ap==='PM') H += 12; return H*60 + m; }
+function mdaySet(id,txt){ const el=document.getElementById(id); if(el) el.textContent = txt; }
+function mdayStep(arr,val,dir){ let i=arr.indexOf(val); if(i<0) i=arr.indexOf(12); if(i<0) i=0; i=Math.max(0,Math.min(arr.length-1,i+dir)); return arr[i]; }
+function mdayCurrentPlans(){ return (currentPath==='C1'||currentPath==='C2') ? _mdayGuestPlans : (userProfile.dayPlans || []); }
+
+// ── Lifecycle ─────────────────────────────────────────
+function mdayInit(){
+  if (!mdayState._loaded) {
+    const plans = mdayCurrentPlans();
+    if (plans && plans.length) mdayApplyPlan(plans[0]);
+    else mdaySeedExample();
+    mdayState._loaded = true;
+  }
+  mdayCloseEditor();
+  mdayDismissFix();
+  mdayRenderSavedList();
+  mdayRender();
+}
+
+function mdaySeedExample(){
+  // John's standard workday — surfaces a realistic "bedtime regret" case.
+  mdayState.name = 'Workday';
+  const nm = document.getElementById('mday-name'); if (nm) nm.value = 'Workday';
+  mdayState.drinks = [
+    { id:'d'+(mdayState._seq++), timeMins:6*60+30, cat:'coffee',   name:'Drip / Filter', place:'home', size:12, blendCaf:100 },
+    { id:'d'+(mdayState._seq++), timeMins:7*60,    cat:'coffee',   name:'Drip / Filter', place:'home', size:12, blendCaf:100 },
+    { id:'d'+(mdayState._seq++), timeMins:9*60+30, cat:'coffee',   name:'Drip / Filter', place:'out',  size:'R', blendCaf:null },
+    { id:'d'+(mdayState._seq++), timeMins:13*60,   cat:'espresso', name:'Latte',         place:'out',  size:2,   blendCaf:null },
+    { id:'d'+(mdayState._seq++), timeMins:15*60,   cat:'coffee',   name:'Drip / Filter', place:'out',  size:'R', blendCaf:null },
+  ];
+}
+
+function mdayApplyPlan(plan){
+  mdayState.name = plan.name || 'My Day';
+  const nm = document.getElementById('mday-name'); if (nm) nm.value = mdayState.name;
+  mdayState.drinks = (plan.drinks||[]).map(d => ({ id:'d'+(mdayState._seq++), timeMins:d.timeMins, cat:d.cat, name:d.name, place:d.place, size:d.size, blendCaf:d.blendCaf }));
+}
+
+// ── Master render ─────────────────────────────────────
+function mdayRender(){
+  const drinks = mdayState.drinks;
+  const proj = mdayProject(drinks);
+  const hasDrinks = drinks.length > 0;
+
+  // Summary tiles
+  mdaySet('mday-peak-val', proj.peak + ' mg');
+  mdaySet('mday-peak-sub', 'of ' + proj.tpc + ' mg peak limit');
+  const peakVal = document.getElementById('mday-peak-val');
+  if (peakVal) peakVal.style.color = proj.peak > proj.tpc ? 'var(--amber-dark)' : 'var(--text-dark)';
+
+  mdaySet('mday-bed-val', proj.bedMg + ' mg');
+  mdaySet('mday-bed-sub', 'of ' + proj.bedCeil + ' mg ceiling');
+  mdaySet('mday-bed-clock', '· ' + eceBedtimeLabel());
+  const over = proj.bedMg > proj.bedCeil;
+  const close = !over && proj.bedMg > proj.bedCeil * 0.7;
+  const bedTile = document.getElementById('mday-bed-tile');
+  const bedVal  = document.getElementById('mday-bed-val');
+  if (bedTile) {
+    const c = !hasDrinks ? 'var(--border-light)' : over ? 'rgba(220,38,38,.45)' : close ? 'rgba(232,149,42,.5)' : 'var(--green-accent)';
+    const bg = !hasDrinks ? 'var(--card-bg-warm)' : over ? 'rgba(220,38,38,.06)' : close ? 'rgba(232,149,42,.08)' : 'var(--green-bg)';
+    bedTile.style.borderColor = c; bedTile.style.background = bg;
+  }
+  if (bedVal) bedVal.style.color = !hasDrinks ? 'var(--text-dark)' : over ? 'var(--red-warn)' : close ? 'var(--amber-dark)' : 'var(--green-accent)';
+
+  mdayRenderVerdict(proj, hasDrinks);
+
+  const fixBtn = document.getElementById('mday-fix-btn');
+  if (fixBtn) fixBtn.style.display = (hasDrinks && over) ? 'flex' : 'none';
+  if (!(hasDrinks && over)) mdayDismissFix();
+
+  mdaySet('mday-count', hasDrinks ? '(' + drinks.length + ')' : '');
+  mdayRenderList();
+  mdayRenderCurve(drinks, proj);
+}
+
+function mdayRenderVerdict(proj, hasDrinks){
+  const v = document.getElementById('mday-verdict');
+  if (!v) return;
+  v.style.display = 'block';
+  if (!hasDrinks){
+    v.style.background = 'var(--card-bg-warm)';
+    v.style.border = '1px solid var(--border-light)';
+    v.innerHTML = '<span style="font-size:13px;color:var(--text-mid);">Add your routine below to see how your day lands at bedtime.</span>';
+    return;
+  }
+  const over  = proj.bedMg > proj.bedCeil;
+  const close = !over && proj.bedMg > proj.bedCeil * 0.7;
+  const diff  = Math.abs(proj.bedMg - proj.bedCeil);
+  let bg, border, icon, head, sub;
+  if (over){
+    bg='rgba(220,38,38,.07)'; border='1px solid rgba(220,38,38,.4)'; icon='🌙';
+    head='<span style="color:var(--red-warn);">Bedtime regret risk</span>';
+    sub='Your day leaves about <strong>'+diff+' mg over</strong> your bedtime ceiling. Tap “Fix it for me,” or trim a late drink below.';
+  } else if (close){
+    bg='rgba(232,149,42,.09)'; border='1px solid rgba(232,149,42,.45)'; icon='⚖️';
+    head='<span style="color:var(--amber-dark);">Cutting it close</span>';
+    sub='About <strong>'+diff+' mg under</strong> your ceiling at bedtime — fine, but little margin.';
+  } else {
+    bg='var(--green-bg)'; border='1px solid var(--green-accent)'; icon='✅';
+    head='<span style="color:var(--green-accent);">Clear for bedtime</span>';
+    sub='About <strong>'+diff+' mg under</strong> your ceiling. Enjoy your day — your last drink won’t follow you to bed.';
+  }
+  v.style.background = bg; v.style.border = border;
+  v.innerHTML =
+    '<div style="display:flex;gap:10px;align-items:flex-start;">'
+    + '<span style="font-size:18px;line-height:1.2;">'+icon+'</span>'
+    + '<div><div style="font-family:var(--font-display);font-size:1.15rem;font-weight:600;line-height:1.2;">'+head+'</div>'
+    + '<div style="font-size:12px;color:var(--text-mid);line-height:1.45;margin-top:3px;">'+sub+'</div></div></div>';
+}
+
+// ── Day curve (inline SVG) ────────────────────────────
+function mdayRenderCurve(drinks, proj){
+  const svg  = document.getElementById('mday-curve');
+  const axis = document.getElementById('mday-curve-axis');
+  if (!svg) return;
+  if (!drinks.length){ svg.innerHTML=''; if(axis) axis.innerHTML=''; return; }
+  const W=320, H=130, padT=10, padB=6;
+  const sorted = drinks.slice().sort((a,b)=>a.timeMins-b.timeMins);
+  const start = Math.min(sorted[0].timeMins, 6*60);
+  const end   = Math.max(proj.bedMins, start + 60);
+  const span  = end - start;
+  const maxY  = Math.max(proj.peak, proj.tpc, proj.bedCeil, 1) * 1.2;
+  const X = t => ((t-start)/span)*W;
+  const Y = val => H - padB - (val/maxY)*(H-padT-padB);
+
+  const N=72, pts=[];
+  for (let i=0;i<=N;i++){ const t=start + span*(i/N); pts.push([X(t), Y(mdayTotalAt(t,sorted))]); }
+  const line = pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const area = line + ' L '+W+' '+(H-padB).toFixed(1)+' L 0 '+(H-padB).toFixed(1)+' Z';
+
+  const over = proj.bedMg > proj.bedCeil;
+  const bedColor = over ? '#DC2626' : '#3DAA6E';
+  const bx = X(end), bedY = Y(proj.bedMg);
+  const tpcY = Y(proj.tpc), bedCeilY = Y(proj.bedCeil);
+
+  let s = '<defs><linearGradient id="mdayGrad" x1="0" y1="0" x2="0" y2="1">'
+        + '<stop offset="0%" stop-color="#C47820" stop-opacity="0.28"/>'
+        + '<stop offset="100%" stop-color="#C47820" stop-opacity="0.02"/></linearGradient></defs>';
+  s += '<path d="'+area+'" fill="url(#mdayGrad)"/>';
+  s += '<path d="'+line+'" fill="none" stroke="#C47820" stroke-width="2" stroke-linejoin="round"/>';
+  // peak (wake-hours) ceiling
+  s += '<line x1="0" y1="'+tpcY.toFixed(1)+'" x2="'+W+'" y2="'+tpcY.toFixed(1)+'" stroke="#8C7260" stroke-width="1" stroke-dasharray="3 3"/>';
+  s += '<text x="2" y="'+(tpcY-3).toFixed(1)+'" font-size="8" fill="#8C7260">peak '+proj.tpc+'</text>';
+  // bedtime ceiling
+  s += '<line x1="0" y1="'+bedCeilY.toFixed(1)+'" x2="'+W+'" y2="'+bedCeilY.toFixed(1)+'" stroke="'+bedColor+'" stroke-width="1" stroke-dasharray="2 3" opacity="0.7"/>';
+  s += '<text x="2" y="'+(bedCeilY-3).toFixed(1)+'" font-size="8" fill="'+bedColor+'">bed '+proj.bedCeil+'</text>';
+  // dose dots
+  sorted.forEach(d => { const dx=X(d.timeMins), dy=Y(mdayTotalAt(d.timeMins,sorted)); s+='<circle cx="'+dx.toFixed(1)+'" cy="'+dy.toFixed(1)+'" r="2.4" fill="#C47820"/>'; });
+  // bedtime marker
+  s += '<line x1="'+bx.toFixed(1)+'" y1="'+padT+'" x2="'+bx.toFixed(1)+'" y2="'+(H-padB)+'" stroke="'+bedColor+'" stroke-width="1.2" stroke-dasharray="2 2"/>';
+  s += '<circle cx="'+bx.toFixed(1)+'" cy="'+bedY.toFixed(1)+'" r="3.6" fill="'+bedColor+'"/>';
+  svg.innerHTML = s;
+
+  if (axis){
+    axis.innerHTML = '<span>'+mdayFmtTime(start)+'</span><span>'+mdayFmtTime(start+span/2)+'</span>'
+      + '<span style="color:'+bedColor+';font-weight:600;">🛏 '+mdayFmtTime(end)+'</span>';
+  }
+}
+
+// ── Drink list + inline controls ──────────────────────
+function mdayRenderList(){
+  const wrap = document.getElementById('mday-drink-list');
+  if (!wrap) return;
+  const rows = mdayState.drinks.map((d,i)=>({d,i})).sort((a,b)=>a.d.timeMins-b.d.timeMins);
+  if (!rows.length){ wrap.innerHTML='<div style="text-align:center;color:var(--text-muted);font-size:13px;padding:14px 0;">No drinks yet — add your routine below.</div>'; return; }
+  let html='';
+  rows.forEach(({d,i})=>{
+    const mg = mdayDrinkMg(d);
+    const icon = d.place==='home' ? '🏠' : '☕';
+    const placeLbl = d.place==='home' ? 'Home' : 'Out';
+    let sizeLbl;
+    if (d.place==='home') sizeLbl = (d.size||12)+' oz';
+    else if (mdayIsEspresso(d)) sizeLbl = (d.size||1)+' shot'+((d.size||1)>1?'s':'');
+    else sizeLbl = MDAY_SIZE_NAME[d.size||'R'];
+    const blendLbl = d.place==='home' ? (' · '+(d.blendCaf==null?100:d.blendCaf)+'% caf') : '';
+
+    html += '<div style="border:1px solid var(--border-light);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:var(--card-bg-warm);">';
+    html += '<div style="display:flex;align-items:center;gap:8px;">';
+    html += '<div style="font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--text-dark);min-width:50px;">'+mdayFmtTime(d.timeMins)+'</div>';
+    html += '<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--text-dark);">'+d.name+'</div>';
+    html += '<div style="font-size:11px;color:var(--text-muted);">'+icon+' '+placeLbl+' · '+sizeLbl+blendLbl+'</div></div>';
+    html += '<div style="text-align:right;"><span style="font-size:15px;font-weight:700;color:var(--text-dark);">'+mg+'</span><span style="font-size:9px;color:var(--text-muted);"> mg</span></div>';
+    html += '</div>';
+
+    // inline levers
+    html += '<div style="display:flex;align-items:center;gap:12px;margin-top:9px;flex-wrap:wrap;">';
+    html += mdaySizeStepper('mdayStepSize('+i+',-1)','mdayStepSize('+i+',1)', (d.place==='home'?(d.size||12)+'oz':(mdayIsEspresso(d)?(d.size||1)+'sh':(d.size||'R'))));
+    if (d.place==='home'){
+      html += '<div style="flex:1;min-width:120px;">';
+      html += '<div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-label);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1px;"><span>Decaf</span><span>Blend</span><span>Caf</span></div>';
+      html += '<input type="range" min="0" max="100" step="5" value="'+(d.blendCaf==null?100:d.blendCaf)+'" oninput="mdaySetBlend('+i+',this.value)" style="width:100%;accent-color:var(--amber);cursor:pointer;">';
+      html += '</div>';
+    } else {
+      html += '<div style="font-size:10px;color:var(--text-muted);font-style:italic;flex:1;min-width:120px;">Café caffeine is fixed — size only.</div>';
+    }
+    html += '</div>';
+
+    html += '<div style="display:flex;gap:16px;margin-top:7px;">';
+    html += '<button onclick="mdayEditDrink('+i+')" style="background:none;border:none;font-size:11px;font-weight:600;color:var(--blue-path);cursor:pointer;padding:0;">Edit</button>';
+    html += '<button onclick="mdayRemoveDrink('+i+')" style="background:none;border:none;font-size:11px;font-weight:600;color:var(--red-warn);cursor:pointer;padding:0;">Remove</button>';
+    html += '</div>';
+    html += '</div>';
+  });
+  wrap.innerHTML = html;
+}
+
+function mdaySizeStepper(decCall, incCall, label){
+  return '<div style="display:flex;align-items:center;gap:5px;">'
+    + '<span style="font-size:9px;color:var(--text-label);font-weight:600;letter-spacing:.05em;text-transform:uppercase;">Size</span>'
+    + '<button onclick="'+decCall+'" style="width:26px;height:26px;border:1px solid var(--border-mid);background:#fff;border-radius:7px;font-size:15px;color:var(--text-mid);cursor:pointer;line-height:1;">–</button>'
+    + '<span style="min-width:38px;text-align:center;font-size:12px;font-weight:600;color:var(--text-dark);">'+label+'</span>'
+    + '<button onclick="'+incCall+'" style="width:26px;height:26px;border:1px solid var(--border-mid);background:#fff;border-radius:7px;font-size:15px;color:var(--text-mid);cursor:pointer;line-height:1;">+</button>'
+    + '</div>';
+}
+
+function mdayStepSize(i, dir){
+  const d = mdayState.drinks[i]; if (!d) return;
+  if (d.place==='home') d.size = mdayStep(MDAY_HOME_OZ, d.size||12, dir);
+  else if (mdayIsEspresso(d)) d.size = Math.max(1, Math.min(4, (d.size||1)+dir));
+  else { let idx=MDAY_SIZE_ORDER.indexOf(d.size||'R'); idx=Math.max(0,Math.min(MDAY_SIZE_ORDER.length-1, idx+dir)); d.size=MDAY_SIZE_ORDER[idx]; }
+  mdayRender();
+}
+function mdaySetBlend(i, val){ const d=mdayState.drinks[i]; if(!d) return; d.blendCaf = parseInt(val,10); mdayRender(); }
+function mdayRemoveDrink(i){ mdayState.drinks.splice(i,1); mdayRender(); }
+
+// ── Add / edit editor ─────────────────────────────────
+function mdayOpenAdd(){
+  mdayState._editIdx = null;
+  const draft = { timeMins:8*60, cat:'coffee', name:'Drip / Filter', place:'home', size:12, blendCaf:100 };
+  mdayEditorTimeFromMins(draft);
+  mdayRenderEditor(draft);
+}
+function mdayEditDrink(i){
+  const d = mdayState.drinks[i]; if (!d) return;
+  mdayState._editIdx = i;
+  const draft = { id:d.id, timeMins:d.timeMins, cat:d.cat, name:d.name, place:d.place, size:d.size, blendCaf:d.blendCaf };
+  mdayEditorTimeFromMins(draft);
+  mdayRenderEditor(draft);
+}
+function mdayEditorTimeFromMins(d){
+  let mins = d.timeMins!=null ? d.timeMins : 8*60;
+  mins = ((mins%1440)+1440)%1440;
+  let H = Math.floor(mins/60), M = mins%60;
+  d._ampm = H>=12 ? 'PM' : 'AM';
+  let h12 = H%12; if (h12===0) h12=12;
+  d._h12 = h12;
+  d._m = MDAY_MINS.reduce((p,c)=> Math.abs(c-M)<Math.abs(p-M)?c:p, 0);
+}
+
+function mdayRenderEditor(draft){
+  mdayState._draft = draft;
+  const box = document.getElementById('mday-editor'); if (!box) return;
+  const d = draft;
+  const isEdit = mdayState._editIdx != null;
+
+  let hourOpts=''; for (let h=1;h<=12;h++) hourOpts += '<option value="'+h+'"'+(h===d._h12?' selected':'')+'>'+h+'</option>';
+  let minOpts=''; MDAY_MINS.forEach(m => minOpts += '<option value="'+m+'"'+(m===d._m?' selected':'')+'>'+String(m).padStart(2,'0')+'</option>');
+  let catOpts=''; Object.keys(ECE_SUBCATS).forEach(c => catOpts += '<option value="'+c+'"'+(c===d.cat?' selected':'')+'>'+c.charAt(0).toUpperCase()+c.slice(1)+'</option>');
+  let drinkOpts=''; (ECE_SUBCATS[d.cat]||[]).forEach(n => drinkOpts += '<option value="'+n+'"'+(n===d.name?' selected':'')+'>'+n+'</option>');
+
+  const selStyle = 'font-family:var(--font-ui);font-size:13px;color:var(--text-dark);border:1px solid var(--border-mid);border-radius:8px;padding:7px 8px;background:#fff;outline:none;';
+  const apBtn = (v)=> '<button onclick="mdayDraftAmPm(\''+v+'\')" style="padding:7px 12px;border-radius:8px;border:1px solid '+(d._ampm===v?'var(--amber)':'var(--border-mid)')+';background:'+(d._ampm===v?'var(--amber)':'#fff')+';color:'+(d._ampm===v?'#2A1600':'var(--text-mid)')+';font-size:12px;font-weight:600;cursor:pointer;">'+v+'</button>';
+  const placeBtn = (v,label,icon)=> '<button onclick="mdayDraftPlace(\''+v+'\')" style="flex:1;padding:10px;border-radius:10px;border:1px solid '+(d.place===v?'var(--blue-path)':'var(--border-mid)')+';background:'+(d.place===v?'rgba(59,130,246,.1)':'#fff')+';color:'+(d.place===v?'var(--blue-dark)':'var(--text-mid)')+';font-size:12px;font-weight:600;cursor:pointer;">'+icon+' '+label+'</button>';
+
+  // size control for the draft
+  let sizeLabel;
+  if (d.place==='home') sizeLabel=(d.size||12)+'oz';
+  else if (d.cat==='espresso') sizeLabel=(d.size||1)+'sh';
+  else sizeLabel=(d.size||'R');
+
+  let html = '<div class="card" style="border:1px solid var(--gold);padding:16px;">';
+  html += '<div style="font-family:var(--font-display);font-size:1.25rem;font-weight:600;color:var(--text-dark);margin-bottom:12px;">'+(isEdit?'Edit drink':'Add a drink')+'</div>';
+
+  // time
+  html += '<div style="margin-bottom:12px;"><div style="font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-label);margin-bottom:6px;">Time</div>';
+  html += '<div style="display:flex;align-items:center;gap:6px;">';
+  html += '<select id="mday-ed-h" style="'+selStyle+'">'+hourOpts+'</select><span style="font-weight:600;color:var(--text-mid);">:</span>';
+  html += '<select id="mday-ed-m" style="'+selStyle+'">'+minOpts+'</select>';
+  html += '<div style="display:flex;gap:5px;margin-left:6px;">'+apBtn('AM')+apBtn('PM')+'</div>';
+  html += '</div></div>';
+
+  // place
+  html += '<div style="margin-bottom:12px;"><div style="font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-label);margin-bottom:6px;">Where is it made?</div>';
+  html += '<div style="display:flex;gap:8px;">'+placeBtn('home','Home','🏠')+placeBtn('out','Out','☕')+'</div>';
+  html += '<div style="font-size:10px;color:var(--text-muted);font-style:italic;margin-top:5px;">'+(d.place==='home'?'You control the bean blend and the size.':'Café / office caffeine is fixed — you control the size only.')+'</div></div>';
+
+  // category + drink
+  html += '<div style="display:flex;gap:8px;margin-bottom:12px;">';
+  html += '<div style="flex:1;"><div style="font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-label);margin-bottom:6px;">Type</div><select onchange="mdayDraftCat(this.value)" style="'+selStyle+'width:100%;">'+catOpts+'</select></div>';
+  html += '<div style="flex:1.4;"><div style="font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-label);margin-bottom:6px;">Drink</div><select onchange="mdayDraftName(this.value)" style="'+selStyle+'width:100%;">'+drinkOpts+'</select></div>';
+  html += '</div>';
+
+  // size
+  html += '<div style="margin-bottom:12px;"><div style="font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-label);margin-bottom:6px;">'+(d.place==='home'?'Cup size':(d.cat==='espresso'?'Shots':'Cup size'))+'</div>';
+  html += mdaySizeStepper('mdayDraftStepSize(-1)','mdayDraftStepSize(1)', sizeLabel) + '</div>';
+
+  // blend (home only)
+  if (d.place==='home'){
+    const bc = d.blendCaf==null?100:d.blendCaf;
+    html += '<div style="margin-bottom:14px;"><div style="display:flex;justify-content:space-between;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-label);margin-bottom:4px;"><span>Bean blend</span><span id="mday-ed-blendlbl" style="color:var(--amber-dark);">'+bc+'% caf</span></div>';
+    html += '<input type="range" min="0" max="100" step="5" value="'+bc+'" oninput="mdayState._draft.blendCaf=+this.value;document.getElementById(\'mday-ed-blendlbl\').textContent=this.value+\'% caf\';" style="width:100%;accent-color:var(--amber);cursor:pointer;"></div>';
+  }
+
+  html += '<div style="display:flex;gap:8px;">';
+  html += '<button onclick="mdaySaveDrink()" class="btn btn-amber" style="flex:1;padding:12px;">'+(isEdit?'Update':'Add to day')+'</button>';
+  html += '<button onclick="mdayCloseEditor()" class="btn btn-ghost" style="flex:0 0 auto;padding:12px 18px;">Cancel</button>';
+  html += '</div>';
+  html += '</div>';
+
+  box.innerHTML = html;
+  box.style.display = 'block';
+  box.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+function mdayDraftReadTime(){
+  const d = mdayState._draft; if (!d) return;
+  const hEl=document.getElementById('mday-ed-h'), mEl=document.getElementById('mday-ed-m');
+  if (hEl) d._h12 = parseInt(hEl.value,10);
+  if (mEl) d._m   = parseInt(mEl.value,10);
+}
+function mdayDraftAmPm(v){ mdayDraftReadTime(); mdayState._draft._ampm=v; mdayRenderEditor(mdayState._draft); }
+function mdayDraftPlace(p){
+  mdayDraftReadTime();
+  const d=mdayState._draft; d.place=p; mdayDraftNormalizeSize(d);
+  if (p==='home' && d.blendCaf==null) d.blendCaf=100;
+  mdayRenderEditor(d);
+}
+function mdayDraftCat(c){
+  mdayDraftReadTime();
+  const d=mdayState._draft; d.cat=c; d.name=(ECE_SUBCATS[c]||['Other'])[0]; mdayDraftNormalizeSize(d);
+  mdayRenderEditor(d);
+}
+function mdayDraftName(n){ mdayDraftReadTime(); mdayState._draft.name=n; mdayRenderEditor(mdayState._draft); }
+function mdayDraftNormalizeSize(d){
+  if (d.place==='home'){ if (typeof d.size!=='number' || MDAY_HOME_OZ.indexOf(d.size)<0) d.size=12; }
+  else if (d.cat==='espresso'){ if (typeof d.size!=='number' || d.size<1 || d.size>4) d.size=1; }
+  else { if (typeof d.size!=='string' || MDAY_SIZE_ORDER.indexOf(d.size)<0) d.size='R'; }
+}
+function mdayDraftStepSize(dir){
+  const d=mdayState._draft; if(!d) return;
+  if (d.place==='home') d.size=mdayStep(MDAY_HOME_OZ, d.size||12, dir);
+  else if (d.cat==='espresso') d.size=Math.max(1,Math.min(4,(d.size||1)+dir));
+  else { let i=MDAY_SIZE_ORDER.indexOf(d.size||'R'); i=Math.max(0,Math.min(MDAY_SIZE_ORDER.length-1,i+dir)); d.size=MDAY_SIZE_ORDER[i]; }
+  mdayRenderEditor(d);
+}
+function mdaySaveDrink(){
+  mdayDraftReadTime();
+  const d=mdayState._draft; if(!d) return;
+  d.timeMins = mday24(d._h12, d._m, d._ampm);
+  const clean = { id:d.id||('d'+(mdayState._seq++)), timeMins:d.timeMins, cat:d.cat, name:d.name, place:d.place, size:d.size, blendCaf: d.place==='home'?(d.blendCaf==null?100:d.blendCaf):null };
+  if (mdayState._editIdx!=null && mdayState.drinks[mdayState._editIdx]) mdayState.drinks[mdayState._editIdx]=clean;
+  else mdayState.drinks.push(clean);
+  mdayCloseEditor();
+  mdayRender();
+}
+function mdayCloseEditor(){ const b=document.getElementById('mday-editor'); if(b){ b.style.display='none'; b.innerHTML=''; } mdayState._draft=null; mdayState._editIdx=null; }
+
+// ── Fix it for me (greedy, honors each drink's allowed levers) ──
+function mdayComputeFix(){
+  const work = mdayState.drinks.map(d=>({...d}));
+  const bed = eceBedtimeMins();
+  const target = getCeilings().bed;
+  const bedTotal = arr => arr.reduce((t,d)=>t+eceDecayedMg(mdayDrinkMg(d), d.timeMins, bed), 0);
+  let guard=0;
+  while (bedTotal(work) > target && guard < 600){
+    guard++;
+    let best=null;
+    for (let idx=0; idx<work.length; idx++){
+      const trial = mdayStepDownLever(work[idx]);
+      if (!trial) continue;
+      const cand = work.slice(); cand[idx]=trial;
+      const delta = bedTotal(work) - bedTotal(cand);
+      if (delta > 0.01 && (!best || delta > best.delta)) best={idx,trial,delta};
+    }
+    if (!best) break;
+    work[best.idx]=best.trial;
+  }
+  return { work, finalBed: Math.round(bedTotal(work)), target, reached: bedTotal(work) <= target };
+}
+// One step "down" on a drink's allowed lever; null if already minimal.
+function mdayStepDownLever(d){
+  const t={...d};
+  if (d.place==='home'){
+    const bc = d.blendCaf==null?100:d.blendCaf;
+    if (bc>0){ t.blendCaf=Math.max(0,bc-10); return t; }
+    if ((d.size||12)>MDAY_HOME_OZ[0]){ t.size=mdayStep(MDAY_HOME_OZ, d.size||12, -1); return t; }
+    return null;
+  }
+  if (mdayIsEspresso(d)){ if ((d.size||1)>1){ t.size=(d.size||1)-1; return t; } return null; }
+  const i=MDAY_SIZE_ORDER.indexOf(d.size||'R');
+  if (i>0){ t.size=MDAY_SIZE_ORDER[i-1]; return t; }
+  return null;
+}
+function mdayDiffPlan(orig, work){
+  const out=[];
+  for (let i=0;i<orig.length;i++){
+    const a=orig[i], b=work[i]; if(!b) continue;
+    const parts=[];
+    if (a.place==='home'){
+      const ba=a.blendCaf==null?100:a.blendCaf, bb=b.blendCaf==null?100:b.blendCaf;
+      if (ba!==bb) parts.push(bb+'% caf'+(bb===0?' (decaf)':''));
+      if (a.size!==b.size) parts.push(b.size+' oz');
+    } else if (a.size!==b.size){
+      parts.push(mdayIsEspresso(b) ? (b.size+' shot'+(b.size>1?'s':'')) : MDAY_SIZE_NAME[b.size]);
+    }
+    if (parts.length) out.push(mdayFmtTime(a.timeMins)+' '+a.name+' → '+parts.join(', '));
+  }
+  return out;
+}
+function mdayCulpritHint(){
+  const bed=eceBedtimeMins(); let best=null;
+  mdayState.drinks.forEach(d=>{ if(d.place!=='out') return; const c=eceDecayedMg(mdayDrinkMg(d),d.timeMins,bed); if(!best||c>best.c) best={d,c}; });
+  if (!best) return 'Consider trimming or dropping a late cup.';
+  return 'Your biggest late contributor is the '+mdayFmtTime(best.d.timeMins)+' '+best.d.name+'. Since it’s out of home, ordering it decaf or moving it earlier would help most.';
+}
+function mdayFixIt(){
+  const res = mdayComputeFix();
+  const changes = mdayDiffPlan(mdayState.drinks, res.work);
+  mdayState._fix = res.work;
+  const panel = document.getElementById('mday-fix-panel'); if(!panel) return;
+  let html = '<div style="background:var(--card-bg);border:1px solid var(--gold);border-radius:12px;padding:14px;">';
+  html += '<div style="font-family:var(--font-display);font-size:1.2rem;font-weight:600;color:var(--text-dark);margin-bottom:6px;">✨ Suggested plan</div>';
+  if (changes.length){
+    html += '<div style="font-size:12px;color:var(--text-mid);margin-bottom:8px;">Smallest changes to protect your bedtime:</div>';
+    html += '<ul style="margin:0 0 10px 18px;padding:0;">';
+    changes.forEach(c => html += '<li style="font-size:12px;color:var(--text-dark);margin-bottom:4px;line-height:1.4;">'+c+'</li>');
+    html += '</ul>';
+  } else {
+    html += '<div style="font-size:12px;color:var(--text-mid);margin-bottom:10px;">Your drinks are already trimmed as far as their controls allow.</div>';
+  }
+  html += '<div style="font-size:12px;font-weight:600;margin-bottom:12px;'+(res.reached?'color:var(--green-accent);':'color:var(--red-warn);')+'">'
+        + (res.reached
+            ? ('Lands at ~'+res.finalBed+' mg — under your '+res.target+' mg ceiling ✓')
+            : ('Best case ~'+res.finalBed+' mg — still '+(res.finalBed-res.target)+' mg over. '+mdayCulpritHint()))
+        + '</div>';
+  html += '<div style="display:flex;gap:8px;">';
+  if (changes.length) html += '<button onclick="mdayApplyFix()" style="flex:1;background:var(--amber);border:none;border-radius:10px;padding:11px;font-family:var(--font-ui);font-size:13px;font-weight:600;color:#2A1600;cursor:pointer;">Apply changes</button>';
+  html += '<button onclick="mdayDismissFix()" style="flex:'+(changes.length?'0 0 auto':'1')+';background:none;border:1px solid var(--border-mid);border-radius:10px;padding:11px 16px;font-size:13px;color:var(--text-mid);cursor:pointer;">Dismiss</button>';
+  html += '</div></div>';
+  panel.innerHTML = html;
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+function mdayApplyFix(){ if (mdayState._fix) mdayState.drinks = mdayState._fix.map(d=>({...d})); mdayDismissFix(); mdayRender(); }
+function mdayDismissFix(){ const p=document.getElementById('mday-fix-panel'); if(p){ p.style.display='none'; p.innerHTML=''; } mdayState._fix=null; }
+
+// ── Save / load named days ────────────────────────────
+function mdaySaveDay(btn){
+  if (!mdayState.drinks.length) return;
+  const nameEl = document.getElementById('mday-name');
+  const name = ((nameEl && nameEl.value) || 'My Day').trim() || 'My Day';
+  const plan = { name, drinks: mdayState.drinks.map(d=>({ timeMins:d.timeMins, cat:d.cat, name:d.name, place:d.place, size:d.size, blendCaf:d.blendCaf })) };
+  const guest = (currentPath==='C1'||currentPath==='C2');
+  let plans = guest ? _mdayGuestPlans.slice() : (userProfile.dayPlans ? userProfile.dayPlans.slice() : []);
+  const idx = plans.findIndex(p => (p.name||'').toLowerCase() === name.toLowerCase());
+  if (idx>=0) plans[idx]=plan; else plans.push(plan);
+  if (guest) _mdayGuestPlans = plans; else userProfile.dayPlans = plans;
+  if (btn){ const orig=btn.textContent; btn.textContent='Saved ✓'; setTimeout(()=>{ btn.textContent=orig; }, 1500); }
+  mdayRenderSavedList();
+}
+function mdayRenderSavedList(){
+  const wrap = document.getElementById('mday-saved-wrap');
+  const list = document.getElementById('mday-saved-list');
+  if (!wrap || !list) return;
+  const plans = mdayCurrentPlans();
+  if (!plans || !plans.length){ wrap.style.display='none'; list.innerHTML=''; return; }
+  wrap.style.display='block';
+  list.innerHTML = plans.map((p,i)=>
+    '<button onclick="mdayLoadDay('+i+')" style="background:rgba(212,168,85,.12);border:1px solid var(--gold-dim);border-radius:100px;padding:6px 12px;font-family:var(--font-ui);font-size:12px;font-weight:600;color:var(--gold-dim);cursor:pointer;">'+(p.name||'Day')+'</button>'
+  ).join('');
+}
+function mdayLoadDay(i){
+  const plans = mdayCurrentPlans();
+  if (!plans || !plans[i]) return;
+  mdayApplyPlan(plans[i]);
+  mdayCloseEditor(); mdayDismissFix(); mdayRender();
+}
 </script>
 
 </body>
