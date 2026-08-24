@@ -7,7 +7,7 @@ Guidance for Claude Code when working in this repository.
 The active project is **Caffevolve** — a mobile-app UX prototype for a
 caffeine-management app. It lives entirely in a single self-contained HTML file:
 
-- **`Caffevolve/index.html`** — the prototype (~17.9k lines, ~875 KB).
+- **`Caffevolve/prototype.html`** — the prototype (~17.9k lines, ~875 KB).
 
 The repository also still contains legacy, unrelated content from its origin as a
 Microsoft Power BI course repo (`Lab1`–`Lab8/`, `TShirt/`, `MIT License.txt`,
@@ -93,6 +93,6 @@ rather than introducing new constants.
 
 ## Verifying / viewing
 
-There are no automated tests. To check work, open `Caffevolve/index.html` in a
+There are no automated tests. To check work, open `Caffevolve/prototype.html` in a
 browser (or render it) and click through the affected screens using the screen
 selector at the top of the page.
