@@ -18088,6 +18088,7 @@ function mdayInit(){
     else mdaySeedExample();
     mdayState._loaded = true;
   }
+  mdayEnsureProtectedDefault();
   mdayCloseEditor();
   mdayDismissFix();
   mdayRenderSavedList();
@@ -18105,12 +18106,14 @@ function mdaySeedExample(){
     { id:'d'+(mdayState._seq++), timeMins:13*60,   cat:'espresso', name:'Latte',         place:'out',  size:2,   blendCaf:null },
     { id:'d'+(mdayState._seq++), timeMins:15*60,   cat:'coffee',   name:'Drip / Filter', place:'out',  size:'R', blendCaf:null },
   ];
+  mdayEnsureProtectedDefault();   // protect the 3pm drink by default
 }
 
 function mdayApplyPlan(plan){
   mdayState.name = plan.name || 'My Day';
   const nm = document.getElementById('mday-name'); if (nm) nm.value = mdayState.name;
-  mdayState.drinks = (plan.drinks||[]).map(d => ({ id:'d'+(mdayState._seq++), timeMins:d.timeMins, cat:d.cat, name:d.name, place:d.place, size:d.size, blendCaf:d.blendCaf }));
+  mdayState.drinks = (plan.drinks||[]).map(d => ({ id:'d'+(mdayState._seq++), timeMins:d.timeMins, cat:d.cat, name:d.name, place:d.place, size:d.size, blendCaf:d.blendCaf, protected:!!d.protected }));
+  mdayEnsureProtectedDefault();
 }
 
 // ── Master render ─────────────────────────────────────
@@ -18251,10 +18254,12 @@ function mdayRenderList(){
     else sizeLbl = MDAY_SIZE_NAME[d.size||'R'];
     const blendLbl = d.place==='home' ? (' · '+(d.blendCaf==null?100:d.blendCaf)+'% caf') : '';
 
-    html += '<div style="border:1px solid var(--border-light);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:var(--card-bg-warm);">';
+    const prot = !!d.protected;
+    html += '<div style="border:1px solid '+(prot?'var(--gold)':'var(--border-light)')+';border-radius:12px;padding:10px 12px;margin-bottom:8px;background:'+(prot?'rgba(212,168,85,.10)':'var(--card-bg-warm)')+';">';
     html += '<div style="display:flex;align-items:center;gap:8px;">';
-    html += '<div style="font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--text-dark);min-width:50px;">'+mdayFmtTime(d.timeMins)+'</div>';
-    html += '<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--text-dark);">'+d.name+'</div>';
+    html += '<button onclick="mdayToggleProtect('+i+')" title="'+(prot?'Protected — Fix-it keeps this one full':'Protect this drink so Fix-it keeps it full')+'" style="background:none;border:none;cursor:pointer;font-size:18px;line-height:1;padding:0;color:'+(prot?'var(--gold)':'var(--border-mid)')+';">'+(prot?'★':'☆')+'</button>';
+    html += '<div style="font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--text-dark);min-width:46px;">'+mdayFmtTime(d.timeMins)+'</div>';
+    html += '<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:var(--text-dark);">'+d.name+(prot?' <span style="font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--gold-dim);background:rgba(212,168,85,.18);border-radius:100px;padding:1px 7px;margin-left:2px;vertical-align:middle;white-space:nowrap;">Protected</span>':'')+'</div>';
     html += '<div style="font-size:11px;color:var(--text-muted);">'+icon+' '+placeLbl+' · '+sizeLbl+blendLbl+'</div></div>';
     html += '<div style="text-align:right;"><span style="font-size:15px;font-weight:700;color:var(--text-dark);">'+mg+'</span><span style="font-size:9px;color:var(--text-muted);"> mg</span></div>';
     html += '</div>';
@@ -18272,6 +18277,8 @@ function mdayRenderList(){
     }
     html += '</div>';
 
+    if (prot) html += '<div style="font-size:10px;color:var(--gold-dim);font-style:italic;margin-top:6px;">★ Fix-it keeps this drink at full strength and trims or removes the others first.</div>';
+
     html += '<div style="display:flex;gap:16px;margin-top:7px;">';
     html += '<button onclick="mdayEditDrink('+i+')" style="background:none;border:none;font-size:11px;font-weight:600;color:var(--blue-path);cursor:pointer;padding:0;">Edit</button>';
     html += '<button onclick="mdayRemoveDrink('+i+')" style="background:none;border:none;font-size:11px;font-weight:600;color:var(--red-warn);cursor:pointer;padding:0;">Remove</button>';
@@ -18279,6 +18286,26 @@ function mdayRenderList(){
     html += '</div>';
   });
   wrap.innerHTML = html;
+}
+
+// Protect exactly one drink (the one to keep at full strength). Tapping the
+// currently-protected drink clears protection entirely.
+function mdayToggleProtect(i){
+  const d = mdayState.drinks[i]; if (!d) return;
+  const wasProtected = !!d.protected;
+  mdayState.drinks.forEach(x => { x.protected = false; });
+  if (!wasProtected) d.protected = true;
+  mdayRender();
+}
+// Default the protected drink to the latest caffeinated drink of the day,
+// unless the user has already chosen one.
+function mdayEnsureProtectedDefault(){
+  if (!mdayState.drinks.length) return;
+  if (mdayState.drinks.some(d => d.protected)) return;
+  let idx=-1, latest=-1;
+  mdayState.drinks.forEach((d,i)=>{ if (mdayDrinkMg(d)>0 && d.timeMins>latest){ latest=d.timeMins; idx=i; } });
+  if (idx<0) mdayState.drinks.forEach((d,i)=>{ if (d.timeMins>latest){ latest=d.timeMins; idx=i; } });
+  if (idx>=0) mdayState.drinks[idx].protected = true;
 }
 
 function mdaySizeStepper(decCall, incCall, label){
@@ -18298,19 +18325,19 @@ function mdayStepSize(i, dir){
   mdayRender();
 }
 function mdaySetBlend(i, val){ const d=mdayState.drinks[i]; if(!d) return; d.blendCaf = parseInt(val,10); mdayRender(); }
-function mdayRemoveDrink(i){ mdayState.drinks.splice(i,1); mdayRender(); }
+function mdayRemoveDrink(i){ mdayState.drinks.splice(i,1); mdayEnsureProtectedDefault(); mdayRender(); }
 
 // ── Add / edit editor ─────────────────────────────────
 function mdayOpenAdd(){
   mdayState._editIdx = null;
-  const draft = { timeMins:8*60, cat:'coffee', name:'Drip / Filter', place:'home', size:12, blendCaf:100 };
+  const draft = { timeMins:8*60, cat:'coffee', name:'Drip / Filter', place:'home', size:12, blendCaf:100, protected:false };
   mdayEditorTimeFromMins(draft);
   mdayRenderEditor(draft);
 }
 function mdayEditDrink(i){
   const d = mdayState.drinks[i]; if (!d) return;
   mdayState._editIdx = i;
-  const draft = { id:d.id, timeMins:d.timeMins, cat:d.cat, name:d.name, place:d.place, size:d.size, blendCaf:d.blendCaf };
+  const draft = { id:d.id, timeMins:d.timeMins, cat:d.cat, name:d.name, place:d.place, size:d.size, blendCaf:d.blendCaf, protected:!!d.protected };
   mdayEditorTimeFromMins(draft);
   mdayRenderEditor(draft);
 }
@@ -18424,9 +18451,10 @@ function mdaySaveDrink(){
   mdayDraftReadTime();
   const d=mdayState._draft; if(!d) return;
   d.timeMins = mday24(d._h12, d._m, d._ampm);
-  const clean = { id:d.id||('d'+(mdayState._seq++)), timeMins:d.timeMins, cat:d.cat, name:d.name, place:d.place, size:d.size, blendCaf: d.place==='home'?(d.blendCaf==null?100:d.blendCaf):null };
+  const clean = { id:d.id||('d'+(mdayState._seq++)), timeMins:d.timeMins, cat:d.cat, name:d.name, place:d.place, size:d.size, blendCaf: d.place==='home'?(d.blendCaf==null?100:d.blendCaf):null, protected:!!d.protected };
   if (mdayState._editIdx!=null && mdayState.drinks[mdayState._editIdx]) mdayState.drinks[mdayState._editIdx]=clean;
   else mdayState.drinks.push(clean);
+  mdayEnsureProtectedDefault();
   mdayCloseEditor();
   mdayRender();
 }
@@ -18434,15 +18462,21 @@ function mdayCloseEditor(){ const b=document.getElementById('mday-editor'); if(b
 
 // ── Fix it for me (greedy, honors each drink's allowed levers) ──
 function mdayComputeFix(){
-  const work = mdayState.drinks.map(d=>({...d}));
+  let work = mdayState.drinks.map(d=>({...d}));
   const bed = eceBedtimeMins();
   const target = getCeilings().bed;
-  const bedTotal = arr => arr.reduce((t,d)=>t+eceDecayedMg(mdayDrinkMg(d), d.timeMins, bed), 0);
+  const contribAtBed = d => d.timeMins<=bed ? eceDecayedMg(mdayDrinkMg(d), d.timeMins, bed) : 0;
+  const bedTotal = arr => arr.reduce((t,d)=>t+contribAtBed(d), 0);
+  const isProt = d => !!d.protected;
+
+  // Phase 1 — greedily shrink / decaf the NON-protected drinks. The protected
+  // drink (the one to enjoy at full strength) is never touched.
   let guard=0;
-  while (bedTotal(work) > target && guard < 600){
+  while (bedTotal(work) > target && guard < 800){
     guard++;
     let best=null;
     for (let idx=0; idx<work.length; idx++){
+      if (isProt(work[idx])) continue;
       const trial = mdayStepDownLever(work[idx]);
       if (!trial) continue;
       const cand = work.slice(); cand[idx]=trial;
@@ -18452,7 +18486,25 @@ function mdayComputeFix(){
     if (!best) break;
     work[best.idx]=best.trial;
   }
-  return { work, finalBed: Math.round(bedTotal(work)), target, reached: bedTotal(work) <= target };
+
+  // Phase 2 — last resort: delete NON-protected drinks, biggest bedtime
+  // contributor first, until under the ceiling or nothing left to remove.
+  const deleted=[];
+  guard=0;
+  while (bedTotal(work) > target && guard < 100){
+    guard++;
+    let victim=-1, vc=-1;
+    for (let idx=0; idx<work.length; idx++){
+      if (isProt(work[idx])) continue;
+      const c = contribAtBed(work[idx]);
+      if (c > vc){ vc=c; victim=idx; }
+    }
+    if (victim < 0) break;
+    deleted.push(work[victim]);
+    work.splice(victim,1);
+  }
+
+  return { work, deleted, finalBed: Math.round(bedTotal(work)), target, reached: bedTotal(work) <= target };
 }
 // One step "down" on a drink's allowed lever; null if already minimal.
 function mdayStepDownLever(d){
@@ -18470,8 +18522,10 @@ function mdayStepDownLever(d){
 }
 function mdayDiffPlan(orig, work){
   const out=[];
-  for (let i=0;i<orig.length;i++){
-    const a=orig[i], b=work[i]; if(!b) continue;
+  const byId={}; work.forEach(d=>{ byId[d.id]=d; });
+  orig.forEach(a=>{
+    const b = byId[a.id];
+    if (!b){ out.push('Remove the '+mdayFmtTime(a.timeMins)+' '+a.name); return; }   // deleted
     const parts=[];
     if (a.place==='home'){
       const ba=a.blendCaf==null?100:a.blendCaf, bb=b.blendCaf==null?100:b.blendCaf;
@@ -18481,12 +18535,24 @@ function mdayDiffPlan(orig, work){
       parts.push(mdayIsEspresso(b) ? (b.size+' shot'+(b.size>1?'s':'')) : MDAY_SIZE_NAME[b.size]);
     }
     if (parts.length) out.push(mdayFmtTime(a.timeMins)+' '+a.name+' → '+parts.join(', '));
-  }
+  });
   return out;
+}
+// Shortfall guidance when even the last-resort plan can't clear the ceiling.
+function mdayShortfallHint(work){
+  const bed=eceBedtimeMins(), target=getCeilings().bed;
+  const prot = (work||[]).find(d=>d.protected) || mdayState.drinks.find(d=>d.protected);
+  if (prot){
+    const solo = eceDecayedMg(mdayDrinkMg(prot), prot.timeMins, bed);
+    if (solo > target)
+      return 'Even on its own, your protected '+mdayFmtTime(prot.timeMins)+' '+prot.name
+        +' lands at ~'+Math.round(solo)+' mg at bedtime. To go lower you’d need to unprotect it (tap its ★), move it earlier, or order it decaf.';
+  }
+  return mdayCulpritHint();
 }
 function mdayCulpritHint(){
   const bed=eceBedtimeMins(); let best=null;
-  mdayState.drinks.forEach(d=>{ if(d.place!=='out') return; const c=eceDecayedMg(mdayDrinkMg(d),d.timeMins,bed); if(!best||c>best.c) best={d,c}; });
+  mdayState.drinks.forEach(d=>{ if(d.place!=='out'||d.protected) return; const c=eceDecayedMg(mdayDrinkMg(d),d.timeMins,bed); if(!best||c>best.c) best={d,c}; });
   if (!best) return 'Consider trimming or dropping a late cup.';
   return 'Your biggest late contributor is the '+mdayFmtTime(best.d.timeMins)+' '+best.d.name+'. Since it’s out of home, ordering it decaf or moving it earlier would help most.';
 }
@@ -18495,20 +18561,22 @@ function mdayFixIt(){
   const changes = mdayDiffPlan(mdayState.drinks, res.work);
   mdayState._fix = res.work;
   const panel = document.getElementById('mday-fix-panel'); if(!panel) return;
+  const prot = mdayState.drinks.find(d=>d.protected);
   let html = '<div style="background:var(--card-bg);border:1px solid var(--gold);border-radius:12px;padding:14px;">';
   html += '<div style="font-family:var(--font-display);font-size:1.2rem;font-weight:600;color:var(--text-dark);margin-bottom:6px;">✨ Suggested plan</div>';
+  if (prot) html += '<div style="font-size:12px;color:var(--gold-dim);font-weight:600;margin-bottom:8px;">★ Keeping your '+mdayFmtTime(prot.timeMins)+' '+prot.name+' at full strength.</div>';
   if (changes.length){
     html += '<div style="font-size:12px;color:var(--text-mid);margin-bottom:8px;">Smallest changes to protect your bedtime:</div>';
     html += '<ul style="margin:0 0 10px 18px;padding:0;">';
     changes.forEach(c => html += '<li style="font-size:12px;color:var(--text-dark);margin-bottom:4px;line-height:1.4;">'+c+'</li>');
     html += '</ul>';
   } else {
-    html += '<div style="font-size:12px;color:var(--text-mid);margin-bottom:10px;">Your drinks are already trimmed as far as their controls allow.</div>';
+    html += '<div style="font-size:12px;color:var(--text-mid);margin-bottom:10px;">The other drinks are already trimmed as far as their controls allow.</div>';
   }
   html += '<div style="font-size:12px;font-weight:600;margin-bottom:12px;'+(res.reached?'color:var(--green-accent);':'color:var(--red-warn);')+'">'
         + (res.reached
             ? ('Lands at ~'+res.finalBed+' mg — under your '+res.target+' mg ceiling ✓')
-            : ('Best case ~'+res.finalBed+' mg — still '+(res.finalBed-res.target)+' mg over. '+mdayCulpritHint()))
+            : ('Best case ~'+res.finalBed+' mg — still '+(res.finalBed-res.target)+' mg over. '+mdayShortfallHint(res.work)))
         + '</div>';
   html += '<div style="display:flex;gap:8px;">';
   if (changes.length) html += '<button onclick="mdayApplyFix()" style="flex:1;background:var(--amber);border:none;border-radius:10px;padding:11px;font-family:var(--font-ui);font-size:13px;font-weight:600;color:#2A1600;cursor:pointer;">Apply changes</button>';
@@ -18526,7 +18594,7 @@ function mdaySaveDay(btn){
   if (!mdayState.drinks.length) return;
   const nameEl = document.getElementById('mday-name');
   const name = ((nameEl && nameEl.value) || 'My Day').trim() || 'My Day';
-  const plan = { name, drinks: mdayState.drinks.map(d=>({ timeMins:d.timeMins, cat:d.cat, name:d.name, place:d.place, size:d.size, blendCaf:d.blendCaf })) };
+  const plan = { name, drinks: mdayState.drinks.map(d=>({ timeMins:d.timeMins, cat:d.cat, name:d.name, place:d.place, size:d.size, blendCaf:d.blendCaf, protected:!!d.protected })) };
   const guest = (currentPath==='C1'||currentPath==='C2');
   let plans = guest ? _mdayGuestPlans.slice() : (userProfile.dayPlans ? userProfile.dayPlans.slice() : []);
   const idx = plans.findIndex(p => (p.name||'').toLowerCase() === name.toLowerCase());
