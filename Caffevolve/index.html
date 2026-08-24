@@ -14965,23 +14965,6 @@ function renderPS1aCarousel() {
 // ── MULTI-PROFILE STORE ───────────────────────────────
 const profiles = [
 
-  // \u2500\u2500 WAYNE \u00b7 Higher sensitivity \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-  {
-    name: 'Wayne', initials: 'WL', color: '#E07B54', colorName: 'Terracotta',
-    tier: 'Lower', grind: 4,
-    _instrFloor: 40, _instrWHC: 195, _instrBed: 70, _instrT12: 7.5, _instrFlags: [],
-    _priorMg: 12.8, _priorMins: 9 * 60,
-    bnProfile: { size: '10 oz', count: 1, strength: 'Light',
-      additives: { ltheanine:{on:true,mult:'1.0x'}, collagen:{on:false,mult:'1.0x'} } },
-    subProfiles: [
-      { name: 'Morning Ease', days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], sh:7,sm:0,sap:'AM', eh:9,em:0,eap:'AM', strength:'Light', color:'#5B9E6F',
-        additives: [{id:'ltheanine',name:'L-Theanine',mult:'1.0x'}] },
-      { name: 'Late Morning', days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], sh:9,sm:30,sap:'AM', eh:11,em:0,eap:'AM', strength:'Light', color:'#5B7FA6',
-        additives: [{id:'collagen',name:'Collagen Peptides',mult:'1.0x'}] },
-    ],
-    chartSpeedIdx: 0,
-  },
-
   // \u2500\u2500 CLAUDIA \u00b7 Moderate sensitivity \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
   {
     name: 'Claudia', initials: 'CL', color: '#3DAA6E', colorName: 'Sage Green',
@@ -15020,11 +15003,11 @@ const profiles = [
 
 ];
 
-let currentProfileIdx = 2;   // Default demo profile: Diane (low caffeine sensitivity)
+let currentProfileIdx = 1;   // Default demo profile: Diane (low caffeine sensitivity)
 
-// First N profiles (Wayne, Claudia, Diane) are locked demo presets:
+// First N profiles (Claudia, Diane) are locked demo presets:
 // they cannot be edited or deleted, and are always loaded fresh from code.
-const PRESET_PROFILE_COUNT = 3;
+const PRESET_PROFILE_COUNT = 2;
 function isPresetProfile(idx) { return idx < PRESET_PROFILE_COUNT; }
 
 // Proxy so all existing userProfile.x references keep working
