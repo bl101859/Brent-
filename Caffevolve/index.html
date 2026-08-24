@@ -18083,9 +18083,10 @@ function mdayCurrentPlans(){ return (currentPath==='C1'||currentPath==='C2') ? _
 // ── Lifecycle ─────────────────────────────────────────
 function mdayInit(){
   if (!mdayState._loaded) {
+    // Load a saved day for this profile if one exists; otherwise start empty
+    // (no pre-seeded demo day — the user builds their routine from scratch).
     const plans = mdayCurrentPlans();
     if (plans && plans.length) mdayApplyPlan(plans[0]);
-    else mdaySeedExample();
     mdayState._loaded = true;
   }
   mdayEnsureProtectedDefault();
@@ -18093,20 +18094,6 @@ function mdayInit(){
   mdayDismissFix();
   mdayRenderSavedList();
   mdayRender();
-}
-
-function mdaySeedExample(){
-  // John's standard workday — surfaces a realistic "bedtime regret" case.
-  mdayState.name = 'Workday';
-  const nm = document.getElementById('mday-name'); if (nm) nm.value = 'Workday';
-  mdayState.drinks = [
-    { id:'d'+(mdayState._seq++), timeMins:6*60+30, cat:'coffee',   name:'Drip / Filter', place:'home', size:12, blendCaf:100 },
-    { id:'d'+(mdayState._seq++), timeMins:7*60,    cat:'coffee',   name:'Drip / Filter', place:'home', size:12, blendCaf:100 },
-    { id:'d'+(mdayState._seq++), timeMins:9*60+30, cat:'coffee',   name:'Drip / Filter', place:'out',  size:'R', blendCaf:null },
-    { id:'d'+(mdayState._seq++), timeMins:13*60,   cat:'espresso', name:'Latte',         place:'out',  size:2,   blendCaf:null },
-    { id:'d'+(mdayState._seq++), timeMins:15*60,   cat:'coffee',   name:'Drip / Filter', place:'out',  size:'R', blendCaf:null },
-  ];
-  mdayEnsureProtectedDefault();   // protect the 3pm drink by default
 }
 
 function mdayApplyPlan(plan){
