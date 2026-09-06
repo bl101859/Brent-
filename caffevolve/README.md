@@ -4,23 +4,33 @@ Confidential / internal planning. Directional model, **not** a forecast.
 
 ## Files
 
-- **`royalty-model-calculator.html`** — interactive royalty-model calculator. Combines the v2 office
-  stock-and-flow seeding engine (five levers), the v3 café seeding engine (`N · c_cafe · r1`), and an
-  independent Direct / home-tier demand stream (units/yr + growth, net of an overlap haircut). Includes
-  a Low/Base/High commercial-ramp selector, N sensitivity, and the top-down ceiling check. Self-contained
-  — open in any browser (fonts load from Google Fonts).
-- **`royalty-model-onepager.html`** — Base-case investor one-pager. Built for print (`@page` US Letter);
-  use the browser Print dialog to produce the PDF.
+- **`royalty-model-calculator.html`** — interactive royalty-model calculator (v4). Combines the v2 office
+  stock-and-flow seeding engine (five levers) and the v3 café seeding engine (`N · c_cafe · r1`). The
+  base case is the **seeded-only floor** (café + office seeding + commercial units); an optional,
+  independent Direct / home-tier stream (units/yr + growth, net of an overlap haircut) is **off by
+  default** and gated to start no earlier than the first licensee ship. Includes an OEM-anchored
+  Low/Base/High ramp selector, N sensitivity, and the top-down ceiling check. Self-contained — open in
+  any browser (fonts load from Google Fonts).
+- **`royalty-model-onepager.html`** — Base-case investor one-pager (source). Built for print
+  (`@page` US Letter); use the browser Print dialog to produce the PDF.
+- **`royalty-model-onepager.pdf`** / **`.docx`** — rendered one-pager (US Letter). Figures are generated
+  from the same model, so all four artifacts agree.
 - **`logo-lockup.html`** — Caffevolve logo lockup (bean offset 30px right of center).
+
+## Base case (v4) — headline figures
+
+Direct off, mix 60 / 40, Base ramp (2 OEMs by Yr 5): **~$1.74M** cumulative 5-yr royalty, **~$1.1M**
+Year-5 run-rate, commercial carrying **~79%** of royalty.
 
 ## Model inputs — status
 
-- **Anchored:** the commercial units-placed ramp (arena-split office/café). Its Base endpoints
-  (6 → 9,500 units/yr) are from the v2 spec; the middle years and the office/café split are illustrative
-  placeholders pending the OEM-signed ramp.
-- **Assumed (pilot-measured):** the five office levers, the three café levers, the Direct channel
-  (`d₀, g, h`), and the Intro/Premier consumer mix. Direct is the least-anchored input — gate its upside
-  on a DTC test.
+- **Anchored:** the commercial units-placed ramp, OEM-signed — Low/Base/High = 1 / 2 / 4 OEMs by Year 5
+  (totals `[6, 250, 1500, 4500, 9500]` at Base), split office/café by the office-share ramp
+  `OFRAC = [0.5, 0.72, 0.667, 0.622, 0.579]`. Editable — replace with your live signings.
+- **Assumed (pilot-measured):** the five office levers, the three café levers, and the Intro/Premier
+  consumer mix (60 / 40).
+- **Optional / off by default:** the Direct channel (`d₀, g, h`, start year) — least-anchored, not in
+  the base case; upside only, gated on a DTC test and on first licensee ship.
 - **Placeholder:** the premium-appliance shelf figure used by the ceiling check needs a cited source.
 
 ## Locked economics

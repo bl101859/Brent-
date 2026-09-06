@@ -212,7 +212,7 @@ footer .keynote{color:var(--ink2);font-style:normal;margin-bottom:8px;}
   </header>
 
   <div class="notice">
-    <strong>Consumer demand has two causal families.</strong> <em>Seeded</em> (commercial-derived): office stock-and-flow (v2) + café seeding (v3), both lagged, both scaling with the commercial ramp. <em>Direct</em> (independent): home-tier units from their own marketing, with a floor even at Low commercial traction. The <strong>arena-split ramp</strong> is anchored (endpoints <span class="mono">6 → 9,500</span>/yr from v2; middle years &amp; split illustrative); <strong>Direct is the new least-anchored input</strong> — default it low and gate the upside on a DTC test.
+    <strong>Base case = seeded-only floor</strong> (café + office seeding + commercial units). The <strong>commercial ramp is OEM-anchored</strong> — Low / Base / High = 1 / 2 / 4 OEMs signed by Yr 5, split office/café by the OFRAC share ramp (editable; replace with your live OEM-signed ramp). The <strong>Direct home channel is off by default</strong> — least-anchored, temporally gated to start no earlier than the first licensee ship (≥ Yr 2); toggle it on for upside only.
   </div>
 
   <div class="kpis">
@@ -284,16 +284,20 @@ footer .keynote{color:var(--ink2);font-style:normal;margin-bottom:8px;}
       </div>
 
       <div class="panel">
-        <div class="sec-head"><h3>Direct / home demand</h3><span class="tag direct">independent</span></div>
-        <p class="sec-note">Home-tier units from their own marketing — <b>not</b> derived from placements. Same Intro/Premier mix. This is the least-anchored input; default low, raise it with a DTC test.</p>
-        <label class="toggle" id="directToggle"><input type="checkbox" id="directOn"><span class="tk"></span><span class="tl">Include direct channel</span></label>
+        <div class="sec-head"><h3>Direct / home demand</h3><span class="tag direct">off · upside only</span></div>
+        <p class="sec-note"><b>Off by default</b> — not in the base case. Home-tier units from their own marketing, <b>not</b> derived from placements. No home unit exists until a licensee ships, so it contributes zero before its start year. Least-anchored input; toggle on for upside only, gated on a DTC test.</p>
+        <label class="toggle" id="directToggle"><input type="checkbox" id="directOn"><span class="tk"></span><span class="tl">Include direct channel (upside)</span></label>
         <div class="lever" style="margin-top:14px">
-          <div class="lv-top"><label>Year-1 home units <span class="lv-code">d₀</span></label><input class="lv-val" id="directY1_v" inputmode="numeric"></div>
+          <div class="lv-top"><label>First active year <span class="lv-code">start</span></label><input class="lv-val" id="directStartYear_v" inputmode="numeric"></div>
+          <input type="range" id="directStartYear" min="2" max="5" step="1"><div class="lv-range">no earlier than first licensee ship (≥ Yr 2)</div>
+        </div>
+        <div class="lever">
+          <div class="lv-top"><label>Units in first active year <span class="lv-code">d₀</span></label><input class="lv-val" id="directY1_v" inputmode="numeric"></div>
           <input type="range" id="directY1" min="0" max="10000" step="50"><div class="lv-range">independent of commercial ramp</div>
         </div>
         <div class="lever">
           <div class="lv-top"><label>Annual growth <span class="lv-code">g</span></label><input class="lv-val" id="directGrowth_v" inputmode="decimal"></div>
-          <input type="range" id="directGrowth" min="0" max="100" step="5"><div class="lv-range">compounding, yr over yr</div>
+          <input type="range" id="directGrowth" min="0" max="100" step="5"><div class="lv-range">compounding, from the start year</div>
         </div>
         <div class="lever">
           <div class="lv-top"><label>Overlap haircut <span class="lv-code">h</span></label><input class="lv-val" id="directHaircut_v" inputmode="decimal"></div>
@@ -304,11 +308,11 @@ footer .keynote{color:var(--ink2);font-style:normal;margin-bottom:8px;}
 
       <div class="panel">
         <div class="sec-head"><h3>Commercial ramp</h3><span class="tag anch">anchored · arena-split</span></div>
-        <p class="sec-note">Units placed / yr, split office vs café. Their <b>sum = commercial units</b> (royalty on the $2,499 sale). Pick a scenario and edit its ramp — each is independent. Middle years, split &amp; the Low/High cases are examples until your OEM-signed ramp is in.</p>
+        <p class="sec-note">Units placed / yr, split office vs café. Their <b>sum = commercial units</b> (royalty on the $2,499 sale). Scenarios are anchored to <b>OEMs signed by Yr 5 (1 / 2 / 4)</b>, split by the office-share ramp OFRAC. Editable — replace with your live OEM-signed ramp.</p>
         <div class="bandsel scensel" id="scensel">
-          <button data-s="low" type="button">Low<span class="bp">conservative</span></button>
-          <button data-s="base" type="button">Base<span class="bp">6 → 9,500</span></button>
-          <button data-s="high" type="button">High<span class="bp">OEM upside</span></button>
+          <button data-s="low" type="button">Low<span class="bp">1 OEM</span></button>
+          <button data-s="base" type="button">Base<span class="bp">2 OEMs</span></button>
+          <button data-s="high" type="button">High<span class="bp">4 OEMs</span></button>
         </div>
         <div class="grid5" style="margin-top:12px">
           <div class="rlab">Year</div>
@@ -368,7 +372,7 @@ footer .keynote{color:var(--ink2);font-style:normal;margin-bottom:8px;}
 
       <div class="panel" style="margin-top:18px">
         <div class="out-head"><h3>Ramp scenarios</h3><span class="tag anch">Low / Base / High</span></div>
-        <p class="sec-note">5-yr commercial units and total royalty under each OEM-signing ramp. The independent Direct channel is the same floor in all three — only the commercial-derived part scales with the ramp. Active scenario outlined.</p>
+        <p class="sec-note">5-yr commercial units and total royalty under each OEM-signing ramp (1 / 2 / 4 OEMs by Yr 5). Base case is seeded-only (Direct off). Active scenario outlined.</p>
         <div class="sgrid" id="scengrid"></div>
       </div>
 
@@ -412,7 +416,7 @@ footer .keynote{color:var(--ink2);font-style:normal;margin-bottom:8px;}
           <div class="aacol assumed"><h4>Assumed · pilot-measured</h4>
             <ul><li>Five office levers — size, stock conversion, window, turnover, new-hire conversion.</li>
             <li>Three café levers — <span class="mono">N, c_cafe, r1</span> (was "assumed zero" in v2; v3 adds the model).</li>
-            <li>Direct home demand — <span class="mono">d₀, g</span> — independent of commercial, net of an overlap haircut <span class="mono">h</span> (avoids double-counting Seeded); the least-anchored input, gated on a DTC test.</li>
+            <li>Direct home demand — <span class="mono">d₀, g</span> — <b>optional, off by default, least-anchored — not in the base case; upside only, and only after first licensee ship</b> (net of overlap haircut <span class="mono">h</span>).</li>
             <li>Intro / Premier consumer mix.</li></ul></div>
           <div class="aacol locked"><h4>Locked</h4>
             <ul><li>MSRP tiers · net-wholesale ≈ 50% ($1,250 / $300 / $100).</li>
@@ -438,13 +442,16 @@ const DEFAULTS={
   N:52, c:15, r1:0.5,
   S:32, cStock:17.5, W:2, t:13, cFlow:10,
   scenario:'base',
+  // v4: OEM-anchored ramps (Low/Base/High = 1/2/4 OEMs signed by Yr5), split by OFRAC=[.5,.72,.667,.622,.579]
   ramps:{
-    low: {office:[2,35,260,1100,2750], cafe:[1,25,190,800,2000]},   // ≈½ Base (illustrative)
-    base:{office:[4,70,520,2200,5500], cafe:[2,50,380,1600,4000]},  // sums 6,120,900,3800,9500 (endpoints from v2)
-    high:{office:[6,105,780,3300,8250], cafe:[3,75,570,2400,6000]}, // ≈1.5× Base (illustrative)
+    low: {office:[2,86,467,1120,2316], cafe:[1,34,233,680,1684]},     // total 3, 120, 700, 1800, 4000
+    base:{office:[3,180,1001,2799,5501], cafe:[3,70,499,1701,3999]},  // total 6, 250, 1500, 4500, 9500
+    high:{office:[4,432,2535,6842,12738], cafe:[4,168,1265,4158,9262]}, // total 8, 600, 3800, 11000, 22000
   },
-  includeDirect:true, directY1:750, directGrowth:35, directHaircut:15,   // independent home-tier demand (conservative default); haircut nets out commercial-touchpoint overlap
-  mixIntro:70, nwIntro:100, nwPrem:300, nwComm:1250, band:7,
+  oems:{low:1, base:2, high:4},
+  // v4: Direct OFF by default & re-anchored — no home unit exists until a licensee ships (≥Yr2); growth softened 35→15
+  includeDirect:false, directY1:750, directGrowth:15, directHaircut:15, directStartYear:2,
+  mixIntro:60, nwIntro:100, nwPrem:300, nwComm:1250, band:7,
   shelf:3000000, shelfSrc:'premium/super-automatic unit shipments/yr — replace with your cited figure',
   mode:'royalty'
 };
@@ -470,13 +477,13 @@ function compute(band, Nover, scenOver){
   const savedN=S.N; if(Nover!=null)S.N=Nover;
   const rp=ramp(scenOver);
   const cafeU=Array(T).fill(0), officeU=Array(T).fill(0), directU=Array(T).fill(0), commU=Array(T).fill(0), commR=Array(T).fill(0);
-  const g=1+(+S.directGrowth||0)/100;
+  const g=1+(+S.directGrowth||0)/100, dStart=Math.max(1,(+S.directStartYear||1))-1;  // 0-indexed first active year
   for(let y=0;y<T;y++){
     for(let k=0;k<y;k++){ const age=y-k;                     // 1-yr lag: placed in k seeds from k+1
       cafeU[y]   += (+rp.cafe[k]||0)*cafePP(age);
       officeU[y] += (+rp.office[k]||0)*officePP(age);
     }
-    directU[y]=S.includeDirect ? (+S.directY1||0)*Math.pow(g,y)*(1-(+S.directHaircut||0)/100) : 0;   // independent of ramp & N; haircut nets out commercial-touchpoint overlap
+    directU[y]=(S.includeDirect && y>=dStart) ? (+S.directY1||0)*Math.pow(g,y-dStart)*(1-(+S.directHaircut||0)/100) : 0;   // 0 until first licensee ship; independent of ramp & N; haircut nets overlap
     commU[y]=(+rp.office[y]||0)+(+rp.cafe[y]||0);
     commR[y]=commU[y]*(+S.nwComm)*(band/100);
   }
@@ -514,11 +521,12 @@ function render(){
   // direct worked + seeded-only-floor readout
   const seededOnly=R.sums.total-R.sums.direct;
   if(S.includeDirect){
-    const gross=[]; for(let y=0;y<T;y++)gross.push((+S.directY1||0)*Math.pow(1+(+S.directGrowth||0)/100,y));
+    const dS=Math.max(1,(+S.directStartYear||1));
+    const gross=[]; for(let y=0;y<T;y++)gross.push(y>=dS-1 ? (+S.directY1||0)*Math.pow(1+(+S.directGrowth||0)/100,y-(dS-1)) : 0);
     const grossSum=gross.reduce((a,b)=>a+b,0);
-    $('#directWorked').textContent='gross '+gross.map(fmt0).join(', ')+' = '+fmt0(grossSum)+', less '+(+S.directHaircut||0)+'% overlap = '+fmt0(R.sums.directU)+' net units → '+moneyK(R.sums.direct)+' royalty. Seeded-only floor '+moneyK(seededOnly)+' → with direct '+moneyK(R.sums.total)+'.';
+    $('#directWorked').textContent='starts Yr '+dS+' (after first licensee ship) · gross '+gross.map(fmt0).join(', ')+' = '+fmt0(grossSum)+', less '+(+S.directHaircut||0)+'% overlap = '+fmt0(R.sums.directU)+' net → '+moneyK(R.sums.direct)+'. Seeded-only floor '+moneyK(seededOnly)+' → with direct '+moneyK(R.sums.total)+'.';
   } else {
-    $('#directWorked').textContent='Direct channel off — showing the seeded-only floor: '+moneyK(seededOnly)+' total royalty (commercial-derived consumer + commercial units).';
+    $('#directWorked').textContent='Off — this is the base case. Seeded-only floor: '+moneyK(seededOnly)+' total royalty (café + office seeding + commercial units). Toggle on for upside only.';
   }
 
   // per-placement compare
@@ -608,7 +616,7 @@ function drawScenarios(){
   const vals=scz.map(s=>{const r=compute(S.band,null,s.k);return{...s,u:r.sums.commU,v:r.sums.total};});
   const max=Math.max(...vals.map(v=>v.v));
   $('#scengrid').innerHTML=vals.map(p=>`<div class="scard${p.k===S.scenario?' base':''}">${p.k===S.scenario?'<span class="flag">ACTIVE</span>':''}
-    <div class="sn mono">${p.lab} ramp</div><div class="sv mono">${moneyK(p.v)}</div>
+    <div class="sn mono">${p.lab} · ${S.oems[p.k]} OEM${S.oems[p.k]>1?'s':''}</div><div class="sv mono">${moneyK(p.v)}</div>
     <div class="sb">${fmt0(p.u)} commercial units</div>
     <svg viewBox="0 0 100 6" preserveAspectRatio="none" style="width:100%;height:6px;margin-top:8px"><rect x="0" y="0" width="${100*p.v/max}" height="6" rx="3" fill="var(--commercial)"/></svg></div>`).join('');
 }
@@ -663,7 +671,7 @@ function initMode(){
 function fillAll(){
   bindLever('N','N',0);bindLever('c','c',1);bindLever('r1','r1',2);
   bindLever('S','S',0);bindLever('cStock','cStock',1);bindLever('W','W',0);bindLever('t','t',1);bindLever('cFlow','cFlow',1);
-  bindLever('directY1','directY1',0);bindLever('directGrowth','directGrowth',0);bindLever('directHaircut','directHaircut',0);
+  bindLever('directStartYear','directStartYear',0);bindLever('directY1','directY1',0);bindLever('directGrowth','directGrowth',0);bindLever('directHaircut','directHaircut',0);
   const dOn=$('#directOn');dOn.checked=S.includeDirect;
   dOn.addEventListener('change',()=>{S.includeDirect=dOn.checked;render();});
   $('#mixIntro').value=S.mixIntro;$('#mixPrem').value=100-S.mixIntro;
@@ -672,9 +680,9 @@ function fillAll(){
   const ss=$('#shelfSrc');ss.value=S.shelfSrc;ss.addEventListener('change',()=>{S.shelfSrc=ss.value||DEFAULTS.shelfSrc;render();});
   initScenario();initSched();initBand();initMode();
 }
-function saveState(){try{localStorage.setItem('caffevolve_v3e',JSON.stringify(S));}catch(e){}}
-function loadState(){try{const j=JSON.parse(localStorage.getItem('caffevolve_v3e'));
-  if(j&&j.ramps&&j.ramps.base&&j.ramps.base.office&&'cStock'in j&&'directHaircut'in j)Object.assign(S,j);}catch(e){}}
+function saveState(){try{localStorage.setItem('caffevolve_v4',JSON.stringify(S));}catch(e){}}
+function loadState(){try{const j=JSON.parse(localStorage.getItem('caffevolve_v4'));
+  if(j&&j.ramps&&j.ramps.base&&j.ramps.base.office&&'cStock'in j&&'directStartYear'in j&&j.oems)Object.assign(S,j);}catch(e){}}
 
 (function(){const root=document.documentElement;let stored;try{stored=localStorage.getItem('caffevolve_theme');}catch(e){}
   if(stored)root.setAttribute('data-theme',stored);
