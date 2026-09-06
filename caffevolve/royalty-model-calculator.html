@@ -1,0 +1,689 @@
+<title>Caffevolve Royalty Model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#F4EEE3; --deep:#EBE2D3; --panel:#FBF7EF; --panel2:#F3ECDF;
+  --ink:#2A1E14; --ink2:#5A4636; --muted:#8A7358; --line:#E0D4C0; --line2:#D2C2A8;
+  --accent:#8A5A2B; --accent-soft:#B8753A;
+  --cafe:#B06E1E; --office:#8A7358; --commercial:#8A4A22; --direct:#3E7C7A;
+  --cafe-fill:rgba(176,110,30,.16); --shadow:0 1px 2px rgba(42,30,20,.06),0 8px 26px rgba(42,30,20,.07);
+  --good:#3E7C4A; --warn:#B26A00; --crit:#B23A48;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --mono:"DM Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#17100B; --deep:#100B08; --panel:#211812; --panel2:#2A1E14;
+  --ink:#F2E9D8; --ink2:#D6C6AF; --muted:#9C8370; --line:#3A2A1D; --line2:#4A3625;
+  --accent:#D99A4E; --accent-soft:#B8753A;
+  --cafe:#E0A75B; --office:#A08A6E; --commercial:#C77A3E; --direct:#7FB8B5;
+  --cafe-fill:rgba(224,167,91,.15); --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+  --good:#7FBE87; --warn:#E0A75B; --crit:#E38A93;
+}}
+:root[data-theme="dark"]{
+  --ground:#17100B; --deep:#100B08; --panel:#211812; --panel2:#2A1E14;
+  --ink:#F2E9D8; --ink2:#D6C6AF; --muted:#9C8370; --line:#3A2A1D; --line2:#4A3625;
+  --accent:#D99A4E; --accent-soft:#B8753A;
+  --cafe:#E0A75B; --office:#A08A6E; --commercial:#C77A3E; --direct:#7FB8B5;
+  --cafe-fill:rgba(224,167,91,.15); --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+  --good:#7FBE87; --warn:#E0A75B; --crit:#E38A93;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 22px 64px;}
+h1,h2,h3{margin:0;font-family:var(--serif);font-weight:600;text-wrap:balance;line-height:1.05;}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;}
+a{color:var(--accent);}
+
+header{display:flex;flex-wrap:wrap;gap:18px 26px;align-items:flex-end;justify-content:space-between;
+  padding-bottom:20px;border-bottom:1px solid var(--line);}
+.title h1{font-size:44px;letter-spacing:.005em;}
+.title .sub{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--accent-soft);margin-top:2px;}
+.confid{display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right;}
+.pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border-radius:100px;border:1px solid var(--line2);color:var(--muted);}
+.pill.warnpill{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,var(--line2));}
+.theme-btn{cursor:pointer;background:var(--panel);border:1px solid var(--line2);color:var(--ink2);
+  font-family:var(--mono);font-size:11px;padding:6px 11px;border-radius:8px;}
+.theme-btn:hover{border-color:var(--accent-soft);color:var(--ink);}
+
+.notice{margin:16px 0 22px;padding:10px 14px;border-radius:10px;background:var(--panel2);
+  border:1px solid var(--line2);border-left:3px solid var(--accent-soft);font-size:13px;color:var(--ink2);}
+.notice strong{color:var(--ink);}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:8px;}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 16px 15px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+.kpi .k-lab{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+.kpi .k-val{font-family:var(--mono);font-weight:500;font-size:28px;margin-top:9px;letter-spacing:-.01em;color:var(--ink);}
+.kpi .k-sub{font-size:12px;color:var(--ink2);margin-top:5px;}
+.kpi.hero{background:linear-gradient(150deg,var(--panel),var(--panel2));border-color:var(--line2);}
+.kpi .stripe{position:absolute;left:0;top:0;bottom:0;width:3px;}
+.kpi .anchbadge{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:8px;letter-spacing:.12em;color:var(--good);border:1px solid color-mix(in srgb,var(--good) 40%,transparent);padding:2px 6px;border-radius:5px;}
+
+.layout{display:grid;grid-template-columns:340px 1fr;gap:22px;margin-top:26px;align-items:start;}
+@media(max-width:900px){.layout{grid-template-columns:1fr;}.kpis{grid-template-columns:repeat(2,1fr);}.title h1{font-size:34px;}}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);}
+.panel + .panel{margin-top:18px;}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:4px;}
+.sec-head h3{font-size:22px;}
+.sec-note{font-size:12px;color:var(--muted);margin:2px 0 14px;line-height:1.45;}
+.sec-note.worked{color:var(--ink2);background:var(--panel2);border:1px solid var(--line2);border-radius:8px;padding:8px 10px;font-family:var(--mono);font-size:11px;}
+.tag{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border-radius:6px;white-space:nowrap;}
+.tag.v3{background:color-mix(in srgb,var(--cafe) 22%,transparent);color:var(--cafe);border:1px solid color-mix(in srgb,var(--cafe) 40%,transparent);}
+.tag.v2{background:color-mix(in srgb,var(--office) 22%,transparent);color:var(--office);border:1px solid color-mix(in srgb,var(--office) 40%,transparent);}
+.tag.assumed{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn);border:1px solid color-mix(in srgb,var(--warn) 38%,transparent);}
+.tag.anch{background:color-mix(in srgb,var(--good) 16%,transparent);color:var(--good);border:1px solid color-mix(in srgb,var(--good) 38%,transparent);}
+.tag.direct{background:color-mix(in srgb,var(--direct) 20%,transparent);color:var(--direct);border:1px solid color-mix(in srgb,var(--direct) 42%,transparent);}
+.toggle{display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none;margin-top:4px;}
+.toggle input{position:absolute;opacity:0;width:0;height:0;}
+.toggle .tk{width:38px;height:22px;border-radius:100px;background:var(--line2);position:relative;transition:.15s;flex:none;}
+.toggle .tk::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--panel);transition:.15s;box-shadow:0 1px 2px rgba(0,0,0,.3);}
+.toggle input:checked + .tk{background:var(--direct);}
+.toggle input:checked + .tk::after{transform:translateX(16px);}
+.toggle input:focus-visible + .tk{outline:2px solid var(--accent-soft);outline-offset:2px;}
+.toggle .tl{font-size:13px;color:var(--ink);font-weight:500;}
+
+.lever{margin:14px 0;}
+.lever:first-of-type{margin-top:6px;}
+.lever .lv-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+.lever label{font-size:13px;color:var(--ink);font-weight:500;}
+.lever .lv-code{font-family:var(--mono);color:var(--accent);font-size:12px;}
+.lever .lv-val{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:15px;color:var(--ink);background:var(--panel2);
+  border:1px solid var(--line2);border-radius:7px;padding:2px 8px;min-width:64px;text-align:right;}
+.lever input[type=range]{width:100%;margin:9px 0 3px;accent-color:var(--accent);height:4px;}
+.lever .lv-meaning{font-size:11.5px;color:var(--muted);line-height:1.45;}
+.lever .lv-range{font-family:var(--mono);font-size:10px;color:var(--muted);}
+
+.grid5{display:grid;grid-template-columns:auto repeat(5,1fr);gap:6px;align-items:center;margin-top:4px;}
+.grid5 .rlab{font-size:11.5px;color:var(--ink2);}
+.grid5 .yhead{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;}
+.grid5 input{width:100%;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:12.5px;text-align:center;
+  background:var(--panel2);border:1px solid var(--line2);border-radius:6px;color:var(--ink);padding:5px 2px;}
+.grid5 input:focus{outline:2px solid var(--accent-soft);outline-offset:-1px;border-color:var(--accent-soft);}
+.grid5 .totcol{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:right;padding-left:4px;}
+
+.minirow{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
+.field{flex:1;min-width:92px;}
+.field.wide{flex-basis:100%;}
+.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;}
+.field .inpwrap{display:flex;align-items:center;background:var(--panel2);border:1px solid var(--line2);border-radius:7px;padding:0 8px;}
+.field .pre{color:var(--muted);font-family:var(--mono);font-size:12px;}
+.field input{border:0;background:transparent;color:var(--ink);font-family:var(--mono);font-variant-numeric:tabular-nums;
+  font-size:13.5px;width:100%;padding:6px 2px;text-align:right;}
+.field input:focus{outline:none;}
+.field input.txt{text-align:left;font-family:var(--sans);font-variant-numeric:normal;font-size:12px;}
+.field .suf-c{color:var(--muted);font-family:var(--mono);font-size:12px;}
+
+.bandsel{display:flex;gap:6px;margin-top:6px;}
+.bandsel button{flex:1;cursor:pointer;font-family:var(--mono);font-size:12px;padding:8px 4px;border-radius:8px;
+  border:1px solid var(--line2);background:var(--panel2);color:var(--ink2);transition:.12s;}
+.bandsel button .bp{display:block;font-size:10px;color:var(--muted);margin-top:2px;}
+.bandsel button[aria-pressed=true]{background:color-mix(in srgb,var(--accent) 18%,var(--panel2));border-color:var(--accent);color:var(--ink);}
+.bandsel button[aria-pressed=true] .bp{color:var(--accent);}
+
+.out-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:2px;flex-wrap:wrap;}
+.out-head h3{font-size:23px;}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--ink2);align-items:center;}
+.legend span{display:inline-flex;align-items:center;gap:6px;}
+.dot{width:10px;height:10px;border-radius:3px;display:inline-block;}
+.modesel{display:inline-flex;gap:4px;margin-left:4px;}
+.modesel button{cursor:pointer;font-family:var(--mono);font-size:10px;padding:4px 9px;border-radius:6px;border:1px solid var(--line2);background:var(--panel2);color:var(--muted);}
+.modesel button[aria-pressed=true]{border-color:var(--accent);color:var(--ink);background:color-mix(in srgb,var(--accent) 15%,var(--panel2));}
+.chartwrap{width:100%;overflow-x:auto;margin-top:12px;}
+svg{display:block;max-width:100%;}
+.axis-t{font-family:var(--mono);font-size:10px;fill:var(--muted);}
+.axis-v{font-family:var(--mono);font-size:10px;fill:var(--muted);}
+
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+.cmp .cbox{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--panel2);}
+.cmp .cbox .clab{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.cmp .cbox .cbig{font-family:var(--mono);font-size:26px;margin-top:6px;color:var(--ink);}
+.cmp .cbox .csm{font-size:12px;color:var(--ink2);margin-top:4px;}
+.cmp .cbox.cafebox{border-left:3px solid var(--cafe);}
+.cmp .cbox.officebox{border-left:3px solid var(--office);}
+.ratio{font-family:var(--mono);font-size:12px;color:var(--accent);margin-top:10px;}
+
+.sens{margin-top:16px;}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px;}
+@media(max-width:520px){.sgrid{grid-template-columns:1fr;}}
+.scard{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--panel2);text-align:center;position:relative;}
+.scard .sn{font-family:var(--mono);font-size:11px;color:var(--muted);}
+.scard .sv{font-family:var(--mono);font-size:23px;margin-top:6px;color:var(--ink);}
+.scard .sb{font-size:11px;color:var(--ink2);margin-top:3px;}
+.scard.base{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset;}
+.scard .flag{position:absolute;top:8px;right:9px;font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;color:var(--accent);}
+
+table.yr{width:100%;border-collapse:collapse;margin-top:14px;font-size:12.5px;}
+table.yr th,table.yr td{text-align:right;padding:7px 8px;border-bottom:1px solid var(--line);font-family:var(--mono);font-variant-numeric:tabular-nums;}
+table.yr th{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;}
+table.yr td:first-child,table.yr th:first-child{text-align:left;color:var(--ink2);}
+table.yr tr.tot td{border-top:2px solid var(--line2);border-bottom:none;color:var(--ink);font-weight:500;padding-top:9px;}
+table.yr tr.tot td:first-child{color:var(--ink);}
+
+.aa{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;}
+@media(max-width:640px){.aa{grid-template-columns:1fr;}}
+.aa .aacol{border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+.aa h4{margin:0 0 8px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;}
+.aa ul{margin:0;padding-left:16px;font-size:12.5px;color:var(--ink2);}
+.aa li{margin:5px 0;}
+.aa .anchored{border-left:3px solid var(--good);}
+.aa .assumed{border-left:3px solid var(--warn);}
+.aa .locked{border-left:3px solid var(--muted);}
+
+.ceilpanel .cwrap{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;margin-top:12px;align-items:center;}
+@media(max-width:640px){.ceilpanel .cwrap{grid-template-columns:1fr;}}
+.ceilpanel .cverdict{border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--panel2);}
+.ceilpanel .cbar{height:26px;border-radius:6px;background:var(--deep);position:relative;overflow:hidden;margin-top:10px;border:1px solid var(--line2);}
+.ceilpanel .cbar .fill{position:absolute;left:0;top:0;bottom:0;border-radius:6px;}
+.ceilpanel .cpct{font-family:var(--mono);font-size:30px;color:var(--ink);}
+.ceilpanel .cflag{display:inline-block;font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:7px;margin-top:8px;}
+.ceilpanel .cflag.ok{color:var(--good);border:1px solid color-mix(in srgb,var(--good) 40%,transparent);}
+.ceilpanel .cflag.watch{color:var(--warn);border:1px solid color-mix(in srgb,var(--warn) 42%,transparent);}
+.ceilpanel .cflag.over{color:var(--crit);border:1px solid color-mix(in srgb,var(--crit) 45%,transparent);}
+.ceilpanel .cbreak{font-family:var(--mono);font-size:12px;color:var(--ink2);line-height:1.7;}
+.ceilpanel .cbreak b{color:var(--ink);}
+
+footer{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted);line-height:1.6;}
+footer .disc{font-style:italic;}
+footer .keynote{color:var(--ink2);font-style:normal;margin-bottom:8px;}
+.foot-actions{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;}
+.foot-actions button{cursor:pointer;font-family:var(--mono);font-size:11px;padding:6px 12px;border-radius:8px;border:1px solid var(--line2);background:var(--panel);color:var(--ink2);}
+.foot-actions button:hover{border-color:var(--accent-soft);color:var(--ink);}
+.spark{margin-top:8px;}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="title">
+      <div class="eyebrow">Caffevolve™ · Royalty Model v3 · office + café</div>
+      <h1>Caffevolve Royalty Model</h1>
+      <div class="sub">Coffee Without a Curfew</div>
+    </div>
+    <div class="confid">
+      <span class="pill warnpill">● Confidential — NDA-gated</span>
+      <span class="pill">Internal planning · directional</span>
+      <button class="theme-btn" id="themeBtn" type="button">◐ Theme</button>
+    </div>
+  </header>
+
+  <div class="notice">
+    <strong>Consumer demand has two causal families.</strong> <em>Seeded</em> (commercial-derived): office stock-and-flow (v2) + café seeding (v3), both lagged, both scaling with the commercial ramp. <em>Direct</em> (independent): home-tier units from their own marketing, with a floor even at Low commercial traction. The <strong>arena-split ramp</strong> is anchored (endpoints <span class="mono">6 → 9,500</span>/yr from v2; middle years &amp; split illustrative); <strong>Direct is the new least-anchored input</strong> — default it low and gate the upside on a DTC test.
+  </div>
+
+  <div class="kpis">
+    <div class="kpi hero"><span class="stripe" style="background:var(--commercial)"></span><span class="anchbadge">ANCHORED</span>
+      <div class="k-lab">Commercial units · 5-yr</div><div class="k-val mono" id="kpiComm">—</div>
+      <div class="k-sub" id="kpiCommSub">office + café · the researched traction</div></div>
+    <div class="kpi hero"><span class="stripe" style="background:var(--accent)"></span>
+      <div class="k-lab">Total royalty · 5-yr</div><div class="k-val mono" id="kpiTotal">—</div>
+      <div class="k-sub" id="kpiBand">at Base band 7%</div></div>
+    <div class="kpi"><span class="stripe" style="background:var(--direct)"></span>
+      <div class="k-lab">Consumer units · 5-yr</div><div class="k-val mono" id="kpiSeed">—</div>
+      <div class="k-sub" id="kpiSeedSub">seeded + direct</div></div>
+    <div class="kpi"><span class="stripe" style="background:var(--commercial)"></span>
+      <div class="k-lab">Commercial share of royalty</div><div class="k-val mono" id="kpiCommShare">—</div>
+      <div class="k-sub" id="kpiCommShareSub">the $2,499 unit carries the royalty</div></div>
+  </div>
+
+  <div class="layout">
+    <!-- ============ CONTROLS ============ -->
+    <div class="controls">
+      <div class="panel">
+        <div class="sec-head"><h3>Café seed engine</h3><span class="tag v3">v3</span></div>
+        <p class="sec-note">Per placement, per year <span class="mono">a</span> (1-yr lag): a=1 → <span class="mono">N·c·r1</span>; a≥2 → <span class="mono">N·c</span>, sustained.</p>
+        <div class="lever">
+          <div class="lv-top"><label>Qualified setups / café / yr <span class="lv-code">N</span></label><input class="lv-val" id="N_v" inputmode="numeric"></div>
+          <input type="range" id="N" min="26" max="260" step="1">
+          <div class="lv-range">range 26–260 · ≈0.5–5/week</div>
+          <div class="lv-meaning">Least-anchored input; partly a product-design choice. The café pilot raises it with evidence.</div>
+        </div>
+        <div class="lever">
+          <div class="lv-top"><label>Setup → home conversion <span class="lv-code">c_cafe</span></label><input class="lv-val" id="c_v" inputmode="decimal"></div>
+          <input type="range" id="c" min="10" max="20" step="0.5">
+          <div class="lv-range">range 10–20% · office c_stock = 17.5%</div>
+          <div class="lv-meaning">Near office stock rate — held a touch under at Base; upside reaches/exceeds office.</div>
+        </div>
+        <div class="lever">
+          <div class="lv-top"><label>Year-1 ramp <span class="lv-code">r1</span></label><input class="lv-val" id="r1_v" inputmode="decimal"></div>
+          <input type="range" id="r1" min="0.25" max="1" step="0.05">
+          <div class="lv-range">range 0.25–1</div>
+          <div class="lv-meaning">First-year discount while the café builds its regular base.</div>
+        </div>
+        <div class="sec-note worked" id="cafeWorked">—</div>
+      </div>
+
+      <div class="panel">
+        <div class="sec-head"><h3>Office seed engine</h3><span class="tag v2">v2 · stock-and-flow</span></div>
+        <p class="sec-note">Stock phase a=1…W: <span class="mono">(S·c_stock)/W</span>. Flow phase a&gt;W: <span class="mono">S·t·c_flow</span>. 1-yr lag.</p>
+        <div class="lever">
+          <div class="lv-top"><label>Office size <span class="lv-code">S</span></label><input class="lv-val" id="S_v" inputmode="numeric"></div>
+          <input type="range" id="S" min="25" max="40" step="1"><div class="lv-range">range 25–40 headcount</div>
+        </div>
+        <div class="lever">
+          <div class="lv-top"><label>Stock conversion <span class="lv-code">c_stock</span></label><input class="lv-val" id="cStock_v" inputmode="decimal"></div>
+          <input type="range" id="cStock" min="15" max="20" step="0.5"><div class="lv-range">range 15–20%</div>
+        </div>
+        <div class="lever">
+          <div class="lv-top"><label>Conversion window <span class="lv-code">W</span></label><input class="lv-val" id="W_v" inputmode="numeric"></div>
+          <input type="range" id="W" min="1" max="3" step="1"><div class="lv-range">range 1–3 yrs</div>
+        </div>
+        <div class="lever">
+          <div class="lv-top"><label>Annual turnover <span class="lv-code">t</span></label><input class="lv-val" id="t_v" inputmode="decimal"></div>
+          <input type="range" id="t" min="10" max="15" step="0.5"><div class="lv-range">range 10–15%</div>
+        </div>
+        <div class="lever">
+          <div class="lv-top"><label>New-hire conversion <span class="lv-code">c_flow</span></label><input class="lv-val" id="cFlow_v" inputmode="decimal"></div>
+          <input type="range" id="cFlow" min="5" max="17.5" step="0.5"><div class="lv-range">range 5–17.5% · defaults below c_stock</div>
+        </div>
+        <div class="sec-note worked" id="officeWorked">—</div>
+      </div>
+
+      <div class="panel">
+        <div class="sec-head"><h3>Direct / home demand</h3><span class="tag direct">independent</span></div>
+        <p class="sec-note">Home-tier units from their own marketing — <b>not</b> derived from placements. Same Intro/Premier mix. This is the least-anchored input; default low, raise it with a DTC test.</p>
+        <label class="toggle" id="directToggle"><input type="checkbox" id="directOn"><span class="tk"></span><span class="tl">Include direct channel</span></label>
+        <div class="lever" style="margin-top:14px">
+          <div class="lv-top"><label>Year-1 home units <span class="lv-code">d₀</span></label><input class="lv-val" id="directY1_v" inputmode="numeric"></div>
+          <input type="range" id="directY1" min="0" max="10000" step="50"><div class="lv-range">independent of commercial ramp</div>
+        </div>
+        <div class="lever">
+          <div class="lv-top"><label>Annual growth <span class="lv-code">g</span></label><input class="lv-val" id="directGrowth_v" inputmode="decimal"></div>
+          <input type="range" id="directGrowth" min="0" max="100" step="5"><div class="lv-range">compounding, yr over yr</div>
+        </div>
+        <div class="lever">
+          <div class="lv-top"><label>Overlap haircut <span class="lv-code">h</span></label><input class="lv-val" id="directHaircut_v" inputmode="decimal"></div>
+          <input type="range" id="directHaircut" min="0" max="50" step="5"><div class="lv-range">removes direct buyers who also had a commercial touchpoint — avoids double-counting Seeded</div>
+        </div>
+        <div class="sec-note worked" id="directWorked">—</div>
+      </div>
+
+      <div class="panel">
+        <div class="sec-head"><h3>Commercial ramp</h3><span class="tag anch">anchored · arena-split</span></div>
+        <p class="sec-note">Units placed / yr, split office vs café. Their <b>sum = commercial units</b> (royalty on the $2,499 sale). Pick a scenario and edit its ramp — each is independent. Middle years, split &amp; the Low/High cases are examples until your OEM-signed ramp is in.</p>
+        <div class="bandsel scensel" id="scensel">
+          <button data-s="low" type="button">Low<span class="bp">conservative</span></button>
+          <button data-s="base" type="button">Base<span class="bp">6 → 9,500</span></button>
+          <button data-s="high" type="button">High<span class="bp">OEM upside</span></button>
+        </div>
+        <div class="grid5" style="margin-top:12px">
+          <div class="rlab">Year</div>
+          <div class="yhead">Y1</div><div class="yhead">Y2</div><div class="yhead">Y3</div><div class="yhead">Y4</div><div class="yhead">Y5</div>
+          <div class="rlab" style="color:var(--office)">Office</div>
+          <input class="sched" data-k="office" data-y="0"><input class="sched" data-k="office" data-y="1"><input class="sched" data-k="office" data-y="2"><input class="sched" data-k="office" data-y="3"><input class="sched" data-k="office" data-y="4">
+          <div class="rlab" style="color:var(--cafe)">Café</div>
+          <input class="sched" data-k="cafe" data-y="0"><input class="sched" data-k="cafe" data-y="1"><input class="sched" data-k="cafe" data-y="2"><input class="sched" data-k="cafe" data-y="3"><input class="sched" data-k="cafe" data-y="4">
+          <div class="rlab" style="color:var(--commercial)">Total</div>
+          <div class="totcol" data-tot="0">—</div><div class="totcol" data-tot="1">—</div><div class="totcol" data-tot="2">—</div><div class="totcol" data-tot="3">—</div><div class="totcol" data-tot="4">—</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="sec-head"><h3>Locked economics</h3><span class="tag v2">v2 · confirm</span></div>
+        <p class="sec-note">Both seeding streams feed the same Intro/Premier mix → net wholesale → royalty band.</p>
+        <div class="minirow">
+          <div class="field"><label>Intro mix</label><div class="inpwrap"><input id="mixIntro"><span class="suf-c">%</span></div></div>
+          <div class="field"><label>Premier mix</label><div class="inpwrap"><span class="pre">=</span><input id="mixPrem" disabled><span class="suf-c">%</span></div></div>
+        </div>
+        <div class="minirow">
+          <div class="field"><label>Intro net wholesale</label><div class="inpwrap"><span class="pre">$</span><input id="nwIntro"></div></div>
+          <div class="field"><label>Premier net wholesale</label><div class="inpwrap"><span class="pre">$</span><input id="nwPrem"></div></div>
+        </div>
+        <div class="minirow">
+          <div class="field"><label>Commercial net wholesale (½ of $2,499)</label><div class="inpwrap"><span class="pre">$</span><input id="nwComm"></div></div>
+        </div>
+        <p class="sec-note" style="margin:14px 0 2px">Royalty band (of net wholesale)</p>
+        <div class="bandsel" id="bandsel">
+          <button data-b="5" type="button">Low<span class="bp">5%</span></button>
+          <button data-b="7" type="button">Base<span class="bp">7%</span></button>
+          <button data-b="8" type="button">High<span class="bp">8%</span></button>
+        </div>
+        <p class="sec-note" style="margin:16px 0 2px">Ceiling check — premium appliance shelf</p>
+        <div class="minirow">
+          <div class="field"><label>Shelf units / yr</label><div class="inpwrap"><input id="shelf"><span class="suf-c">u</span></div></div>
+        </div>
+        <div class="minirow"><div class="field wide"><label>Shelf source (state it)</label><div class="inpwrap"><input class="txt" id="shelfSrc"></div></div></div>
+      </div>
+    </div>
+
+    <!-- ============ OUTPUTS ============ -->
+    <div class="outputs">
+      <div class="panel">
+        <div class="out-head"><h3>By year &amp; source</h3>
+          <div class="legend">
+            <span><i class="dot" style="background:var(--cafe)"></i>Café</span>
+            <span><i class="dot" style="background:var(--office)"></i>Office</span>
+            <span><i class="dot" style="background:var(--direct)"></i>Direct</span>
+            <span><i class="dot" style="background:var(--commercial)"></i>Commercial</span>
+            <span class="modesel" id="modesel"><button data-m="royalty" type="button">Royalty $</button><button data-m="units" type="button">Units</button></span>
+          </div></div>
+        <p class="sec-note" id="chartNote">Commercial royalty leads in dollars; switch to Units to see the seeding-dominated volume.</p>
+        <div class="chartwrap"><svg id="stack" viewBox="0 0 720 300" role="img" aria-label="Stacked chart by year and source"></svg></div>
+        <table class="yr" id="yrtable"></table>
+      </div>
+
+      <div class="panel" style="margin-top:18px">
+        <div class="out-head"><h3>Ramp scenarios</h3><span class="tag anch">Low / Base / High</span></div>
+        <p class="sec-note">5-yr commercial units and total royalty under each OEM-signing ramp. The independent Direct channel is the same floor in all three — only the commercial-derived part scales with the ramp. Active scenario outlined.</p>
+        <div class="sgrid" id="scengrid"></div>
+      </div>
+
+      <div class="panel" style="margin-top:18px">
+        <div class="out-head"><h3>Per-placement: café vs office</h3></div>
+        <p class="sec-note">The v3 thesis — café is a sustained stream; office a front-loaded stock that trickles on turnover.</p>
+        <div class="cmp">
+          <div class="cbox cafebox"><div class="clab">Café · sustained (a≥2)</div><div class="cbig mono" id="cafePP">—</div><div class="csm">home units / placement / yr · Year 1 <span class="mono" id="cafeY1">—</span></div></div>
+          <div class="cbox officebox"><div class="clab">Office · stock → flow</div><div class="cbig mono" id="officePP">—</div><div class="csm">stock yrs 1–W, then <span class="mono" id="officeFlow">—</span> on turnover</div></div>
+        </div>
+        <div class="ratio" id="ratio">—</div>
+        <div class="chartwrap spark"><svg id="ppchart" viewBox="0 0 720 150" role="img" aria-label="Per-placement seeding by age"></svg></div>
+      </div>
+
+      <div class="panel sens" style="margin-top:18px">
+        <div class="out-head"><h3>Sensitivity to N</h3><span class="tag v3">café throughput</span></div>
+        <p class="sec-note">Total 5-yr royalty (Base band) at the least-anchored input's low / base / high. The café pilot is what anchors it.</p>
+        <div class="sgrid" id="sgrid"></div>
+      </div>
+
+      <div class="panel ceilpanel" style="margin-top:18px">
+        <div class="out-head"><h3>Ceiling check</h3><span class="tag v2">v2 · top-down guardrail</span></div>
+        <p class="sec-note">Year-5 total units (commercial + seeded consumer) as a share of the premium appliance shelf. Is the base ramp a credible low-single-digit slice, or quietly implausible?</p>
+        <div class="cwrap">
+          <div class="cverdict">
+            <div class="cpct mono" id="ceilPct">—</div>
+            <div>of shelf</div>
+            <div class="cflag ok" id="ceilFlag">—</div>
+            <div class="cbar"><div class="fill" id="ceilFill"></div></div>
+          </div>
+          <div class="cbreak" id="ceilBreak">—</div>
+        </div>
+        <p class="sec-note" id="shelfNote" style="margin-top:12px"></p>
+      </div>
+
+      <div class="panel" style="margin-top:18px">
+        <div class="out-head"><h3>Assumed vs anchored</h3></div>
+        <div class="aa">
+          <div class="aacol anchored"><h4>Anchored · research ramp</h4>
+            <ul><li>Commercial units placed, Yr 1–5, arena-split office/café, Low/Base/High by OEM signings.</li></ul></div>
+          <div class="aacol assumed"><h4>Assumed · pilot-measured</h4>
+            <ul><li>Five office levers — size, stock conversion, window, turnover, new-hire conversion.</li>
+            <li>Three café levers — <span class="mono">N, c_cafe, r1</span> (was "assumed zero" in v2; v3 adds the model).</li>
+            <li>Direct home demand — <span class="mono">d₀, g</span> — independent of commercial, net of an overlap haircut <span class="mono">h</span> (avoids double-counting Seeded); the least-anchored input, gated on a DTC test.</li>
+            <li>Intro / Premier consumer mix.</li></ul></div>
+          <div class="aacol locked"><h4>Locked</h4>
+            <ul><li>MSRP tiers · net-wholesale ≈ 50% ($1,250 / $300 / $100).</li>
+            <li>5 / 7 / 8 royalty band at base 7%.</li></ul></div>
+        </div>
+      </div>
+
+      <footer>
+        <p class="keynote"><b>Mix, not rate, is the largest driver</b> of consumer royalty. Attach rate is folded into placements — under field-of-use exclusivity attach is ≈100% within the lane, so "units placed" <i>is</i> the attached-unit count.</p>
+        <p class="disc">Directional model, not a forecast. Consumer volume is seeding-dominated and conditional; the forecast is sensitive to <span class="mono">N</span> (café throughput), the least-anchored input, which the café pilot anchors. One of the 1–2 measured pilots should be a café placement, not only an office.</p>
+        <div class="foot-actions">
+          <button id="resetBtn" type="button">↺ Reset to defaults</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+const T=5;
+const DEFAULTS={
+  N:52, c:15, r1:0.5,
+  S:32, cStock:17.5, W:2, t:13, cFlow:10,
+  scenario:'base',
+  ramps:{
+    low: {office:[2,35,260,1100,2750], cafe:[1,25,190,800,2000]},   // ≈½ Base (illustrative)
+    base:{office:[4,70,520,2200,5500], cafe:[2,50,380,1600,4000]},  // sums 6,120,900,3800,9500 (endpoints from v2)
+    high:{office:[6,105,780,3300,8250], cafe:[3,75,570,2400,6000]}, // ≈1.5× Base (illustrative)
+  },
+  includeDirect:true, directY1:750, directGrowth:35, directHaircut:15,   // independent home-tier demand (conservative default); haircut nets out commercial-touchpoint overlap
+  mixIntro:70, nwIntro:100, nwPrem:300, nwComm:1250, band:7,
+  shelf:3000000, shelfSrc:'premium/super-automatic unit shipments/yr — replace with your cited figure',
+  mode:'royalty'
+};
+const S=structuredClone(DEFAULTS);
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+const fmt0=n=>Math.round(n).toLocaleString('en-US');
+const money=n=>'$'+Math.round(n).toLocaleString('en-US');
+const moneyK=n=>{n=Math.round(n); const a=Math.abs(n);
+  if(a>=1e6)return '$'+(n/1e6).toFixed(2)+'M'; if(a>=1e4)return '$'+Math.round(n/1e3)+'K'; return '$'+n.toLocaleString('en-US');};
+const cntK=n=>{n=Math.round(n); const a=Math.abs(n); if(a>=1e6)return (n/1e6).toFixed(2)+'M'; if(a>=1e4)return (n/1e3).toFixed(1)+'K'; return n.toLocaleString('en-US');};
+
+/* ---------- model ---------- */
+function cafePP(age){ if(age<1)return 0; const s=S.N*(S.c/100); return age===1? s*S.r1 : s; }
+function officePP(age){ if(age<1)return 0;
+  if(age<=S.W) return (S.S*(S.cStock/100))/S.W;              // stock phase
+  return S.S*(S.t/100)*(S.cFlow/100);                        // flow phase
+}
+function consumerRPU(band){ const mi=S.mixIntro/100; return (mi*(+S.nwIntro)+(1-mi)*(+S.nwPrem))*(band/100); }
+
+function ramp(scen){ return S.ramps[scen||S.scenario]; }
+// full compute; Nover varies N, scenOver picks a ramp — neither mutates state
+function compute(band, Nover, scenOver){
+  const savedN=S.N; if(Nover!=null)S.N=Nover;
+  const rp=ramp(scenOver);
+  const cafeU=Array(T).fill(0), officeU=Array(T).fill(0), directU=Array(T).fill(0), commU=Array(T).fill(0), commR=Array(T).fill(0);
+  const g=1+(+S.directGrowth||0)/100;
+  for(let y=0;y<T;y++){
+    for(let k=0;k<y;k++){ const age=y-k;                     // 1-yr lag: placed in k seeds from k+1
+      cafeU[y]   += (+rp.cafe[k]||0)*cafePP(age);
+      officeU[y] += (+rp.office[k]||0)*officePP(age);
+    }
+    directU[y]=S.includeDirect ? (+S.directY1||0)*Math.pow(g,y)*(1-(+S.directHaircut||0)/100) : 0;   // independent of ramp & N; haircut nets out commercial-touchpoint overlap
+    commU[y]=(+rp.office[y]||0)+(+rp.cafe[y]||0);
+    commR[y]=commU[y]*(+S.nwComm)*(band/100);
+  }
+  const rpu=consumerRPU(band);
+  const cafeR=cafeU.map(u=>u*rpu), officeR=officeU.map(u=>u*rpu), directR=directU.map(u=>u*rpu);
+  const total=cafeR.map((v,i)=>v+officeR[i]+directR[i]+commR[i]);
+  const sum=a=>a.reduce((x,y)=>x+y,0);
+  S.N=savedN;
+  return {cafeU,officeU,directU,commU,cafeR,officeR,directR,commR,total,
+    sums:{cafe:sum(cafeR),office:sum(officeR),direct:sum(directR),comm:sum(commR),total:sum(total),
+          cafeU:sum(cafeU),officeU:sum(officeU),directU:sum(directU),commU:sum(commU)}};
+}
+
+/* ---------- render ---------- */
+function render(){
+  const band=S.band, R=compute(band);
+  const bandName=band===7?'Base':band===5?'Low':'High';
+  // KPIs — anchored leads
+  const rp=ramp(), scenLab=S.scenario[0].toUpperCase()+S.scenario.slice(1);
+  $('#kpiComm').textContent=fmt0(R.sums.commU);
+  $('#kpiCommSub').textContent=scenLab+' ramp · office '+fmt0(sum(rp.office))+' · café '+fmt0(sum(rp.cafe));
+  $('#kpiTotal').textContent=moneyK(R.sums.total);
+  $('#kpiBand').textContent='at '+bandName+' band '+band+'%';
+  $('#kpiSeed').textContent=cntK(R.sums.cafeU+R.sums.officeU+R.sums.directU);
+  $('#kpiSeedSub').textContent='seeded '+cntK(R.sums.cafeU+R.sums.officeU)+' · direct '+cntK(R.sums.directU);
+  const share=Math.round(100*R.sums.comm/(R.sums.total||1));
+  $('#kpiCommShare').textContent=share+'%';
+
+  // worked checks
+  const cs=cafePP(2), cy1=cafePP(1);
+  const oStock=(S.S*(S.cStock/100))/S.W, oFlow=S.S*(S.t/100)*(S.cFlow/100);
+  $('#cafeWorked').textContent='N·c = '+S.N+'×'+(S.c/100).toFixed(3)+' = '+cs.toFixed(1)+'/yr sustained · Yr1 ×'+S.r1+' = '+cy1.toFixed(1);
+  const oseq=[]; for(let a=1;a<=5;a++)oseq.push(officePP(a).toFixed(a<=S.W?1:2));
+  $('#officeWorked').textContent='seeds '+oseq.join(', ')+' … (stock '+oStock.toFixed(1)+'/yr ×'+S.W+'yr, then flow '+oFlow.toFixed(2)+'/yr)';
+  // direct worked + seeded-only-floor readout
+  const seededOnly=R.sums.total-R.sums.direct;
+  if(S.includeDirect){
+    const gross=[]; for(let y=0;y<T;y++)gross.push((+S.directY1||0)*Math.pow(1+(+S.directGrowth||0)/100,y));
+    const grossSum=gross.reduce((a,b)=>a+b,0);
+    $('#directWorked').textContent='gross '+gross.map(fmt0).join(', ')+' = '+fmt0(grossSum)+', less '+(+S.directHaircut||0)+'% overlap = '+fmt0(R.sums.directU)+' net units → '+moneyK(R.sums.direct)+' royalty. Seeded-only floor '+moneyK(seededOnly)+' → with direct '+moneyK(R.sums.total)+'.';
+  } else {
+    $('#directWorked').textContent='Direct channel off — showing the seeded-only floor: '+moneyK(seededOnly)+' total royalty (commercial-derived consumer + commercial units).';
+  }
+
+  // per-placement compare
+  $('#cafePP').textContent=cs.toFixed(1); $('#cafeY1').textContent=cy1.toFixed(1);
+  $('#officePP').textContent=oStock.toFixed(1); $('#officeFlow').textContent=oFlow.toFixed(2);
+  $('#ratio').textContent='Café sustained ≈ '+(oStock>0?(cs/oStock).toFixed(1):'—')+'× office stock peak, and '+(oFlow>0?(cs/oFlow).toFixed(0):'—')+'× its trickle — a sustained stream vs a decaying pool.';
+
+  // ramp totals (active scenario)
+  $$('.totcol').forEach(el=>{const y=+el.dataset.tot; el.textContent=fmt0((+rp.office[y]||0)+(+rp.cafe[y]||0));});
+
+  drawStack(R); drawPP(); drawSens(); drawScenarios(); drawTable(R); ceilingCheck(R);
+  saveState();
+}
+function sum(a){return a.reduce((x,y)=>x+(+y||0),0);}
+
+function ceilingCheck(R){
+  const cap=+S.shelf||0;
+  const y5comm=R.commU[T-1], y5cons=R.cafeU[T-1]+R.officeU[T-1]+R.directU[T-1], y5tot=y5comm+y5cons;
+  const pct=cap>0? y5tot/cap*100 : 0;
+  $('#ceilPct').textContent=cap>0? (pct<0.1?pct.toFixed(2):pct.toFixed(1))+'%' : '—';
+  const flag=$('#ceilFlag'), fill=$('#ceilFill');
+  let cls='ok',msg='credible — low-single-digit slice';
+  if(!cap){cls='ok';msg='set a shelf figure to test';}
+  else if(pct>10){cls='over';msg='implausible — exceeds a credible slice';}
+  else if(pct>5){cls='watch';msg='watch — above low-single-digit';}
+  flag.className='cflag '+cls; flag.textContent=msg;
+  const col=cls==='over'?'var(--crit)':cls==='watch'?'var(--warn)':'var(--good)';
+  fill.style.background=col; fill.style.width=Math.min(100,pct*10)+'%'; // scale: 10% shelf = full bar
+  $('#ceilBreak').innerHTML='Year-5 units<br><b>'+fmt0(y5comm)+'</b> commercial placed<br><b>'+fmt0(y5cons)+'</b> consumer (café '+fmt0(R.cafeU[T-1])+' · office '+fmt0(R.officeU[T-1])+' · direct '+fmt0(R.directU[T-1])+')<br>= <b>'+fmt0(y5tot)+'</b> total vs shelf <b>'+fmt0(cap)+'</b>';
+  $('#shelfNote').textContent='Shelf figure: '+fmt0(cap)+' units/yr — '+S.shelfSrc;
+}
+
+function drawTable(R){
+  const isU=S.mode==='units';
+  const rows=isU
+    ? [['Café-seeded units',R.cafeU],['Office-seeded units',R.officeU],['Direct units',R.directU],['Commercial units',R.commU]]
+    : [['Café royalty',R.cafeR],['Office royalty',R.officeR],['Direct royalty',R.directR],['Commercial royalty',R.commR]];
+  const f=isU?fmt0:money;
+  const totArr=rows[0][1].map((_,i)=>rows.reduce((a,[,arr])=>a+arr[i],0));
+  let h='<tr><th>'+(isU?'Units':'Royalty $')+'</th>'+Array.from({length:T},(_,i)=>'<th>Y'+(i+1)+'</th>').join('')+'<th>Total</th></tr>';
+  rows.forEach(([lab,arr])=>{h+='<tr><td>'+lab+'</td>'+arr.map(v=>'<td>'+f(v)+'</td>').join('')+'<td>'+f(sum(arr))+'</td></tr>';});
+  h+='<tr class="tot"><td>Total</td>'+totArr.map(v=>'<td>'+f(v)+'</td>').join('')+'<td>'+f(sum(totArr))+'</td></tr>';
+  $('#yrtable').innerHTML=h;
+}
+
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+function niceMax(m){if(m<=0)return 1;const p=Math.pow(10,Math.floor(Math.log10(m)));const n=m/p;
+  const step=n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10;return step*p;}
+function drawStack(R){
+  const isU=S.mode==='units';
+  const cafe=isU?R.cafeU:R.cafeR, office=isU?R.officeU:R.officeR, direct=isU?R.directU:R.directR, comm=isU?R.commU:R.commR;
+  const tot=cafe.map((v,i)=>v+office[i]+direct[i]+comm[i]);
+  const W=720,H=300,ml=64,mr=14,mt=16,mb=34, iw=W-ml-mr, ih=H-mt-mb;
+  const nice=niceMax(Math.max(...tot,1)), gap=iw/T, bw=gap*0.6;
+  const cCafe=css('--cafe'),cOff=css('--office'),cDir=css('--direct'),cComm=css('--commercial'),cLine=css('--line2'),cInk2=css('--ink2');
+  const lab=isU?cntK:moneyK;
+  let s='';
+  for(let i=0;i<=4;i++){const val=nice*i/4, y=mt+ih-(val/nice)*ih;
+    s+=`<line x1="${ml}" y1="${y}" x2="${W-mr}" y2="${y}" stroke="${cLine}" opacity=".5"/>`;
+    s+=`<text class="axis-v" x="${ml-8}" y="${y+3}" text-anchor="end">${lab(val)}</text>`;}
+  for(let y=0;y<T;y++){const x=ml+gap*y+(gap-bw)/2; let yb=mt+ih;
+    [[comm[y],cComm,'Commercial'],[office[y],cOff,'Office'],[cafe[y],cCafe,'Café'],[direct[y],cDir,'Direct']].forEach(([v,col,nm])=>{
+      const hh=(v/nice)*ih; yb-=hh; if(hh>0.4)s+=`<rect x="${x}" y="${yb}" width="${bw}" height="${hh}" fill="${col}" rx="2"><title>${nm} Y${y+1}: ${isU?fmt0(v)+' units':money(v)}</title></rect>`;});
+    s+=`<text class="axis-t" x="${x+bw/2}" y="${H-14}" text-anchor="middle">Y${y+1}</text>`;
+    s+=`<text class="axis-t" x="${x+bw/2}" y="${yb-6}" text-anchor="middle" fill="${cInk2}">${lab(tot[y])}</text>`;}
+  $('#stack').innerHTML=s;
+}
+function drawPP(){
+  const W=720,H=150,ml=44,mr=14,mt=12,mb=26, iw=W-ml-mr, ih=H-mt-mb;
+  const cafe=[],office=[]; for(let a=1;a<=T;a++){cafe.push(cafePP(a));office.push(officePP(a));}
+  const max=niceMax(Math.max(...cafe,...office,1)), gap=iw/(T-1);
+  const cCafe=css('--cafe'),cOff=css('--office'),cLine=css('--line2'),fillCafe=css('--cafe-fill');
+  let s='';
+  for(let i=0;i<=3;i++){const y=mt+ih-(ih*i/3);s+=`<line x1="${ml}" y1="${y}" x2="${W-mr}" y2="${y}" stroke="${cLine}" opacity=".5"/>`;
+    s+=`<text class="axis-v" x="${ml-6}" y="${y+3}" text-anchor="end">${(max*i/3).toFixed(1)}</text>`;}
+  const path=arr=>arr.map((v,i)=>(i?'L':'M')+(ml+gap*i)+','+(mt+ih-(v/max)*ih)).join(' ');
+  s+=`<path d="${path(cafe)} L${ml+gap*(T-1)},${mt+ih} L${ml},${mt+ih} Z" fill="${fillCafe}"/>`;
+  s+=`<path d="${path(office)}" fill="none" stroke="${cOff}" stroke-width="2.2" stroke-dasharray="5 4"/>`;
+  s+=`<path d="${path(cafe)}" fill="none" stroke="${cCafe}" stroke-width="2.6"/>`;
+  cafe.forEach((v,i)=>{s+=`<circle cx="${ml+gap*i}" cy="${mt+ih-(v/max)*ih}" r="3.2" fill="${cCafe}"><title>Café a${i+1}: ${v.toFixed(1)}</title></circle>`;});
+  office.forEach((v,i)=>{s+=`<circle cx="${ml+gap*i}" cy="${mt+ih-(v/max)*ih}" r="2.6" fill="${cOff}"><title>Office a${i+1}: ${v.toFixed(2)}</title></circle>`;});
+  for(let a=1;a<=T;a++)s+=`<text class="axis-t" x="${ml+gap*(a-1)}" y="${H-10}" text-anchor="middle">a${a}</text>`;
+  $('#ppchart').innerHTML=s;
+}
+function drawScenarios(){
+  const scz=[{k:'low',lab:'Low'},{k:'base',lab:'Base'},{k:'high',lab:'High'}];
+  const vals=scz.map(s=>{const r=compute(S.band,null,s.k);return{...s,u:r.sums.commU,v:r.sums.total};});
+  const max=Math.max(...vals.map(v=>v.v));
+  $('#scengrid').innerHTML=vals.map(p=>`<div class="scard${p.k===S.scenario?' base':''}">${p.k===S.scenario?'<span class="flag">ACTIVE</span>':''}
+    <div class="sn mono">${p.lab} ramp</div><div class="sv mono">${moneyK(p.v)}</div>
+    <div class="sb">${fmt0(p.u)} commercial units</div>
+    <svg viewBox="0 0 100 6" preserveAspectRatio="none" style="width:100%;height:6px;margin-top:8px"><rect x="0" y="0" width="${100*p.v/max}" height="6" rx="3" fill="var(--commercial)"/></svg></div>`).join('');
+}
+function drawSens(){
+  const pts=[{n:26,lab:'Low'},{n:52,lab:'Base'},{n:260,lab:'High'}];
+  const vals=pts.map(p=>{const r=compute(7,p.n);return{...p,v:r.sums.total,c:r.sums.cafe};});
+  const max=Math.max(...vals.map(v=>v.v));
+  $('#sgrid').innerHTML=vals.map(p=>`<div class="scard${p.lab==='Base'?' base':''}">${p.lab==='Base'?'<span class="flag">CURRENT DEFAULT</span>':''}
+    <div class="sn mono">N = ${p.n}</div><div class="sv mono">${moneyK(p.v)}</div>
+    <div class="sb">café portion ${moneyK(p.c)}</div>
+    <svg viewBox="0 0 100 6" preserveAspectRatio="none" style="width:100%;height:6px;margin-top:8px"><rect x="0" y="0" width="${100*p.v/max}" height="6" rx="3" fill="var(--cafe)"/></svg></div>`).join('');
+}
+
+/* ---------- wire up ---------- */
+function bindLever(id,key,dec){
+  const r=$('#'+id),v=$('#'+id+'_v');
+  const put=()=>{v.value=dec?(+S[key]).toFixed(dec).replace(/\.?0+$/,'')||'0':S[key]; r.value=S[key];};
+  r.addEventListener('input',()=>{S[key]=+r.value;put();render();});
+  v.addEventListener('change',()=>{let x=parseFloat(v.value);if(isNaN(x))x=S[key];x=Math.min(+r.max,Math.max(+r.min,x));S[key]=x;put();render();});
+  put();
+}
+function bindField(id,key,isPct){
+  const el=$('#'+id);
+  el.addEventListener('change',()=>{let x=parseFloat(el.value);if(isNaN(x))x=S[key];if(x<0)x=0;if(isPct)x=Math.min(100,x);
+    S[key]=x;if(id==='mixIntro')$('#mixPrem').value=(100-x).toFixed(0);el.value=x;render();});
+  el.value=S[key];
+}
+function fillSched(){ $$('.sched').forEach(inp=>{inp.value=ramp()[inp.dataset.k][+inp.dataset.y];}); }
+function initSched(){
+  $$('.sched').forEach(inp=>{const k=inp.dataset.k,y=+inp.dataset.y;
+    inp.addEventListener('change',()=>{let x=parseFloat(inp.value);if(isNaN(x)||x<0)x=0;ramp()[k][y]=x;inp.value=x;render();});});
+  fillSched();
+}
+function initScenario(){
+  const set=s=>{S.scenario=s;$$('#scensel button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===s));};
+  $$('#scensel button').forEach(b=>b.addEventListener('click',()=>{set(b.dataset.s);fillSched();render();}));
+  set(S.scenario);
+}
+function initBand(){
+  const set=b=>{S.band=b;$$('#bandsel button').forEach(btn=>btn.setAttribute('aria-pressed',+btn.dataset.b===b));};
+  $$('#bandsel button').forEach(btn=>btn.addEventListener('click',()=>{set(+btn.dataset.b);render();}));
+  set(S.band);
+}
+function initMode(){
+  const set=m=>{S.mode=m;$$('#modesel button').forEach(btn=>btn.setAttribute('aria-pressed',btn.dataset.m===m));
+    $('#chartNote').textContent=m==='units'
+      ?'Seeded consumer units dominate the count — but each bills only $100–$300 net wholesale.'
+      :'Commercial royalty leads in dollars; switch to Units to see the seeding-dominated volume.';};
+  $$('#modesel button').forEach(btn=>btn.addEventListener('click',()=>{set(btn.dataset.m);render();}));
+  set(S.mode);
+}
+function fillAll(){
+  bindLever('N','N',0);bindLever('c','c',1);bindLever('r1','r1',2);
+  bindLever('S','S',0);bindLever('cStock','cStock',1);bindLever('W','W',0);bindLever('t','t',1);bindLever('cFlow','cFlow',1);
+  bindLever('directY1','directY1',0);bindLever('directGrowth','directGrowth',0);bindLever('directHaircut','directHaircut',0);
+  const dOn=$('#directOn');dOn.checked=S.includeDirect;
+  dOn.addEventListener('change',()=>{S.includeDirect=dOn.checked;render();});
+  $('#mixIntro').value=S.mixIntro;$('#mixPrem').value=100-S.mixIntro;
+  bindField('mixIntro','mixIntro',true);bindField('nwIntro','nwIntro');bindField('nwPrem','nwPrem');bindField('nwComm','nwComm');
+  bindField('shelf','shelf');
+  const ss=$('#shelfSrc');ss.value=S.shelfSrc;ss.addEventListener('change',()=>{S.shelfSrc=ss.value||DEFAULTS.shelfSrc;render();});
+  initScenario();initSched();initBand();initMode();
+}
+function saveState(){try{localStorage.setItem('caffevolve_v3e',JSON.stringify(S));}catch(e){}}
+function loadState(){try{const j=JSON.parse(localStorage.getItem('caffevolve_v3e'));
+  if(j&&j.ramps&&j.ramps.base&&j.ramps.base.office&&'cStock'in j&&'directHaircut'in j)Object.assign(S,j);}catch(e){}}
+
+(function(){const root=document.documentElement;let stored;try{stored=localStorage.getItem('caffevolve_theme');}catch(e){}
+  if(stored)root.setAttribute('data-theme',stored);
+  $('#themeBtn').addEventListener('click',()=>{const cur=root.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+    const next=cur==='dark'?'light':'dark';root.setAttribute('data-theme',next);try{localStorage.setItem('caffevolve_theme',next);}catch(e){}render();});
+})();
+
+$('#resetBtn').addEventListener('click',()=>{Object.assign(S,structuredClone(DEFAULTS));
+  try{localStorage.removeItem('caffevolve_v3b');}catch(e){}fillAll();render();});
+
+loadState();fillAll();render();
+</script>
