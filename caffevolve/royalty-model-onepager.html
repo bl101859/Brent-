@@ -41,6 +41,11 @@ li b{color:#241812;}
 .cols li{font-size:8.2px;margin:3px 0;}
 .ceil b{color:#241812;}
 .ceil .pct{color:#3E7C4A;font-weight:600;}
+.cites{margin-top:3px;display:grid;gap:5px;}
+.cites .cite{border-left:2px solid #D2C2A8;padding-left:9px;font-size:8px;color:#5A4636;line-height:1.4;}
+.cites .cite b{color:#241812;}
+.cites .cite.derived{border-left-color:#6F4E37;}
+.cites .src{color:#8A7358;font-family:"DM Mono",monospace;}
 footer{margin-top:13px;padding-top:7px;border-top:1px solid #E0D4C0;}
 footer .key{font-size:8.4px;color:#5A4636;}footer .key b{color:#241812;}
 footer .disc{font-size:7.8px;color:#8A7358;font-style:italic;margin-top:4px;line-height:1.5;}
@@ -77,13 +82,22 @@ footer .disc{font-size:7.8px;color:#8A7358;font-style:italic;margin-top:4px;line
 </ul>
 
 <h2>Ceiling check (top-down guardrail)</h2>
-<div class=ceil style="font-size:8.8px">Year-5 total units — <b>9,500</b> commercial + <b>21,812</b> seeded consumer = <b>31,312</b> — against a premium appliance shelf of <b>3,000,000</b> units/yr = <span class=pct>1.0%</span> of shelf — a credible low-single-digit slice. Shelf figure is a placeholder; state your cited source.</div>
+<div class=ceil style="font-size:8.8px">Year-5 total units — <b>9,500</b> commercial + <b>21,812</b> seeded consumer = <b>31,312</b> — against a premium appliance shelf of <b>1,300,000</b> units/yr = <span class=pct>2.4%</span> of shelf — a credible low-single-digit slice. Shelf is a derived figure (see Sources).</div>
 
 <h2>Assumed vs anchored</h2>
 <div class=cols>
   <div class=col style="border-left-color:#3E7C4A"><h3>Anchored · research ramp</h3><ul><li>Commercial units placed, Yr 1–5, arena-split office/café, Low/Base/High by OEM signings — the $2,499 unit carries most of the royalty.</li></ul></div>
   <div class=col style="border-left-color:#B26A00"><h3>Assumed · pilot-measured</h3><ul><li>Five office levers &amp; three café levers.</li><li>Intro / Premier consumer mix (60 / 40).</li><li>Direct: optional, off by default — not in the base case; upside only, after first ship.</li></ul></div>
   <div class=col style="border-left-color:#8A7358"><h3>Locked</h3><ul><li>MSRP tiers · net-wholesale basis.</li><li>5 / 7 / 8 royalty band at base 7%.</li></ul></div>
+</div>
+
+<h2>Sources &amp; citations</h2>
+<div class=note>Market anchors verified against named research firms (Sep 2026). The ceiling denominator is a derived figure — dollar size ÷ ASP — labeled as such.</div>
+<div class=cites>
+  <div class=cite><b>Premium espresso + capsule (global) — $7.40B (2025), CAGR 5.08% (2026–34).</b> Fortune Business Insights, Espresso Machine &amp; Capsule Coffee Machine Market (rpt 117856); espresso + capsule, residential + commercial; US 2025 $1.34B. <span class=src>fortunebusinessinsights.com/espresso-machine-and-capsule-coffee-machine-market-117856</span></div>
+  <div class=cite><b>Super-automatic bean-to-cup (global) — $1.12B (2024), CAGR 7.2% (2025–33).</b> DataHorizzon Research, Bean to Cup Coffee Machines Market (27133); residential + commercial. <span class=src>datahorizzonresearch.com/bean-to-cup-coffee-machines-market-27133</span></div>
+  <div class=cite><b>Connected / “smart” (global) — ~$0.4–6.8B range, not cleanly tracked.</b> Market.us $396.4M (2023, 16.6%) low end; Fact.MR $6.8B (2023 → $10.5B 2033, 4.5%) high end; Market Glass / ResearchAndMarkets in between. ~17× spread, definition-driven. <span class=src>market.us/report/smart-coffee-maker-market</span></div>
+  <div class="cite derived"><b>Ceiling denominator — premium shelf ≈ 1.3M units/yr (global) · DERIVED.</b> $1.12B super-automatic bean-to-cup (DataHorizzon, 2024) ÷ ~$850 blended consumer ASP (bean-to-cup retail ~$385–$2,500; De'Longhi PrimaDonna $2,499.95) ≈ 1.3M units/yr. Order-of-magnitude guardrail (range ~1.1–1.6M at $700–$1,000 ASP); not a found unit count.</div>
 </div>
 
 <footer>

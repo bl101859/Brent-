@@ -188,6 +188,13 @@ table.yr tr.tot td:first-child{color:var(--ink);}
 .ceilpanel .cbreak{font-family:var(--mono);font-size:12px;color:var(--ink2);line-height:1.7;}
 .ceilpanel .cbreak b{color:var(--ink);}
 
+.cites{margin-top:12px;display:grid;gap:11px;}
+.cites .cite{border-left:2px solid var(--line2);padding-left:12px;font-size:12.5px;color:var(--ink2);line-height:1.5;}
+.cites .cite b{color:var(--ink);}
+.cites .cite .src{font-family:var(--mono);font-size:11px;color:var(--muted);}
+.cites .cite.derived{border-left-color:var(--accent-soft);}
+.cites a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 40%,transparent);}
+.cites a:hover{color:var(--ink);}
 footer{margin-top:30px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted);line-height:1.6;}
 footer .disc{font-style:italic;}
 footer .keynote{color:var(--ink2);font-style:normal;margin-bottom:8px;}
@@ -424,6 +431,17 @@ footer .keynote{color:var(--ink2);font-style:normal;margin-bottom:8px;}
         </div>
       </div>
 
+      <div class="panel" style="margin-top:18px">
+        <div class="out-head"><h3>Sources &amp; citations</h3><span class="tag v2">verified · Sep 2026</span></div>
+        <p class="sec-note">Market anchors confirmed against named research firms; the ceiling denominator is a derived figure (dollar size ÷ ASP), labeled as such.</p>
+        <div class="cites">
+          <div class="cite"><b>Premium espresso + capsule (global) — $7.40B (2025), CAGR 5.08% (2026–34).</b> Fortune Business Insights, <i>Espresso Machine &amp; Capsule Coffee Machine Market</i> (rpt 117856); espresso + capsule, residential + commercial; US 2025 $1.34B. <span class="src"><a href="https://www.fortunebusinessinsights.com/espresso-machine-and-capsule-coffee-machine-market-117856" target="_blank" rel="noopener">fortunebusinessinsights.com</a></span></div>
+          <div class="cite"><b>Super-automatic bean-to-cup (global) — $1.12B (2024), CAGR 7.2% (2025–33).</b> DataHorizzon Research, <i>Bean to Cup Coffee Machines Market</i> (27133); residential + commercial. <span class="src"><a href="https://datahorizzonresearch.com/bean-to-cup-coffee-machines-market-27133" target="_blank" rel="noopener">datahorizzonresearch.com</a></span></div>
+          <div class="cite"><b>Connected / “smart” (global) — ~$0.4–6.8B range, not cleanly tracked.</b> Market.us $396.4M (2023, 16.6%) at the low end; Fact.MR $6.8B (2023 → $10.5B 2033, 4.5%) at the high end; Market Glass / ResearchAndMarkets in between. ~17× spread, definition-driven. <span class="src"><a href="https://market.us/report/smart-coffee-maker-market/" target="_blank" rel="noopener">market.us</a> · <a href="https://www.researchandmarkets.com/report/smart-coffee-maker" target="_blank" rel="noopener">researchandmarkets.com</a></span></div>
+          <div class="cite derived"><b>Ceiling denominator — premium shelf ≈ 1.3M units/yr (global) · DERIVED.</b> $1.12B super-automatic bean-to-cup (DataHorizzon, 2024) ÷ ~$850 blended consumer ASP (bean-to-cup retail ~$385–$2,500; De’Longhi PrimaDonna $2,499.95) ≈ 1.3M units/yr. Order-of-magnitude guardrail (range ~1.1–1.6M at $700–$1,000 ASP); not a found unit count. <span class="src">derived from DataHorizzon $ ÷ De’Longhi/Philips retail ASP</span></div>
+        </div>
+      </div>
+
       <footer>
         <p class="keynote"><b>Mix, not rate, is the largest driver</b> of consumer royalty. Attach rate is folded into placements — under field-of-use exclusivity attach is ≈100% within the lane, so "units placed" <i>is</i> the attached-unit count.</p>
         <p class="disc">Directional model, not a forecast. Consumer volume is seeding-dominated and conditional; the forecast is sensitive to <span class="mono">N</span> (café throughput), the least-anchored input, which the café pilot anchors. One of the 1–2 measured pilots should be a café placement, not only an office.</p>
@@ -452,7 +470,7 @@ const DEFAULTS={
   // v4: Direct OFF by default & re-anchored — no home unit exists until a licensee ships (≥Yr2); growth softened 35→15
   includeDirect:false, directY1:750, directGrowth:15, directHaircut:15, directStartYear:2,
   mixIntro:60, nwIntro:100, nwPrem:300, nwComm:1250, band:7,
-  shelf:3000000, shelfSrc:'premium/super-automatic unit shipments/yr — replace with your cited figure',
+  shelf:1300000, shelfSrc:'derived: $1.12B super-automatic bean-to-cup (DataHorizzon, 2024) ÷ ~$850 blended ASP ≈ 1.3M units/yr',
   mode:'royalty'
 };
 const S=structuredClone(DEFAULTS);
@@ -680,8 +698,8 @@ function fillAll(){
   const ss=$('#shelfSrc');ss.value=S.shelfSrc;ss.addEventListener('change',()=>{S.shelfSrc=ss.value||DEFAULTS.shelfSrc;render();});
   initScenario();initSched();initBand();initMode();
 }
-function saveState(){try{localStorage.setItem('caffevolve_v4',JSON.stringify(S));}catch(e){}}
-function loadState(){try{const j=JSON.parse(localStorage.getItem('caffevolve_v4'));
+function saveState(){try{localStorage.setItem('caffevolve_v4b',JSON.stringify(S));}catch(e){}}
+function loadState(){try{const j=JSON.parse(localStorage.getItem('caffevolve_v4b'));
   if(j&&j.ramps&&j.ramps.base&&j.ramps.base.office&&'cStock'in j&&'directStartYear'in j&&j.oems)Object.assign(S,j);}catch(e){}}
 
 (function(){const root=document.documentElement;let stored;try{stored=localStorage.getItem('caffevolve_theme');}catch(e){}

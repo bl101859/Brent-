@@ -31,7 +31,17 @@ Year-5 run-rate, commercial carrying **~79%** of royalty.
   consumer mix (60 / 40).
 - **Optional / off by default:** the Direct channel (`d₀, g, h`, start year) — least-anchored, not in
   the base case; upside only, gated on a DTC test and on first licensee ship.
-- **Placeholder:** the premium-appliance shelf figure used by the ceiling check needs a cited source.
+- **Derived & cited:** the ceiling denominator is **~1.3M premium machines/yr (global)** = $1.12B
+  super-automatic bean-to-cup (DataHorizzon, 2024) ÷ ~$850 blended consumer ASP. Order-of-magnitude
+  guardrail; see the Sources & citations section in the calculator / one-pager.
+
+## Market anchors (verified Sep 2026)
+
+| Segment | Figure | Firm |
+|---|---|---|
+| Premium espresso + capsule (global) | $7.40B (2025), 5.08% CAGR | Fortune Business Insights |
+| Super-automatic bean-to-cup (global) | $1.12B (2024), 7.2% CAGR | DataHorizzon Research |
+| Connected / "smart" (global) | ~$0.4–6.8B range (not cleanly tracked) | Market.us / Fact.MR / Market Glass |
 
 ## Locked economics
 
