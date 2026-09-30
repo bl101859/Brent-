@@ -5416,7 +5416,7 @@ input[type="range"]::-moz-range-thumb {
   </div>
 
   <div class="btn-row">
-    <button class="btn btn-amber" onclick="pmdCommitDay()">This is my plan for today</button>
+    <button class="btn btn-amber" id="pmd-commit-btn" onclick="pmdCommitDay()">This is my plan for today</button>
     <button class="btn btn-ghost" onclick="pmdOpenSaveSheet()">Save as routine</button>
   </div>
   <div style="text-align:center;margin-top:12px;">
@@ -20057,6 +20057,7 @@ let pmdState = {
   drinks: [],       // {id,timeMins,cat,name,place:'home'|'out',size,blendCaf}  — planned (editable)
   consumed: [],     // {_consumed:true,timeMins,name,mg,place,_manual?} — already had today (locked baseline)
   days: [],         // weekday labels this plan repeats on (e.g. ['Mon','Tue']); empty = unscheduled
+  target: 'today',  // planner target: 'today' folds in consumed; 'tomorrow' starts clean, promoted next morning
   _seq: 1,
   _loaded: false,
   _profileIdx: null,   // which profile the in-memory day belongs to (isolation guard)
@@ -21029,6 +21030,58 @@ function pmdRenderReminder(){
   const setSrc = (t) => { const s=document.getElementById('pmd-plan-src'); if(s) s.textContent=t; };
   const routineList = () => (typeof pmdCurrentPlans==='function' ? (pmdCurrentPlans()||[]) : []);
 
+  // ---- TODAY / TOMORROW target ----------------------------------------
+  // The front door plans either "today" or "tomorrow". Tomorrow is stored in a
+  // durable snapshot (userProfile.pmdTomorrow) that is promoted to pmdToday the
+  // next morning by pmdRolloverTomorrow(), so a plan built tonight is live — and
+  // drives the in-path brew reminder — the moment the app is opened next day.
+  let entryTarget = 'today';   // which segment the front door is showing
+  const tomorrowDate = () => { const d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()+1); return d; };
+  const tomorrowStr  = () => tomorrowDate().toDateString();
+  const tomorrowDow  = () => DOWM[tomorrowDate().getDay()];
+  const tomorrowLong = () => tomorrowDate().toLocaleDateString('en-US',{weekday:'long', month:'long', day:'numeric'});
+  const weekdayLong  = (d) => d.toLocaleDateString('en-US',{weekday:'long'});
+
+  // A plan pre-built for tomorrow becomes today's active plan once the date rolls
+  // over. Lazy (no timer): called on every front-door open and every reminder
+  // check, so the promotion happens the first time the app is used the next day.
+  window.pmdRolloverTomorrow = function(){
+    try{
+      const tm = userProfile.pmdTomorrow;
+      if(!tm || !tm.date) return;
+      const todayStr = new Date().toDateString();
+      if(tm.date === todayStr){
+        // Tomorrow is now today → promote, unless the user already built a fresh
+        // plan for today (that explicit plan wins over the pre-plan).
+        const pt = userProfile.pmdToday;
+        const ptFresh = pt && pt.date===todayStr && Array.isArray(pt.drinks) && pt.drinks.length;
+        if(!ptFresh) userProfile.pmdToday = { date:todayStr, name:tm.name||'My Day', drinks:(tm.drinks||[]).slice() };
+        userProfile.pmdTomorrow = null;
+      } else {
+        // Neither today nor a future "tomorrow" → stale, drop it.
+        const d1=new Date(tm.date); const d0=new Date(todayStr);
+        if(isNaN(+d1) || d1 < d0) userProfile.pmdTomorrow = null;
+      }
+    }catch(_){}
+  };
+
+  // Set the planner's target and reconcile the consumed baseline: today folds in
+  // drinks already had; tomorrow starts clean (nothing has been consumed yet).
+  function pmdSetTarget(t){
+    pmdState.target = (t==='tomorrow') ? 'tomorrow' : 'today';
+    if(pmdState.target==='tomorrow') pmdState.consumed = [];
+    else if(typeof pmdLoadConsumed==='function') pmdLoadConsumed();
+  }
+
+  // Keep the planner chrome (weekday label + commit button) in step with target.
+  function pmdApplyTargetChrome(){
+    const isTom = pmdState.target==='tomorrow';
+    const dow = document.getElementById('pmd-dow-today');
+    if(dow) dow.textContent = isTom ? weekdayLong(tomorrowDate()) : weekdayLong(new Date());
+    const btn = document.getElementById('pmd-commit-btn');
+    if(btn) btn.textContent = isTom ? 'This is my plan for tomorrow' : 'This is my plan for today';
+  }
+
   // Weekday → owning routine name (excluding the one being named in the sheet).
   function pmdOwners(){
     const nm=document.getElementById('pmd-name'); const cur=((nm&&nm.value)||'').trim().toLowerCase();
@@ -21040,24 +21093,31 @@ function pmdRenderReminder(){
   // ---- view toggle ----
   window.pmdView = function(v){
     const e=document.getElementById('pmd-entry'), p=document.getElementById('pmd-planner');
-    if(v==='planner'){ if(e)e.style.display='none'; if(p)p.style.display='block'; }
+    if(v==='planner'){ if(e)e.style.display='none'; if(p)p.style.display='block'; pmdApplyTargetChrome(); }
     else { if(p)p.style.display='none'; if(e)e.style.display='block'; pmdRenderEntry(); }
     const scr=document.getElementById('screen-PMD'); if(scr) scr.scrollTop=0;
   };
 
+  // Front-door Today / Tomorrow segment.
+  window.pmdSetEntryTarget = function(t){ entryTarget = (t==='tomorrow')?'tomorrow':'today'; pmdRenderEntry(); };
+
   // ---- entry (front door) ----
   window.pmdRenderEntry = function(){
     const el=document.getElementById('pmd-entry'); if(!el) return;
+    pmdRolloverTomorrow();
+    const isTom = entryTarget==='tomorrow';
     const plans=routineList(), recent=recentStore(), hasLast=recent.length>0;
     // Previous days = recorded days OTHER than today (today is reopened via Resume).
     const _todayLbl=new Date().toLocaleDateString('en-US',{weekday:'long', month:'short', day:'numeric'});
     const hasPrevDays=recent.some(r=>r.label!==_todayLbl);
-    const consumed=(pmdState.consumed||[]); const consN=consumed.length;
+    const consumed=(pmdState.consumed||[]); const consN=isTom?0:consumed.length;
     const consMg=consumed.reduce((t,x)=>t+Math.round(pmdEffMg(x)),0);
-    // A plan already started/saved for TODAY (durable snapshot) → offer to resume it
-    // rather than start a fresh plan.
-    const _pt=userProfile.pmdToday; const _todayStr=new Date().toDateString();
+    // Durable snapshots → offer Resume rather than a fresh start.
+    const _todayStr=new Date().toDateString();
+    const _pt=userProfile.pmdToday;
     const hasTodayPlan=!!(_pt && _pt.date===_todayStr && Array.isArray(_pt.drinks) && _pt.drinks.length);
+    const _tm=userProfile.pmdTomorrow; const _tomStr=tomorrowStr();
+    const hasTomPlan=!!(_tm && _tm.date===_tomStr && Array.isArray(_tm.drinks) && _tm.drinks.length);
     const chips = plans.length ? plans.map((p,i)=>{
       const d=(Array.isArray(p.days)&&p.days.length)?(p.days.length===7?'Every day':p.days.join(' ')):'Unscheduled';
       return `<div style="display:flex;align-items:stretch;background:var(--card-bg-warm);border:1px solid var(--border-mid);border-radius:11px;overflow:hidden;">`
@@ -21068,14 +21128,37 @@ function pmdRenderReminder(){
         +`</div>`;
     }).join('') : `<div style="width:100%;border:1px dashed var(--border-mid);border-radius:11px;padding:14px 12px;text-align:center;"><div style="font-size:12.5px;font-weight:600;color:var(--text-mid);">No routines yet</div><div style="font-size:11px;color:var(--text-muted);margin-top:3px;line-height:1.4;">Plan a day, then save it as a routine to reuse it.</div></div>`;
 
+    // Segmented Today | Tomorrow toggle at the top of the card.
+    const segBtn=(t,lbl)=>`<button onclick="pmdSetEntryTarget('${t}')" style="flex:1;border:none;border-radius:8px;padding:8px 6px;font-family:var(--font-ui);font-size:12.5px;font-weight:700;cursor:pointer;${entryTarget===t?'background:var(--amber);color:#2A1600;box-shadow:0 2px 6px rgba(232,149,42,.3);':'background:transparent;color:var(--text-muted);'}">${lbl}</button>`;
+    const seg=`<div style="display:flex;gap:4px;background:var(--card-bg-warm);border:1px solid var(--border-mid);border-radius:11px;padding:4px;margin-bottom:14px;">${segBtn('today','Today')}${segBtn('tomorrow','Tomorrow')}</div>`;
+
+    // Per-target header, body copy, main action, and last-day pickup.
+    let pill, heading, dateStr, body, mainBtn, pickup='';
+    if(isTom){
+      pill=`<span style="width:6px;height:6px;border-radius:50%;background:var(--blue-path);"></span>Tomorrow`;
+      heading='Plan tomorrow';
+      dateStr=tomorrowLong();
+      body=`<div style="font-size:12.5px;color:var(--text-mid);line-height:1.5;margin-bottom:13px;">Set up tomorrow’s drinks tonight. Your plan goes live the moment you open the app in the morning — its reminders guide your brews from the start of the day.</div>`;
+      mainBtn=`<button class="btn btn-amber" style="width:100%;" onclick="${hasTomPlan?'pmdResumeTomorrow()':'pmdStartTomorrow()'}">${hasTomPlan?'Resume planning for tomorrow':'Start planning'}</button>`;
+      if(hasLast&&!hasTomPlan) pickup=`<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:11px;padding-top:11px;border-top:1px dashed var(--border-light);"><span style="font-size:11px;color:var(--text-muted);">Picks up from <b style="color:var(--text-dark);">your last day</b> — tailor it for tomorrow.</span><a onclick="pmdStartTomorrowBlank()" style="font-size:11.5px;font-weight:600;color:var(--blue-path);cursor:pointer;">Start blank</a></div>`;
+    } else {
+      pill=`<span style="width:6px;height:6px;border-radius:50%;background:var(--amber);"></span>Today`;
+      heading=consN?'Plan the rest of today':'Plan today';
+      dateStr=dateLong();
+      body=consN?`<div style="display:flex;gap:8px;align-items:flex-start;background:rgba(90,61,36,.07);border:1px solid var(--border-light);border-radius:10px;padding:9px 11px;margin-bottom:12px;"><span style="font-size:14px;line-height:1.1;">☕</span><div style="font-size:11.5px;color:var(--text-mid);line-height:1.45;">You’ve already had <b style="color:var(--text-dark);">${consN} drink${consN>1?'s':''}</b> today (~${consMg} mg). Planning picks up from here — your peak and bedtime already include them.</div></div>`:`<div style="font-size:12.5px;color:var(--text-mid);line-height:1.5;margin-bottom:13px;">Lay out today’s drinks and watch where the day peaks and where it leaves you at bedtime.</div>`;
+      mainBtn=`<button class="btn btn-amber" style="width:100%;" onclick="${hasTodayPlan?'pmdResumeToday()':'pmdStartToday()'}">${hasTodayPlan?'Resume planning for today':'Start planning'}</button>`;
+      if(hasLast&&!hasTodayPlan) pickup=`<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:11px;padding-top:11px;border-top:1px dashed var(--border-light);"><span style="font-size:11px;color:var(--text-muted);">Picks up from <b style="color:var(--text-dark);">your last day</b> — tailor it for today.</span><a onclick="pmdStartBlank()" style="font-size:11.5px;font-weight:600;color:var(--blue-path);cursor:pointer;">Start blank</a></div>`;
+    }
+
     el.innerHTML =
       `<div class="card" style="margin-top:10px;padding:16px;">`
-      +`<div style="font-family:var(--font-ui);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber-dark);display:flex;align-items:center;gap:6px;"><span style="width:6px;height:6px;border-radius:50%;background:var(--amber);"></span>Today</div>`
-      +`<div style="font-family:var(--font-display);font-size:22px;font-weight:600;color:var(--text-dark);margin:7px 0 1px;">${consN?'Plan the rest of today':'Plan today'}</div>`
-      +`<div style="font-size:11.5px;color:var(--text-muted);margin-bottom:9px;">${dateLong()}</div>`
-      +(consN?`<div style="display:flex;gap:8px;align-items:flex-start;background:rgba(90,61,36,.07);border:1px solid var(--border-light);border-radius:10px;padding:9px 11px;margin-bottom:12px;"><span style="font-size:14px;line-height:1.1;">☕</span><div style="font-size:11.5px;color:var(--text-mid);line-height:1.45;">You’ve already had <b style="color:var(--text-dark);">${consN} drink${consN>1?'s':''}</b> today (~${consMg} mg). Planning picks up from here — your peak and bedtime already include them.</div></div>`:`<div style="font-size:12.5px;color:var(--text-mid);line-height:1.5;margin-bottom:13px;">Lay out today’s drinks and watch where the day peaks and where it leaves you at bedtime.</div>`)
-      +`<button class="btn btn-amber" style="width:100%;" onclick="${hasTodayPlan?'pmdResumeToday()':'pmdStartToday()'}">${hasTodayPlan?'Resume planning for today':'Start planning'}</button>`
-      +((hasLast&&!hasTodayPlan)?`<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:11px;padding-top:11px;border-top:1px dashed var(--border-light);"><span style="font-size:11px;color:var(--text-muted);">Picks up from <b style="color:var(--text-dark);">your last day</b> — tailor it for today.</span><a onclick="pmdStartBlank()" style="font-size:11.5px;font-weight:600;color:var(--blue-path);cursor:pointer;">Start blank</a></div>`:``)
+      +seg
+      +`<div style="font-family:var(--font-ui);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:${isTom?'var(--blue-dark)':'var(--amber-dark)'};display:flex;align-items:center;gap:6px;">${pill}</div>`
+      +`<div style="font-family:var(--font-display);font-size:22px;font-weight:600;color:var(--text-dark);margin:7px 0 1px;">${heading}</div>`
+      +`<div style="font-size:11.5px;color:var(--text-muted);margin-bottom:9px;">${dateStr}</div>`
+      +body
+      +mainBtn
+      +pickup
       +`</div>`
       +`<div style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-label);margin:18px 2px 9px;">Or start from a routine</div>`
       +`<div style="display:flex;flex-wrap:wrap;gap:8px;">${chips}</div>`
@@ -21105,6 +21188,7 @@ function pmdRenderReminder(){
   };
   window.pmdOpenRecent = function(i){
     const r=recentStore()[i]; if(!r) return;
+    pmdSetTarget(entryTarget);
     pmdApplyPlan({name:r.name||r.label, days:[], drinks:(r.drinks||[])});
     pmdState._routineName=null;
     if(typeof pmdCloseEditor==='function') pmdCloseEditor();
@@ -21113,6 +21197,7 @@ function pmdRenderReminder(){
 
   // ---- start paths ----
   window.pmdStartToday = function(){
+    pmdSetTarget('today');
     const today=todayDow();
     const routine = routineList().find(p=>Array.isArray(p.days)&&p.days.includes(today));
     const recent = recentStore();
@@ -21123,25 +21208,53 @@ function pmdRenderReminder(){
     if(typeof pmdCloseEditor==='function') pmdCloseEditor();
     pmdRender(); pmdView('planner');
   };
+  // Plan tomorrow: seed from a routine scheduled for tomorrow, else the last day, else blank.
+  window.pmdStartTomorrow = function(){
+    pmdSetTarget('tomorrow');
+    const tdow=tomorrowDow();
+    const routine = routineList().find(p=>Array.isArray(p.days)&&p.days.includes(tdow));
+    const recent = recentStore();
+    pmdState._routineName = routine ? (routine.name||null) : null;
+    if(routine){ pmdApplyPlan(routine); pmdState.days=[]; setSrc('From your '+(routine.name||'routine')+' routine · for tomorrow'); }
+    else if(recent.length){ const r=recent[0]; pmdApplyPlan({name:r.name||'My Day',days:[],drinks:(r.drinks||[])}); setSrc('Picked up from your last day · for tomorrow'); }
+    else { pmdApplyPlan({name:'My Day',days:[],drinks:[]}); setSrc('A fresh day · tomorrow'); }
+    if(typeof pmdCloseEditor==='function') pmdCloseEditor();
+    pmdRender(); pmdView('planner');
+  };
   window.pmdStartBlank = function(){
+    pmdSetTarget(entryTarget);
     pmdState.drinks=[]; pmdState.days=[]; pmdState.name='My Day'; pmdState._routineName=null;
     if(typeof pmdCloseEditor==='function') pmdCloseEditor();
-    pmdRender(); setSrc('A fresh day'); pmdView('planner');
+    pmdRender(); setSrc(pmdState.target==='tomorrow'?'A fresh day · tomorrow':'A fresh day'); pmdView('planner');
   };
+  window.pmdStartTomorrowBlank = function(){ entryTarget='tomorrow'; pmdStartBlank(); };
   // Reopen the plan already started for today (durable pmdToday snapshot), so the
   // user picks up exactly where they left off — consumed drinks stay the baseline.
   window.pmdResumeToday = function(){
     const pt=userProfile.pmdToday; const todayStr=new Date().toDateString();
     if(!(pt && pt.date===todayStr && Array.isArray(pt.drinks) && pt.drinks.length)){ pmdStartToday(); return; }
+    pmdSetTarget('today');
     pmdApplyPlan({name: pt.name||'My Day', days:[], drinks: pt.drinks.slice()});
     pmdState._routineName = routineList().some(p=>(p.name||'').toLowerCase()===(pt.name||'').toLowerCase()) ? pt.name : null;
     setSrc('Resumed today’s plan');
     if(typeof pmdCloseEditor==='function') pmdCloseEditor();
     pmdRender(); pmdView('planner');
   };
+  // Reopen the plan pre-built for tomorrow (durable pmdTomorrow snapshot).
+  window.pmdResumeTomorrow = function(){
+    const tm=userProfile.pmdTomorrow;
+    if(!(tm && tm.date===tomorrowStr() && Array.isArray(tm.drinks) && tm.drinks.length)){ pmdStartTomorrow(); return; }
+    pmdSetTarget('tomorrow');
+    pmdApplyPlan({name: tm.name||'My Day', days:[], drinks: tm.drinks.slice()});
+    pmdState._routineName = routineList().some(p=>(p.name||'').toLowerCase()===(tm.name||'').toLowerCase()) ? tm.name : null;
+    setSrc('Resumed tomorrow’s plan');
+    if(typeof pmdCloseEditor==='function') pmdCloseEditor();
+    pmdRender(); pmdView('planner');
+  };
   window.pmdStartFromRoutine = function(i){
     const p=routineList()[i]; if(!p) return;
-    pmdApplyPlan(p); pmdState.days=[]; pmdState._routineName=p.name||null; setSrc('From your '+(p.name||'routine')+' routine');
+    pmdSetTarget(entryTarget);
+    pmdApplyPlan(p); pmdState.days=[]; pmdState._routineName=p.name||null; setSrc('From your '+(p.name||'routine')+' routine'+(pmdState.target==='tomorrow'?' · for tomorrow':''));
     if(typeof pmdCloseEditor==='function') pmdCloseEditor();
     pmdRender(); pmdView('planner');
   };
@@ -21151,6 +21264,7 @@ function pmdRenderReminder(){
     const p = routineList()[i]; if(!p) return;
     // Load the same drinks as an unscheduled working day named "<orig> copy",
     // then open the Save sheet so the user renames it and picks its days.
+    pmdSetTarget(entryTarget);
     pmdApplyPlan({ name:(p.name||'Routine')+' copy', days:[], drinks:(p.drinks||[]) });
     pmdState.days = []; pmdState._routineName=null;
     if(typeof pmdCloseEditor==='function') pmdCloseEditor();
@@ -21159,13 +21273,26 @@ function pmdRenderReminder(){
     pmdOpenSaveSheet();
   };
 
-  // ---- commit today (records into recent) ----
+  // ---- commit the plan ----
+  // Today  → logs into "recent" and sets pmdToday (guides today's brews now).
+  // Tomorrow → sets pmdTomorrow only; it is promoted to pmdToday next morning by
+  //            pmdRolloverTomorrow(), so it guides brews from the start of the day.
+  //            Tomorrow is a future day, so it is NOT logged into recent.
   window.pmdCommitDay = function(){
-    if(pmdState.drinks && pmdState.drinks.length){
+    const isTom = pmdState.target==='tomorrow';
+    const snap = pmdState.drinks.map(d=>({timeMins:d.timeMins,cat:d.cat,name:d.name,place:d.place,size:d.size,blendCaf:d.blendCaf,protected:!!d.protected}));
+    if(isTom){
+      if(snap.length){
+        userProfile.pmdTomorrow = { date:tomorrowStr(), name: pmdState.name||'My Day', drinks: snap };
+      }
+      pmdToast("Set as tomorrow’s plan — it’ll guide your brews first thing in the morning.");
+      if(typeof goto==='function') goto('PS1a');
+      return;
+    }
+    if(snap.length){
       const proj = (typeof pmdProject==='function') ? pmdProject(pmdState.drinks) : {bedMg:0,bedCeil:75};
       const rec = recentStore();
       const label = new Date().toLocaleDateString('en-US',{weekday:'long', month:'short', day:'numeric'});
-      const snap = pmdState.drinks.map(d=>({timeMins:d.timeMins,cat:d.cat,name:d.name,place:d.place,size:d.size,blendCaf:d.blendCaf,protected:!!d.protected}));
       // Prevent any identical duplicate: if ANY recent entry for this same day
       // already has the same drinks, refresh it and move it to the top instead
       // of logging another copy.
@@ -21211,16 +21338,24 @@ function pmdRenderReminder(){
     if(idx>=0) plans[idx]=plan; else plans.push(plan);
     plans.forEach(p=>{ if(p!==plan) p.days=(p.days||[]).filter(d=>!plan.days.includes(d)); });   // reassign: steal the day
     userProfile.dayPlans=plans; pmdState.name=name; pmdState._routineName=name; pmdSyncDeleteRoutine();
-    // If this routine applies to today (scheduled for today's weekday, or left
-    // unscheduled), make it today's plan so the in-path brew reminder fires.
-    const _todayDow = DOWM[new Date().getDay()];
-    if(!plan.days.length || plan.days.includes(_todayDow)){
-      userProfile.pmdToday = { date:new Date().toDateString(), name, drinks: plan.drinks.slice() };
+    const isTom = pmdState.target==='tomorrow';
+    const unscheduled = !plan.days.length;
+    // Activate the matching durable snapshot so the in-path brew reminder fires:
+    // planning tomorrow → pmdTomorrow (promoted next morning); planning today → pmdToday.
+    if(isTom){
+      if(unscheduled || plan.days.includes(tomorrowDow())){
+        userProfile.pmdTomorrow = { date:tomorrowStr(), name, drinks: plan.drinks.slice() };
+      }
+    } else {
+      const _todayDow = DOWM[new Date().getDay()];
+      if(unscheduled || plan.days.includes(_todayDow)){
+        userProfile.pmdToday = { date:new Date().toDateString(), name, drinks: plan.drinks.slice() };
+      }
     }
     pmdCloseSaveSheet();
     if(typeof pmdRenderEntry==='function' && document.getElementById('pmd-entry')) pmdRenderEntry();
     const days = plan.days.length ? plan.days.join(' ') : 'unscheduled';
-    pmdToast('Saved “'+name+'” · '+days+' — still running today.');
+    pmdToast('Saved “'+name+'” · '+days+(isTom?' — set for tomorrow.':' — still running today.'));
   };
 
   // ---- delete the routine this plan came from ----
@@ -21286,6 +21421,9 @@ function pmdRenderReminder(){
   //      Trying all three (rather than stopping at the first non-empty) means a
   //      routine with no nearby drink can't mask a planned drink in another source.
   window.pmdReminderMatch = function(){
+    // A plan pre-built for tomorrow becomes today's active plan once the date rolls
+    // over — promote it before resolving so the morning's brews are guided.
+    pmdRolloverTomorrow();
     const now = (typeof eceCurrentMins==='function') ? eceCurrentMins() : (new Date().getHours()*60+new Date().getMinutes());
     const nearest = (drinks)=>{ let best=null,bestDiff=Infinity; (drinks||[]).forEach(d=>{ const diff=Math.abs(d.timeMins-now); if(diff<=PMD_REMINDER_WINDOW && diff<bestDiff){bestDiff=diff;best=d;} }); return best; };
     const sources = [];
@@ -21295,7 +21433,9 @@ function pmdRenderReminder(){
     if(pt && pt.date===todayStr && Array.isArray(pt.drinks) && pt.drinks.length) sources.push({name:pt.name||'Today', drinks:pt.drinks});
     const routine = (typeof pmdActivePlanForToday==='function') ? pmdActivePlanForToday() : null;
     if(routine && Array.isArray(routine.drinks) && routine.drinks.length) sources.push({name:routine.name||'Today', drinks:routine.drinks});
-    if(pmdState && Array.isArray(pmdState.drinks) && pmdState.drinks.length) sources.push({name:pmdState.name||'Today', drinks:pmdState.drinks});
+    // The day loaded in the planner — but only when it targets today; a plan being
+    // built for tomorrow must not fire against today's clock.
+    if(pmdState && pmdState.target!=='tomorrow' && Array.isArray(pmdState.drinks) && pmdState.drinks.length) sources.push({name:pmdState.name||'Today', drinks:pmdState.drinks});
     const rec = (typeof recentStore==='function') ? recentStore()[0] : null;
     const todayLabel = new Date().toLocaleDateString('en-US',{weekday:'long', month:'short', day:'numeric'});
     if(rec && rec.label===todayLabel && Array.isArray(rec.drinks) && rec.drinks.length) sources.push({name:rec.name||'Today', drinks:rec.drinks});
@@ -21308,6 +21448,10 @@ function pmdRenderReminder(){
 
   // ---- OVERRIDE: init loads state, renders entry, opens on the front door ----
   window.pmdInit = function(){
+    // Promote a plan pre-built for tomorrow if the date has since rolled over.
+    pmdRolloverTomorrow();
+    // The front door always opens on Today.
+    entryTarget = 'today'; pmdState.target = 'today';
     if (pmdState._profileIdx !== currentProfileIdx) {
       pmdState._profileIdx = currentProfileIdx; pmdState._loaded=false;
       pmdState.drinks=[]; pmdState.days=[]; pmdState.name='Workday'; pmdState.consumed=[];
