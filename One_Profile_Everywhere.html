@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Profile, Everywhere</title>
+<style>
+  :root{
+    --bg:#140b05; --bg2:#1d1008; --card:#26160b; --card2:#2f1c0f;
+    --gold:#d9ae5f; --gold-d:#b3852f; --gold-l:#f0d49a; --cream:#f2ebe0; --muted:#b9a68a; --line:rgba(217,174,95,.22);
+    --app:#58b07e; --cloud:#7d9bc4; --amber:#e8952a; --red:#e0604f;
+    --serif:Georgia,'Times New Roman',serif; --sans:'DM Sans','Segoe UI',Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--cream);font-family:var(--sans)}
+  body{background:radial-gradient(1200px 600px at 50% -10%,#3a2110 0%,transparent 60%),var(--bg);line-height:1.5}
+  .wrap{max-width:1120px;margin:0 auto;padding:40px 22px 70px}
+  .kicker{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700}
+  h1{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,60px);line-height:1.05;margin:10px 0 12px;color:var(--gold-l)}
+  .lede{max-width:680px;color:var(--muted);font-size:18px;font-family:var(--serif);font-style:italic}
+  h2{font-family:var(--serif);font-weight:400;font-size:28px;color:var(--gold-l);margin:64px 0 6px}
+  .sub{color:var(--muted);margin:0 0 22px;max-width:700px}
+  .tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border:1px solid;border-radius:99px;padding:1px 9px;vertical-align:middle}
+
+  /* ---------- journey ---------- */
+  .journey{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+  .stop{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:18px;padding:16px 14px 14px;text-align:center;position:relative}
+  .stop.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 14px 40px rgba(217,174,95,.18)}
+  .stop svg{width:100%;height:92px;display:block;margin-bottom:6px}
+  .stop .t{font-family:var(--serif);font-size:19px;color:var(--gold-l)}
+  .stop .tm{font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+  .stop .what{font-size:13px;color:var(--cream);margin-top:6px;min-height:40px}
+  .stop .tier{margin-top:8px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+  .rail{position:relative;height:46px;margin:0 12.5%;}
+  .rail::before{content:"";position:absolute;left:0;right:0;top:22px;height:2px;background:linear-gradient(90deg,var(--gold-d),var(--gold),var(--gold-d));opacity:.55;border-radius:2px}
+  .avatar{position:absolute;top:2px;width:42px;height:42px;border-radius:50%;background:#3b82f6;color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px;letter-spacing:.04em;box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--gold),0 0 26px rgba(217,174,95,.6);transform:translateX(-50%);animation:travel 14s ease-in-out infinite}
+  @keyframes travel{0%{left:0%}22%{left:0%}30%{left:33.33%}47%{left:33.33%}55%{left:66.67%}72%{left:66.67%}80%{left:100%}100%{left:100%}}
+  .railnote{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;font-size:11px;color:var(--muted);margin:2px 0 0;letter-spacing:.06em}
+
+  /* ---------- curve ---------- */
+  .card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:20px;padding:20px}
+  #curve{width:100%;height:auto;display:block}
+  .legend{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;color:var(--muted);margin-top:8px}
+  .legend i{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:6px;border-radius:2px}
+
+  /* ---------- café scene ---------- */
+  .scene{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:start}
+  @media (max-width:900px){.scene{grid-template-columns:1fr}.journey{grid-template-columns:repeat(2,1fr)}.rail,.railnote{display:none}}
+  .illus{border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#2a170a}
+  .illus svg{display:block;width:100%;height:auto}
+  .steps{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px}
+  .steps button{font:600 13px var(--sans);color:var(--cream);background:var(--card);border:1px solid var(--line);border-radius:99px;padding:8px 14px;cursor:pointer}
+  .steps button.on{background:var(--gold);color:#2a1600;border-color:var(--gold)}
+  .steps button:focus-visible,.go:focus-visible{outline:2px solid var(--gold-l);outline-offset:2px}
+  .caption{min-height:74px;color:var(--cream);font-family:var(--serif);font-size:18px;line-height:1.45}
+  .caption small{display:block;font:13px var(--sans);color:var(--muted);margin-top:6px}
+
+  /* device screen */
+  .device{width:340px;max-width:100%;margin:0 auto;background:linear-gradient(160deg,#8a4f1f,#5e3213);padding:11px;border-radius:34px;box-shadow:0 30px 70px rgba(0,0,0,.6)}
+  .screen{background:#1b0f06;border-radius:26px;height:640px;padding:14px 14px 16px;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:10px}
+  .bar{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+  .panel{opacity:0;transform:translateY(10px);max-height:0;overflow:hidden;transition:opacity .5s,transform .5s,max-height .6s}
+  .panel.show{opacity:1;transform:none;max-height:300px}
+  .idle{text-align:center;padding:34px 8px 10px}
+  .idle .waves{position:relative;width:120px;height:120px;margin:0 auto 14px}
+  .idle .waves span{position:absolute;inset:0;border:2px solid var(--gold);border-radius:50%;opacity:0;animation:wave 2.4s infinite}
+  .idle .waves span:nth-child(2){animation-delay:.8s}.idle .waves span:nth-child(3){animation-delay:1.6s}
+  @keyframes wave{0%{transform:scale(.3);opacity:.9}100%{transform:scale(1.2);opacity:0}}
+  .idle h3{font:400 24px var(--serif);color:var(--gold-l);margin:0 0 6px}.idle p{margin:0;font-size:13px;color:var(--muted)}
+  .hello{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 12px}
+  .hello .av{width:46px;height:46px;border-radius:50%;background:#3b82f6;display:grid;place-items:center;font-weight:700}
+  .hello .nm{font:400 22px var(--serif);color:var(--gold-l);line-height:1.1}
+  .hello .ok{font-size:11px;color:var(--app)}
+  .hello .sy{margin-left:auto;font-size:10px;color:var(--cloud);text-align:right;letter-spacing:.04em}
+  .gauge{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 12px}
+  .gauge svg{width:92px;height:92px;flex:none}
+  .gauge .big{font:400 34px var(--serif);color:var(--gold-l);line-height:1}.gauge .u{font-size:12px;color:var(--muted)}
+  .gauge .row{font-size:11.5px;color:var(--muted);margin-top:5px}.gauge b{color:var(--cream)}
+  .ok2{color:var(--app)!important}
+  .plan,.win{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 12px;font-size:12.5px}
+  .plan{border-left:4px solid var(--app)}.win{border-left:4px solid var(--gold)}
+  .plan h4,.win h4{margin:0 0 3px;font:700 10.5px var(--sans);letter-spacing:.14em;text-transform:uppercase}
+  .plan h4{color:var(--app)}.win h4{color:var(--gold)}
+  .plan div b,.win div b{color:var(--gold-l)}
+  .go{margin-top:auto;border:0;border-radius:18px;padding:17px;font:700 18px var(--sans);letter-spacing:.04em;color:#2a1600;background:linear-gradient(135deg,var(--gold-l),var(--gold));cursor:pointer;box-shadow:0 8px 26px rgba(217,174,95,.35);transition:transform .15s}
+  .go:active{transform:scale(.98)}
+  .go.pulse{animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 8px 26px rgba(217,174,95,.35)}50%{box-shadow:0 8px 40px rgba(217,174,95,.9)}}
+  .brewing{margin-top:auto;text-align:center}
+  .prog{height:8px;border-radius:99px;background:#3a2412;overflow:hidden;margin:10px 0}
+  .prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold-d),var(--gold-l));transition:width 3.2s linear}
+  .logged{font-size:12px;color:var(--cloud);margin-top:8px}
+
+  /* ---------- behind the glass ---------- */
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media (max-width:900px){.flow{grid-template-columns:repeat(2,1fr)}}
+  .fs{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;position:relative}
+  .fs .n{font:400 30px var(--serif);color:var(--gold);line-height:1}
+  .fs h3{font:700 13px var(--sans);letter-spacing:.1em;text-transform:uppercase;margin:6px 0 4px;color:var(--gold-l)}
+  .fs p{margin:0;font-size:13px;color:var(--muted)}
+  .triad{display:flex;align-items:center;justify-content:center;gap:14px;margin:26px 0 0;flex-wrap:wrap}
+  .node{padding:10px 16px;border-radius:14px;border:1px solid;font-size:13px;font-weight:600;background:var(--card)}
+  .arrow{font-size:22px;color:var(--gold)}
+
+  .real{border:1px dashed var(--gold);border-radius:20px;padding:20px 22px;background:rgba(217,174,95,.05)}
+  .real ul{margin:8px 0 0;padding-left:20px;color:var(--cream)}.real li{margin:6px 0;font-size:14.5px}
+  .foot{margin-top:40px;color:var(--muted);font-size:12px}
+  @media (prefers-reduced-motion:reduce){.avatar,.idle .waves span,.go.pulse{animation:none}.avatar{left:66.67%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Caffevolve™ · Looking ahead</div>
+  <h1>One profile.<br>Everywhere you go.</h1>
+  <p class="lede">You set yourself up once. After that, the machine in front of you already knows who you are, how much caffeine is in your system right now, what you planned for today, and what you like at this hour. You just press brew.</p>
+
+  <h2>A day with one profile</h2>
+  <p class="sub">Diane’s profile and caffeine record travel with her: home in the morning, her office device mid-morning, a Culminara Caffè in the afternoon.</p>
+
+  <div class="journey" id="journey">
+    <div class="stop" data-i="0">
+      <svg viewBox="0 0 160 92" aria-hidden="true"><path d="M20 52 80 12l60 40" fill="none" stroke="#d9ae5f" stroke-width="3" stroke-linejoin="round"/><rect x="34" y="50" width="92" height="36" rx="3" fill="#3a2412" stroke="#d9ae5f" stroke-width="2"/><rect x="70" y="62" width="20" height="24" fill="#d9ae5f"/><rect x="42" y="58" width="16" height="14" fill="#f0d49a" opacity=".8"/><rect x="102" y="58" width="16" height="14" fill="#f0d49a" opacity=".8"/></svg>
+      <div class="t">Home</div><div class="tm">7:30 AM</div>
+      <div class="what">French press, brewed to her profile</div><div class="tier">Advancara</div>
+    </div>
+    <div class="stop" data-i="1">
+      <svg viewBox="0 0 160 92" aria-hidden="true"><rect x="40" y="10" width="80" height="76" rx="3" fill="#3a2412" stroke="#d9ae5f" stroke-width="2"/><g fill="#f0d49a" opacity=".85"><rect x="50" y="20" width="12" height="10"/><rect x="74" y="20" width="12" height="10"/><rect x="98" y="20" width="12" height="10"/><rect x="50" y="40" width="12" height="10"/><rect x="74" y="40" width="12" height="10"/><rect x="98" y="40" width="12" height="10"/></g><rect x="70" y="62" width="20" height="24" fill="#d9ae5f"/></svg>
+      <div class="t">Office</div><div class="tm">9:45 &amp; 11:00 AM</div>
+      <div class="what">Pour-over and a drip, both from the plan</div><div class="tier">Culminara Office</div>
+    </div>
+    <div class="stop on" data-i="2">
+      <svg viewBox="0 0 160 92" aria-hidden="true"><path d="M24 40h112l-8-24H32z" fill="#d9ae5f"/><path d="M24 40h112" stroke="#3a2412" stroke-width="2"/><g fill="#3a2412"><path d="M24 40a14 14 0 0 0 28 0zM52 40a14 14 0 0 0 28 0zM80 40a14 14 0 0 0 28 0zM108 40a14 14 0 0 0 28 0z"/></g><rect x="32" y="52" width="96" height="34" fill="#3a2412" stroke="#d9ae5f" stroke-width="2"/><circle cx="80" cy="68" r="11" fill="none" stroke="#f0d49a" stroke-width="2.5"/><path d="M91 64h6a5 5 0 0 1 0 10h-6" fill="none" stroke="#f0d49a" stroke-width="2.5"/></svg>
+      <div class="t">The café</div><div class="tm">3:00 PM</div>
+      <div class="what">A Culminara Caffè machine. Never been here before.</div><div class="tier">Culminara Caffè</div>
+    </div>
+    <div class="stop" data-i="3">
+      <svg viewBox="0 0 160 92" aria-hidden="true"><path d="M114 14a38 38 0 1 0 12 56 30 30 0 0 1-12-56z" fill="#d9ae5f"/><g fill="#f0d49a"><circle cx="40" cy="22" r="2"/><circle cx="62" cy="14" r="1.6"/><circle cx="30" cy="48" r="1.6"/><circle cx="140" cy="70" r="2"/></g></svg>
+      <div class="t">Bedtime</div><div class="tm">11:30 PM</div>
+      <div class="what">Under the ceiling. A good night.</div><div class="tier">The plan held</div>
+    </div>
+  </div>
+  <div class="rail"><div class="avatar" id="trav">DL</div></div>
+  <div class="railnote"><span>same profile</span><span>same caffeine record</span><span>same plan</span><span>same you</span></div>
+
+  <div class="card" style="margin-top:26px">
+    <svg id="curve" viewBox="0 0 1040 330" role="img" aria-label="Diane’s caffeine level across the day with the café drink planned at 3 PM"></svg>
+    <div class="legend">
+      <span><i style="background:#d9ae5f"></i>Caffeine in her system so far</span>
+      <span><i style="background:#58b07e;opacity:.9"></i>Projected, with the café cup from her plan</span>
+      <span><i style="background:#e8952a"></i>Bedtime Ceiling (75 mg)</span>
+    </div>
+  </div>
+
+  <h2>The moment at the café</h2>
+  <p class="sub">Step up. Identify yourself. Everything else is already there. Use the steps, or just watch.</p>
+
+  <div class="scene">
+    <div>
+      <div class="illus">
+        <svg viewBox="0 0 640 470" aria-label="Illustration of Diane at a café counter tapping her phone on a Culminara Caffè machine">
+          <defs>
+            <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b2212"/><stop offset="1" stop-color="#2a170a"/></linearGradient>
+            <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0d49a" stop-opacity=".95"/><stop offset="1" stop-color="#d9ae5f" stop-opacity=".7"/></linearGradient>
+            <radialGradient id="lamp" cx="50%" cy="0%" r="80%"><stop offset="0" stop-color="#f0d49a" stop-opacity=".45"/><stop offset="1" stop-color="#f0d49a" stop-opacity="0"/></radialGradient>
+          </defs>
+          <rect width="640" height="470" fill="url(#wall)"/>
+          <!-- pendant lamps -->
+          <g stroke="#6b4a34" stroke-width="2"><path d="M130 0v52M320 0v40M510 0v52"/></g>
+          <g><path d="M104 52h52l-8 24h-36z" fill="#d9ae5f"/><path d="M294 40h52l-8 24h-36z" fill="#d9ae5f"/><path d="M484 52h52l-8 24h-36z" fill="#d9ae5f"/></g>
+          <ellipse cx="130" cy="150" rx="120" ry="110" fill="url(#lamp)"/><ellipse cx="320" cy="140" rx="130" ry="120" fill="url(#lamp)"/><ellipse cx="510" cy="150" rx="120" ry="110" fill="url(#lamp)"/>
+          <!-- shelves with cups -->
+          <rect x="40" y="150" width="170" height="8" fill="#6b4a34"/><g fill="#f2ebe0"><rect x="56" y="124" width="22" height="26" rx="4"/><rect x="88" y="124" width="22" height="26" rx="4"/><rect x="120" y="124" width="22" height="26" rx="4"/><rect x="152" y="124" width="22" height="26" rx="4"/></g>
+          <!-- menu board -->
+          <rect x="446" y="100" width="150" height="86" rx="6" fill="#1b0f06" stroke="#6b4a34" stroke-width="3"/><g stroke="#d9ae5f" stroke-width="3" stroke-linecap="round" opacity=".8"><path d="M462 124h74M462 144h104M462 164h60"/></g>
+          <!-- counter -->
+          <rect x="0" y="352" width="640" height="118" fill="#5a3418"/><rect x="0" y="344" width="640" height="14" fill="#7a4a24"/>
+          <!-- machine -->
+          <g>
+            <rect x="238" y="150" width="190" height="196" rx="14" fill="#2b1809" stroke="#d9ae5f" stroke-width="3"/>
+            <rect x="256" y="168" width="154" height="104" rx="9" fill="#120a04" stroke="#8a5a2b" stroke-width="2"/>
+            <rect x="262" y="174" width="142" height="92" rx="6" fill="url(#glow)" opacity=".9"/>
+            <g fill="#2a1600"><circle cx="300" cy="206" r="15"/><text x="300" y="211" font-family="Georgia,serif" font-size="14" font-weight="700" text-anchor="middle" fill="#f0d49a">DL</text></g>
+            <text x="320" y="204" font-family="Georgia,serif" font-size="11.5" fill="#2a1600">Welcome back,</text>
+            <text x="320" y="224" font-family="Georgia,serif" font-size="19" font-weight="700" fill="#2a1600">Diane</text>
+            <rect x="274" y="238" width="118" height="10" rx="5" fill="#2a1600" opacity=".25"/><rect x="274" y="238" width="52" height="10" rx="5" fill="#2a1600" opacity=".7"/>
+            <rect x="262" y="290" width="142" height="14" rx="3" fill="#120a04"/>
+            <path d="M300 304h66l-8 38h-50z" fill="#3a2412" stroke="#8a5a2b" stroke-width="2"/>
+            <text x="333" y="140" font-family="DM Sans,Arial,sans-serif" font-size="11" letter-spacing="3" fill="#d9ae5f" text-anchor="middle">CULMINARA CAFFÈ</text>
+          </g>
+          <!-- cup -->
+          <g><rect x="318" y="318" width="30" height="24" rx="4" fill="#f2ebe0"/><path d="M348 324h6a6 6 0 0 1 0 12h-6" fill="none" stroke="#f2ebe0" stroke-width="3"/></g>
+          <!-- person -->
+          <g>
+            <circle cx="120" cy="240" r="30" fill="#e0b48a"/><path d="M92 236c4-30 52-34 60-2-14-12-40-14-60 2z" fill="#3b2412"/>
+            <path d="M70 352c0-52 24-80 50-80s50 28 50 80z" fill="#3b82f6"/>
+            <path d="M150 300c30-6 52-14 72-32" fill="none" stroke="#3b82f6" stroke-width="20" stroke-linecap="round"/>
+            <circle cx="226" cy="262" r="11" fill="#e0b48a"/>
+          </g>
+          <!-- phone + waves -->
+          <g transform="rotate(-16 236 252)"><rect x="224" y="222" width="30" height="52" rx="6" fill="#1b0f06" stroke="#d9ae5f" stroke-width="2.5"/><rect x="228" y="228" width="22" height="34" rx="3" fill="#58b07e"/><text x="239" y="249" font-family="DM Sans,Arial" font-size="10" font-weight="700" fill="#06210f" text-anchor="middle">DL</text></g>
+          <g fill="none" stroke="#d9ae5f" stroke-width="3" stroke-linecap="round"><path d="M262 232q14 10 0 24" opacity=".95"/><path d="M274 224q26 20 0 40" opacity=".65"/><path d="M286 216q38 30 0 56" opacity=".35"/></g>
+          <!-- cloud -->
+          <g transform="translate(486 262)"><path d="M10 40a14 14 0 0 1 2-28 18 18 0 0 1 34-2 14 14 0 0 1 4 30z" fill="#26364f" stroke="#7d9bc4" stroke-width="2"/><text x="28" y="33" font-family="DM Sans,Arial" font-size="10" fill="#9fb6d8" text-anchor="middle">your record</text></g>
+          <path d="M470 290C420 300 430 240 428 240" fill="none" stroke="#7d9bc4" stroke-width="2" stroke-dasharray="5 5"/>
+        </svg>
+      </div>
+      <div class="steps" id="steps" role="tablist" aria-label="Walk through the moment">
+        <button data-s="0" class="on">1 · Step up</button><button data-s="1">2 · Recognized</button><button data-s="2">3 · Standing</button><button data-s="3">4 · Plan &amp; window</button><button data-s="4">5 · Brew</button>
+      </div>
+      <div class="caption" id="cap"></div>
+    </div>
+
+    <div class="device" aria-label="The Culminara Caffè touchscreen">
+      <div class="screen" id="scr">
+        <div class="bar"><span>Culminara Caffè</span><span id="clock">3:00 PM</span></div>
+        <div class="panel idle show" id="p0"><div class="waves"><span></span><span></span><span></span></div><h3>Welcome</h3><p>Hold your phone near the screen,<br>or enter your profile PIN.</p></div>
+        <div class="panel" id="p1"><div class="hello"><div class="av">DL</div><div><div class="nm">Welcome back, Diane</div><div class="ok">✓ Your profile came with you</div></div><div class="sy">pulled<br>just now</div></div></div>
+        <div class="panel" id="p2"><div class="gauge">
+          <svg viewBox="0 0 92 92" aria-hidden="true"><circle cx="46" cy="46" r="38" fill="none" stroke="#3a2412" stroke-width="9"/><circle id="ring" cx="46" cy="46" r="38" fill="none" stroke="#d9ae5f" stroke-width="9" stroke-linecap="round" stroke-dasharray="238.8" stroke-dashoffset="238.8" transform="rotate(-90 46 46)" style="transition:stroke-dashoffset 1.2s ease"/></svg>
+          <div><div class="big"><span id="stand">—</span> <span class="u">mg active now</span></div>
+          <div class="row">Wake-Hours Ceiling <b>490 mg</b></div>
+          <div class="row">Bedtime projection <b class="ok2" id="proj">—</b> <span>(ceiling 75)</span></div></div></div></div>
+        <div class="panel" id="p3">
+          <div class="plan"><h4>Plan Check · on plan</h4><div>Your plan holds <b>an 8 oz cup around 3:00 PM</b>, about <b id="pmg">—</b> mg. The rest of your day still lands under your ceiling.</div></div>
+          <div class="win" style="margin-top:8px"><h4>Sub-Profile · PM Deflate · open now</h4><div>2:00 – 4:00 PM · <b>8 oz × 1</b> · <b>Light</b> · <b>Cinnamon Spice</b> (1.0x)</div></div>
+        </div>
+        <div class="panel" id="p4"><div class="win" style="border-left-color:var(--app)"><h4 style="color:var(--app)">Ready</h4><div>Blend worked out fresh from your Comfort Zone and your standing: <b>about 45% caffeinated</b>. Nothing to set.</div></div></div>
+        <button class="go pulse" id="go" style="display:none" type="button">BREW</button>
+        <div class="brewing" id="brewing" style="display:none"><div style="font:400 22px var(--serif);color:var(--gold-l)">Brewing your cup…</div><div class="prog"><i id="bar"></i></div><div class="logged" id="logged"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Behind the glass</h2>
+  <p class="sub">The thinking happens on the machine, the same way it does at home. The cloud only carries your record between your devices; it doesn’t decide anything.</p>
+  <div class="flow">
+    <div class="fs"><div class="n">1</div><h3>Recognize</h3><p>Your phone presents a one-visit pass. The machine knows it is Diane, and her profile arrives with her.</p></div>
+    <div class="fs"><div class="n">2</div><h3>Reconcile</h3><p>Just before the brew, the machine pulls your caffeine record and works out your standing with the same engine as every other device.</p></div>
+    <div class="fs"><div class="n">3</div><h3>Recommend</h3><p>Plan Check and the open Sub-Profile shape the cup. The blend is worked out fresh, as always. The platform advises; you decide.</p></div>
+    <div class="fs"><div class="n">4</div><h3>Brew</h3><p>One tap. The brew goes back into your record, so your phone and every machine you meet next already know.</p></div>
+  </div>
+  <div class="triad">
+    <span class="node" style="border-color:var(--app);color:var(--app)">Diane’s phone</span><span class="arrow">⇄</span>
+    <span class="node" style="border-color:var(--cloud);color:var(--cloud)">Her record in the cloud</span><span class="arrow">⇄</span>
+    <span class="node" style="border-color:var(--gold);color:var(--gold)">Any Caffevolve machine</span>
+  </div>
+
+  <h2>To make it real</h2>
+  <div class="real">
+    <span class="tag" style="color:var(--gold);border-color:var(--gold)">Beyond the current spec</span>
+    <p style="margin:10px 0 0;color:var(--cream)">Today a profile lives on a machine through a slot the machine’s administrator reserves. A café can’t do that for every passer-by. This dream needs one new idea:</p>
+    <ul>
+      <li><b>A visit pass.</b> A short-lived permission the user grants from the app. It lets a venue’s machine use the profile and the caffeine record for one visit. It uses no slot and needs no invite.</li>
+      <li><b>Venue opt-in.</b> The café’s or office’s administrator turns visits on for their machine.</li>
+      <li><b>Nothing left behind.</b> When the visit ends, the machine drops its copy. The only trace is the brew, which goes into Diane’s own record.</li>
+      <li><b>Identifying yourself.</b> Tap the phone, or enter the profile PIN, as on an Office device today.</li>
+    </ul>
+  </div>
+
+  <p class="foot">Illustrative figures. Diane’s settings come from the prototype’s example profile: Wake-Hours Ceiling 490 mg, Bedtime Ceiling 75 mg, Caffeine Decay Rate 4.5 hr, bedtime 11:30 PM. The Culminara Caffè machine and the visit pass are concepts, not part of the current design.</p>
+</div>
+
+<script>
+(function(){
+  // ---------- the numbers (illustrative) ----------
+  var HALF=4.5, BED=23.5, CEIL=75, NOW=15;
+  var drinks=[{t:7.5,mg:140,n:'French press'},{t:9.75,mg:97,n:'Pour-over'},{t:11,mg:162,n:'Drip'}];
+  var cafe={t:15,mg:49,n:'Café cup'};
+  function lvl(list,t){var s=0;list.forEach(function(d){if(t>=d.t)s+=d.mg*Math.pow(.5,(t-d.t)/HALF)});return s}
+  var standing=lvl(drinks,NOW), withCafe=drinks.concat([cafe]), bedtime=lvl(withCafe,BED);
+
+  // ---------- curve ----------
+  var svg=document.getElementById('curve'),W=1040,H=330,L=56,R=22,T=26,B=46,X0=6,X1=24,YM=350;
+  function x(t){return L+(t-X0)/(X1-X0)*(W-L-R)} function y(v){return H-B-v/YM*(H-B-T)}
+  var h='';
+  for(var g=0;g<=350;g+=50){h+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(g)+'" y2="'+y(g)+'" stroke="#d9ae5f" stroke-opacity=".12"/><text x="'+(L-8)+'" y="'+(y(g)+4)+'" fill="#b9a68a" font-size="11" text-anchor="end">'+g+'</text>'}
+  [6,9,12,15,18,21,24].forEach(function(t){var lab=t===12?'12 PM':t===24?'12 AM':(t>12?t-12:t)+(t<12?' AM':' PM');h+='<text x="'+x(t)+'" y="'+(H-B+22)+'" fill="#b9a68a" font-size="11" text-anchor="middle">'+lab+'</text>'});
+  h+='<text x="'+(L-8)+'" y="'+(T-12)+'" fill="#b9a68a" font-size="11" text-anchor="end">mg</text>';
+  // ceiling line at bedtime
+  h+='<line x1="'+x(BED-1.6)+'" x2="'+x(BED+.5)+'" y1="'+y(CEIL)+'" y2="'+y(CEIL)+'" stroke="#e8952a" stroke-width="3"/><text x="'+(x(BED-1.6))+'" y="'+(y(CEIL)-9)+'" fill="#e8952a" font-size="11.5" font-weight="700">Bedtime Ceiling 75</text>';
+  function path(list,a,b,step){var p='';for(var t=a;t<=b+1e-9;t+=step){p+=(p?'L':'M')+x(t).toFixed(1)+' '+y(lvl(list,t)).toFixed(1)}return p}
+  // solid so far, dashed projection
+  h+='<path d="'+path(drinks,7.5,NOW,.05)+'" fill="none" stroke="#d9ae5f" stroke-width="3.4" stroke-linejoin="round"/>';
+  h+='<path d="'+path(withCafe,NOW,24,.05)+'" fill="none" stroke="#58b07e" stroke-width="3" stroke-dasharray="7 6" stroke-linejoin="round"/>';
+  // place markers
+  var marks=[{t:7.5,k:'Home',c:'#d9ae5f'},{t:9.75,k:'Office',c:'#d9ae5f'},{t:11,k:'Office',c:'#d9ae5f'},{t:15,k:'Café',c:'#58b07e'}];
+  marks.forEach(function(m){var v=lvl(m.t===15?withCafe:drinks,m.t+.0001);
+    h+='<line x1="'+x(m.t)+'" x2="'+x(m.t)+'" y1="'+y(v)+'" y2="'+(H-B)+'" stroke="'+m.c+'" stroke-opacity=".35" stroke-dasharray="3 4"/><circle cx="'+x(m.t)+'" cy="'+y(v)+'" r="6.5" fill="'+m.c+'" stroke="#140b05" stroke-width="2.5"/>'+
+       '<text x="'+x(m.t)+'" y="'+(y(v)-14)+'" fill="'+m.c+'" font-size="12" font-weight="700" text-anchor="middle">'+m.k+'</text>'});
+  // now marker (before the café cup)
+  var vs=lvl(drinks,NOW);
+  h+='<circle cx="'+x(NOW)+'" cy="'+y(vs)+'" r="11" fill="none" stroke="#f0d49a" stroke-width="2"/><text x="'+(x(NOW)-16)+'" y="'+(y(vs)+4)+'" fill="#f0d49a" font-size="12" font-weight="700" text-anchor="end">now ≈ '+Math.round(vs)+' mg</text>';
+  var vb=lvl(withCafe,BED);
+  h+='<circle cx="'+x(BED)+'" cy="'+y(vb)+'" r="6" fill="#58b07e" stroke="#140b05" stroke-width="2.5"/><text x="'+(x(BED)-10)+'" y="'+(y(vb)+24)+'" fill="#58b07e" font-size="12" font-weight="700" text-anchor="end">≈ '+Math.round(vb)+' mg at bedtime</text>';
+  svg.innerHTML=h;
+
+  // fill UI numbers
+  document.getElementById('stand').textContent=Math.round(standing);
+  document.getElementById('proj').textContent='≈ '+Math.round(bedtime)+' mg';
+  document.getElementById('pmg').textContent='≈ '+cafe.mg;
+  var ring=document.getElementById('ring');
+
+  // ---------- walkthrough ----------
+  var caps=[
+    ['Diane walks up to a machine she has never used.','The screen is waiting. She holds her phone near it. No account to create, no sign-up, no queue behind her while she taps through screens.'],
+    ['“Welcome back, Diane.”','Her profile arrived with her: her Comfort Zone, her ceilings, her preferences. The machine did not have to learn her.'],
+    ['It already knows where she stands.','About '+Math.round(standing)+' mg is active in her system right now, built from the drinks she had at home and at the office, and the machine can see that she is well inside her limits.'],
+    ['It shows what she set up.','Her plan holds a cup around now, and her afternoon Sub-Profile, PM Deflate, is open. The machine lines them up. She doesn’t pick a size, a strength or an additive.'],
+    ['She presses brew.','The cup is worked out fresh for this moment and brewed. The brew goes into her record, so her phone, and the next machine she meets, already know.']
+  ];
+  var cur=0,auto=true,timer=null,busy=false;
+  var panels=[1,2,3,4].map(function(i){return document.getElementById('p'+i)}), idle=document.getElementById('p0');
+  var go=document.getElementById('go'), brewing=document.getElementById('brewing'), bar=document.getElementById('bar'), logged=document.getElementById('logged');
+  var btns=[].slice.call(document.querySelectorAll('#steps button')), cap=document.getElementById('cap');
+  function render(s){
+    cur=s; busy=false;
+    btns.forEach(function(b,i){b.classList.toggle('on',i===s)});
+    cap.innerHTML='<b style="color:var(--gold-l)">'+caps[s][0]+'</b><small>'+caps[s][1]+'</small>';
+    idle.classList.toggle('show',s===0); idle.style.display=s===0?'':'none';
+    panels.forEach(function(p,i){p.classList.toggle('show',s>=i+1 && !(i===0&&false))});
+    // after step 1 keep the greeting; reveal progressively
+    ring.style.strokeDashoffset = s>=2 ? (238.8*(1-Math.min(standing/490,1))) : 238.8;
+    go.style.display = s>=4 ? '' : 'none'; brewing.style.display='none'; bar.style.transition='none'; bar.style.width='0';
+  }
+  function brew(){
+    if(busy||cur<4)return; busy=true; go.style.display='none'; brewing.style.display='';
+    logged.textContent=''; bar.style.transition='none'; bar.style.width='0'; void bar.offsetWidth; bar.style.transition='width 3.2s linear'; bar.style.width='100%';
+    setTimeout(function(){logged.textContent='✓ Logged to your record — your phone now shows ≈ '+Math.round(lvl(withCafe,NOW+.05))+' mg'; document.querySelector('#brewing div').textContent='Enjoy your cup, Diane.'},3300);
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){auto=false;clearTimeout(timer);render(+b.dataset.s)})});
+  go.addEventListener('click',function(){auto=false;clearTimeout(timer);brew()});
+  function tick(){ if(!auto)return; timer=setTimeout(function(){ if(cur<4){render(cur+1);tick()} else { setTimeout(function(){if(auto)brew()},1400); setTimeout(function(){if(auto){render(0);tick()}},8200)} },3300)}
+  render(0); tick();
+})();
+</script>
+</body>
+</html>
