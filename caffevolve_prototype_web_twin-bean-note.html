@@ -3915,13 +3915,6 @@ input[type="range"]::-moz-range-thumb {
     <div class="field-label">Initials (displayed in circle)</div>
     <input type="text" class="text-input" id="su7-init" value="" maxlength="3" oninput="updateInitialsFromField()">
     <div class="info-note" style="margin-top:10px;">Initials auto-generate from your name. Tap to edit manually (2–3 characters). Name truncates after ~8 characters on the profile carousel.</div>
-    <div id="su7-email-wrap">
-      <div class="divider"></div>
-      <div class="field-label">Email address</div>
-      <input type="email" class="text-input" id="su7-email" maxlength="80" autocomplete="off" placeholder="name@example.com" oninput="document.getElementById('su7-email-err').style.display='none'">
-      <div class="info-note" style="margin-top:8px;">We’ll email an invite code to this address so you can get the CaffevolveGo app. It becomes your account ID.</div>
-      <div id="su7-email-err" style="display:none;font-size:12px;color:var(--red-warn);margin-top:8px;"></div>
-    </div>
   </div>
   <div class="btn-row">
     <button class="btn btn-primary" onclick="saveProfileFromSU7()">Confirm &amp; Continue</button>
@@ -4940,7 +4933,7 @@ input[type="range"]::-moz-range-thumb {
   <div class="screen-label">DEVICE ADMINISTRATOR · NEW USER</div>
   <div class="screen-title" style="padding-top:8px;">Set Up a<br>New User</div>
   <div class="card" style="margin-top:12px;">
-    <div class="card-body" style="margin-bottom:14px;font-size:13px;">Enter the basics to reserve a profile slot. We’ll email the new user an invite code to get the CaffevolveGo app. They complete the rest — caffeine calibration, additives, and schedules — in the app or from <strong>Select a User Profile</strong>. Until then, they can brew through Guest Brew.</div>
+    <div class="card-body" style="margin-bottom:14px;font-size:13px;">Enter the basics to reserve a profile slot. The new user completes the rest — caffeine calibration, additives, and schedules — from <strong>Select a User Profile</strong>. Until then, they can brew through Guest Brew.</div>
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;">
       <div class="initials-circle" id="anu-circle" style="background:#9333EA;cursor:default;"><span id="anu-initials">?</span></div>
       <div>
@@ -4953,10 +4946,7 @@ input[type="range"]::-moz-range-thumb {
     <div class="field-label">First name</div>
     <input type="text" class="text-input" id="anu-name" maxlength="20" oninput="anuSyncInitials()" style="margin-bottom:12px;">
     <div class="field-label">Initials (displayed in circle)</div>
-    <input type="text" class="text-input" id="anu-init" maxlength="3" oninput="anuInitialsEdited()" style="margin-bottom:12px;">
-    <div class="field-label">Email address</div>
-    <input type="email" class="text-input" id="anu-email" maxlength="80" autocomplete="off" placeholder="name@example.com">
-    <div class="info-note" style="margin-top:8px;">We’ll email an invite code to this address. It becomes the new user’s account ID when they accept the invite.</div>
+    <input type="text" class="text-input" id="anu-init" maxlength="3" oninput="anuInitialsEdited()">
     <div id="anu-error" style="display:none;font-size:12px;color:var(--red-warn);margin-top:10px;"></div>
   </div>
   <div class="btn-row">
@@ -17173,12 +17163,6 @@ function editSubProfileByIndex(idx) {
 
 function renderSU7() {
   const p = profiles[currentProfileIdx] || {};
-  // Email — asked once, when the profile is first created (never on Edit Profile: it is the account ID)
-  const emailWrap = document.getElementById('su7-email-wrap');
-  const emailEl = document.getElementById('su7-email');
-  const askEmail = setupMode === 'new' && !p.email && !p._adminCreated;
-  if (emailWrap) emailWrap.style.display = askEmail ? '' : 'none';
-  if (emailEl) emailEl.value = p.email || '';
   // Name & initials
   const nameEl = document.getElementById('su7-name');
   const initEl = document.getElementById('su7-init');
@@ -17204,17 +17188,6 @@ function renderSU7() {
 }
 
 function saveProfileFromSU7() {
-  const emailWrap = document.getElementById('su7-email-wrap');
-  if (emailWrap && emailWrap.style.display !== 'none') {
-    const email = (document.getElementById('su7-email').value || '').trim();
-    const err = document.getElementById('su7-email-err');
-    let msg = '';
-    if (!isValidEmail(email)) msg = 'Enter a valid email address — the invite code is sent there.';
-    else if (profiles.some((q, i) => i !== currentProfileIdx && (q.email || '').toLowerCase() === email.toLowerCase())) msg = 'That email address is already used by another profile on this device.';
-    if (msg) { err.textContent = msg; err.style.display = 'block'; return; }
-    userProfile.email = email;
-    userProfile._inviteSentAt = Date.now();
-  }
   const name     = document.getElementById('su7-name').value.trim() || 'User';
   const initials = document.getElementById('su7-init').value.trim().slice(0,3).toUpperCase() || name.slice(0,2).toUpperCase();
   userProfile.name      = name;
@@ -19836,9 +19809,6 @@ function adminChangeBeans()    { deviceEditMode = 'bean';     goto('SU-BEAN'); }
 function adminChangeAdditives(){ deviceEditMode = 'additive'; goto('SU4a'); }
 function adminFullSetup()      { deviceEditMode = null;       goto('SU1'); }
 
-// ── Email validation (shared by admin new-user and first-profile steps) ──
-function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e || ''); }
-
 // ── Admin new-user stub ──
 let _anuColor = null, _anuInitEdited = false;
 function anuInit() {
@@ -19859,7 +19829,7 @@ function anuInit() {
       wrap.appendChild(sw);
     });
   }
-  ['anu-name','anu-init','anu-email'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  ['anu-name','anu-init'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   const err = document.getElementById('anu-error'); if (err) err.style.display = 'none';
   anuRenderPreview();
 }
@@ -19892,23 +19862,19 @@ function anuCreate() {
   const showErr = m => { if (err) { err.textContent = m; err.style.display = 'block'; } };
   const name = document.getElementById('anu-name').value.trim();
   const initials = (document.getElementById('anu-init').value.trim() || name.slice(0,2)).toUpperCase().slice(0,3);
-  const email = (document.getElementById('anu-email').value || '').trim();
   if (!name) { showErr('Enter the new user’s first name.'); return; }
-  if (!isValidEmail(email)) { showErr('Enter a valid email address — the invite code is sent there.'); return; }
-  if (profiles.some(p => (p.email || '').toLowerCase() === email.toLowerCase())) { showErr('That email address is already used by another profile on this device.'); return; }
   if (profiles.length >= MAX_PROFILES) { showErr('All ' + MAX_PROFILES + ' profile slots are in use.'); return; }
   if (profiles.some(p => (p.name || '').toLowerCase() === name.toLowerCase())) { showErr('A profile named “' + name + '” already exists.'); return; }
   profiles.push({
     id: newProfileId(), name, initials,
     color: _anuColor ? _anuColor.hex : '#9333EA', colorName: _anuColor ? _anuColor.name : 'Violet',
     tier: 'Moderate', grind: 3, subProfiles: [], dayPlans: [],
-    email, _inviteSentAt: Date.now(),
     _committed: false, _draft: true, _adminCreated: true,
     _setupStep: 'SU8', _draftAt: Date.now(),
   });
   _welcomeBackDismissed = false;
   deviceStateSave();
-  window._adminNote = '✓ <b>' + name + '</b>’s profile slot is reserved. An invite code was emailed to <b>' + email + '</b>. They can finish setup in the CaffevolveGo app or from <b>Select a User Profile</b> — Guest Brew is available until then.';
+  window._adminNote = '✓ <b>' + name + '</b>’s profile slot is reserved. They can finish setup from <b>Select a User Profile</b> — Guest Brew is available until then.';
   goto('ADMIN');
 }
 </script>
