@@ -104,6 +104,7 @@ footer{margin:60px 0 40px;padding-top:16px;border-top:1px solid var(--rule);colo
 <tr><td>3. Payment from the app</td><td>Approve-the-total payment at Caffevolve machines.</td></tr>
 </table></div>
 <p class="note">This sequence was agreed. Details such as password rules, device resale and invite delivery are deliberately left for later drafts.</p>
+<p class="note"><b>Open for discussion:</b> whether the intelligence should live in one central place on the web, with each machine supplying only what it carries. This is not agreed and concerns Version II only. See section 16 of the plan.</p>
 
 <h2 class="title" style="font-size:22px;margin-top:30px">Contents of the plan</h2>
 <ul class="toc"><li><a href="#1-purpose-and-status">1. Purpose and status</a></li><li><a href="#2-version-ii-at-a-glance">2. Version II at a glance</a></li><li><a href="#3-design-principles">3. Design principles</a></li><li><a href="#4-the-journey-device-set-up-to-a-finished-profile">4. The journey: device set-up to a finished profile</a></li><li><a href="#5-accounts-invites-and-pairing">5. Accounts, invites and pairing</a></li><li><a href="#6-what-is-created-where">6. What is created where</a></li><li><a href="#7-ceilings-learning-and-edit-profile">7. Ceilings, learning and Edit Profile</a></li><li><a href="#8-staying-in-step-between-phone-and-device">8. Staying in step between phone and device</a></li><li><a href="#9-plan-my-day-what-changes">9. Plan my Day: what changes</a></li><li><a href="#10-one-profile-more-than-one-device">10. One profile, more than one device</a></li><li><a href="#11-caffevolve-passport-your-profile-at-another-mac">11. Caffevolve Passport: your profile at another machine</a></li><li><a href="#12-paying-from-the-app">12. Paying from the app</a></li><li><a href="#13-security-access-and-data-governance">13. Security, access and data governance</a></li><li><a href="#14-effect-on-the-platform-reference">14. Effect on the Platform Reference</a></li><li><a href="#15-development-roadmap">15. Development roadmap</a></li><li><a href="#16-deferred-decisions-and-open-questions">16. Deferred decisions and open questions</a></li><li><a href="#appendix-a-figures">Appendix A. Figures</a></li><li><a href="#appendix-b-glossary">Appendix B. Glossary</a></li></ul>
@@ -132,6 +133,7 @@ footer{margin:60px 0 40px;padding-top:16px;border-top:1px solid var(--rule);colo
 <li><b>The administrator decides who holds a slot; the user completes everything personal.</b> The administrator never answers the Caffeine Behavior Instrument for anyone.</li>
 <li><b>Keep only what is needed.</b> The email address is the account ID, no phone number is kept, Caffevolve stores no card details, and a machine drops a visitor’s data when the visit ends.</li>
 </ol>
+<p><i>Principles 3 and 4 are under discussion for Version II; see the open discussion in section 16.</i></p>
 <h2 class="ph1" id="4-the-journey-device-set-up-to-a-finished-profile">4. The journey: device set-up to a finished profile</h2>
 <p>FIG. 44A–D (Appendix A) draw this flow in full, with the administrator’s steps, the user’s steps and the platform’s own steps shaded differently. Each step below is marked <b>Existing</b>, meaning it is already documented in the Platform Reference or built in the current prototype, or <b>New</b>, meaning it is introduced by Version II.</p>
 <ol>
@@ -260,6 +262,20 @@ footer{margin:60px 0 40px;padding-top:16px;border-top:1px solid var(--rule);colo
 <li>Home hosts: whether a host is told anything about a visit, and whether regular stops make sense for a private home.</li>
 <li>AFS learning state, sync and pairing are specified here but not yet modeled in the prototype.</li>
 </ul>
+<h3 class="ph2" id="open-discussion-where-the-intelligence-lives">Open discussion: where the intelligence lives</h3>
+<p><i>Status: Discussion. Not agreed.</i> This concerns Version II only. Version 1 and the Platform Reference are unaffected. Unlike the items above, it could change the structure of this plan, in particular design principles 3 and 4.</p>
+<p><b>The thought.</b> The profile and the current caffeine level may be best held in one central place on the web, not in each machine. Each machine would supply only what it carries: its bean types and additives. The platform would recognize the person and adapt to the machine at hand, and the machine would present the result.</p>
+<p><b>Why it is attractive.</b> The person stays in one place, machines need not manage the intelligence, the Caffevolve Passport becomes simpler, and the logic and the learning exist once.</p>
+<p><b>What it would meet.</b> Principles 3 and 4 (the device works without the cloud; the cloud is a store, not a brain) describe the opposite arrangement. One side would have to give way.</p>
+<p><b>Questions to settle before any decision.</b></p>
+<ul>
+<li>What a machine does when it cannot reach the platform, for example brewing a safe default from a cached copy of the person’s ceilings.</li>
+<li>Where the check that protects the user’s ceilings is enforced.</li>
+<li>What personal data is held centrally, and how that changes the privacy position.</li>
+<li>What a machine must declare: bean types and roast, additives, and its grind range.</li>
+<li>How the existing documentation and any patent position are affected. Patent counsel should be consulted before any wording is adopted.</li>
+</ul>
+<p><b>A related idea.</b> Where a preferred additive is not available, the machine could offer alternatives instead of skipping it (section 11 currently skips it and tells the visitor). This stands either way.</p>
 <h2 class="ph1" id="appendix-a-figures">Appendix A. Figures</h2>
 <p>FIG. 44A–D follow the flow from device set-up to a finished profile. FIG. 45A–B draw the Caffevolve Passport, and FIG. 46A–B payment from the app. Method block numbers (4200s to 4900s) continue the series used for FIG. 43. Each figure also exists as a separate file in the figures folder.</p>
 <figure class="fig sheet"><svg viewBox="0 0 700 890" xmlns="http://www.w3.org/2000/svg">
