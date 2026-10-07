@@ -45,8 +45,8 @@ h1 em{font-style:italic;color:var(--accent2)}
 .also{display:flex;align-items:center;gap:12px;border:1px dashed var(--card-line);border-radius:10px;padding:9px 14px;margin-bottom:24px;font-size:.84rem;color:var(--ink-dim)}
 .also b{font:400 .66rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
 .grow{border-top:1px solid var(--line);padding-top:20px}
-h2{font:500 1.7rem/1.1 var(--serif);color:var(--head);margin-bottom:.4rem}
-.loop{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+h2{font:500 1.7rem/1.1 var(--serif);color:var(--head);margin-bottom:.4rem;text-wrap:balance}
+.loop{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
 .lp{background:var(--card);border:1px solid var(--card-line);border-radius:12px;padding:13px 13px 11px;position:relative}
 .lp .k{font:400 .66rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
 .lp p{font-size:.8rem;color:var(--ink-dim);line-height:1.5;margin-top:.45rem}
@@ -65,7 +65,7 @@ h2{font:500 1.7rem/1.1 var(--serif);color:var(--head);margin-bottom:.4rem}
 .close q{font:italic 500 clamp(1.5rem,3vw,2rem)/1.2 var(--serif);color:var(--accent2);quotes:none}
 .badge{font:400 .64rem/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--espresso);background:var(--gold);padding:7px 11px;border-radius:99px;white-space:nowrap}
 .fine{margin-top:16px;font-size:.66rem;color:var(--clay);line-height:1.5}
-@media(max-width:860px){.panels,.hero{grid-template-columns:1fr}.loop{grid-template-columns:1fr 1fr}.lp::after{display:none}.road{flex-direction:column;gap:14px}.close{flex-direction:column;align-items:flex-start}}
+@media(max-width:860px){.panels,.hero{grid-template-columns:1fr}.loop{grid-template-columns:1fr}.lp::after{display:none}.road{flex-direction:column;gap:14px}.close{flex-direction:column;align-items:flex-start}}
 @media(max-width:520px){.loop{grid-template-columns:1fr}.page{padding:30px 18px}}
 
 /* ── PRINT / PDF: light, low-ink, one letter page ── */
@@ -81,8 +81,8 @@ h2{font:500 1.7rem/1.1 var(--serif);color:var(--head);margin-bottom:.4rem}
   .panels{grid-template-columns:1.15fr 1fr;gap:10px;margin:14px 0 8px}
   .panel{padding:11px 12px}.panel h3{font-size:21px}.panel p{font-size:10.6px;margin-bottom:5px}.panel .contrast{font-size:9.8px}
   .also{padding:6px 10px;font-size:10.4px;margin-bottom:12px}
-  .grow{padding-top:11px}h2{font-size:21px}
-  .loop{grid-template-columns:repeat(4,1fr);gap:9px}.lp{padding:8px}.lp p{font-size:9.6px}.loopnote{font-size:14px}
+  .grow{padding-top:11px}h2{font-size:19px}
+  .loop{grid-template-columns:repeat(3,1fr);gap:9px}.lp{padding:8px}.lp p{font-size:9.6px}.loopnote{font-size:14px}
   .lp:not(:last-child)::after{display:block}
   .roadwrap{margin-top:10px;padding-top:8px}.road{flex-direction:row}.step span{font-size:10px}
   .close{margin-top:10px;padding-top:9px;flex-direction:row}.close q{font-size:21px}
@@ -117,9 +117,9 @@ h2{font:500 1.7rem/1.1 var(--serif);color:var(--head);margin-bottom:.4rem}
  <div class="panel">
   <div class="tag">The big change</div>
   <h3>Take your Caffevolve with you</h3>
-  <p>Your profile and your active standing go wherever you go. Walk up to any Caffevolve device that has opened its door to Passport, at a café, an office or a friend’s home, and pick up right where you left off when you walked out of the house.</p>
+  <p>Your profile and your active standing go wherever you go. Walk up to any Caffevolve device that has opened its door to the Passport program, at a café, an office or a friend’s home, and pick up right where you left off when you walked out of the house.</p>
   <p>You get the full control you have in your own kitchen, an extension of home limited only by what that device carries.</p>
-  <p class="contrast">Today, away from a Caffevolve device, a drink can only be trimmed by size or shot count.</p>
+  <p class="contrast">Today, when away from a Caffevolve device, a drink can only be adjusted by serving size or shot count.</p>
  </div>
  <div class="panel">
   <div class="tag">The second change</div>
@@ -131,12 +131,11 @@ h2{font:500 1.7rem/1.1 var(--serif);color:var(--head);margin-bottom:.4rem}
 <div class="also"><b>Also coming</b><span>Pay from your phone and skip the queue.</span></div>
 
 <div class="grow">
- <h2>How the universe grows</h2>
+ <h2>How the Caffevolve universe grows and the marketing benefit it brings to the company</h2>
  <div class="loop">
-  <div class="lp"><div class="k">Office</div><p>Colleagues meet Caffevolve at work. Some of them bring one home.</p></div>
-  <div class="lp"><div class="k">Home &amp; friends</div><p>Guests at a friend’s home brew their own cup and see what it can do.</p></div>
+  <div class="lp"><div class="k">Office</div><p>Colleagues first meet Caffevolve at work. Some of them decide to bring one home.</p></div>
   <div class="lp"><div class="k">Café</div><p>Home and office customers walking in show the owner there is demand for the device.</p></div>
-  <div class="lp"><div class="k">More devices</div><p>Once installed, a café device meets potentially hundreds of new people.</p></div>
+  <div class="lp"><div class="k">More devices</div><p>Once installed, a café device introduces the platform to potentially hundreds of new people.</p></div>
  </div>
  <p class="loopnote">Every device makes every Passport more valuable, and every Passport makes the next device easier to justify.</p>
 </div>
