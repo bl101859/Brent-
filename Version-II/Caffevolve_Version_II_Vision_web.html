@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Vision for Caffevolve™ Version II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Tokens follow the Caffevolve portal. Print switches to a light, low-ink scheme. */
+:root{
+  --espresso:#2A1710; --roast:#3B2216; --roast-2:#48291B;
+  --copper:#B8753A; --copper-dim:rgba(184,117,58,0.45); --copper-faint:rgba(184,117,58,0.12);
+  --gold:#D4A853; --cream:#F2E9D8; --cream-dim:rgba(242,233,216,0.72); --clay:#9C8370;
+  --line:rgba(242,233,216,0.16);
+  --bg:var(--espresso); --ink:var(--cream); --ink-dim:var(--cream-dim); --head:var(--cream);
+  --card:var(--roast); --card-line:rgba(184,117,58,0.35); --accent:var(--copper); --accent2:var(--gold);
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'Inter',-apple-system,sans-serif; --mono:'DM Mono','Courier New',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6}
+.page{max-width:1000px;margin:0 auto;padding:48px 28px 32px}
+.eyebrow{font:400 .72rem/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.eyebrow::before{content:'';width:26px;height:1px;background:var(--accent)}
+h1{font:500 clamp(2.6rem,7vw,4.6rem)/1.02 var(--serif);color:var(--head);letter-spacing:-.01em;margin-bottom:.7rem}
+h1 em{font-style:italic;color:var(--accent2)}
+.sub{font:italic 500 clamp(1.25rem,2.6vw,1.6rem)/1.3 var(--serif);color:var(--ink);max-width:30em}
+.intro{margin-top:1.1rem;max-width:44em;color:var(--ink-dim);font-size:.95rem}
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:28px;align-items:center}
+.viz{width:100%;height:auto}
+.viz .ring{fill:var(--card);stroke:var(--accent);stroke-width:1.4}
+.viz .ln{stroke:var(--accent);stroke-width:1.4;stroke-dasharray:3 5;fill:none;opacity:.8}
+.viz .ic{stroke:var(--accent2);stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.viz .ph{fill:var(--card);stroke:var(--accent2);stroke-width:1.6}
+.viz .scr{fill:var(--espresso)}
+.viz .lab{font:400 11px var(--mono);fill:var(--accent2);letter-spacing:.18em;text-anchor:middle}
+.viz .glow{display:block}
+.panels{display:grid;grid-template-columns:1.15fr 1fr;gap:16px;margin:28px 0 12px}
+.panel{background:var(--card);border:1px solid var(--card-line);border-top:2px solid var(--accent);border-radius:14px;padding:20px 20px 16px}
+.panel .tag{font:400 .68rem/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.panel h3{font:500 1.9rem/1.1 var(--serif);color:var(--head);margin:.45rem 0 .6rem}
+.panel p{font-size:.88rem;color:var(--ink-dim);line-height:1.6;margin-bottom:.6rem}
+.panel .contrast{font-style:italic;color:var(--clay);font-size:.82rem}
+.also{display:flex;align-items:center;gap:12px;border:1px dashed var(--card-line);border-radius:10px;padding:9px 14px;margin-bottom:24px;font-size:.84rem;color:var(--ink-dim)}
+.also b{font:400 .66rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.grow{border-top:1px solid var(--line);padding-top:20px}
+h2{font:500 1.7rem/1.1 var(--serif);color:var(--head);margin-bottom:.4rem}
+.loop{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+.lp{background:var(--card);border:1px solid var(--card-line);border-radius:12px;padding:13px 13px 11px;position:relative}
+.lp .k{font:400 .66rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.lp p{font-size:.8rem;color:var(--ink-dim);line-height:1.5;margin-top:.45rem}
+.lp:not(:last-child)::after{content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:var(--accent);font:400 15px var(--sans);z-index:2}
+.loopnote{margin-top:.7rem;font:italic 500 1.15rem/1.3 var(--serif);color:var(--accent2)}
+.roadwrap{margin-top:20px;border-top:1px solid var(--line);padding-top:16px}
+.road{display:flex}
+.step{flex:1;position:relative;padding:13px 10px 0 0}
+.step::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--copper-dim)}
+.step.now::before{background:var(--accent)}
+.step::after{content:"";position:absolute;top:-4px;left:0;width:10px;height:10px;border-radius:50%;background:var(--copper-dim)}
+.step.now::after{background:var(--accent)}
+.step small{display:block;font:400 .64rem/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.step span{display:block;font-size:.8rem;color:var(--ink-dim);margin-top:.35rem;line-height:1.4}
+.close{margin-top:22px;padding-top:16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:24px;align-items:center}
+.close q{font:italic 500 clamp(1.5rem,3vw,2rem)/1.2 var(--serif);color:var(--accent2);quotes:none}
+.badge{font:400 .64rem/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--espresso);background:var(--gold);padding:7px 11px;border-radius:99px;white-space:nowrap}
+.fine{margin-top:16px;font-size:.66rem;color:var(--clay);line-height:1.5}
+@media(max-width:860px){.panels,.hero{grid-template-columns:1fr}.loop{grid-template-columns:1fr 1fr}.lp::after{display:none}.road{flex-direction:column;gap:14px}.close{flex-direction:column;align-items:flex-start}}
+@media(max-width:520px){.loop{grid-template-columns:1fr}.page{padding:30px 18px}}
+
+/* ── PRINT / PDF: light, low-ink, one letter page ── */
+@page{size:letter;margin:0}
+@media print{
+  :root{--bg:#fff;--ink:#2A1710;--ink-dim:#4a362b;--head:#2A1710;--card:#fff;--card-line:#d9c3a8;--accent:#9A5E2A;--accent2:#7a4a1f;--line:#e4d6c3;--clay:#7a6757;--copper-dim:#d9b48a;--espresso:#fff}
+  html,body{width:8.5in;height:11in;background:#fff}
+  body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-size:11px}
+  .page{max-width:none;padding:.5in .55in .35in}
+  h1{font-size:50px;margin-bottom:6px}.sub{font-size:19px}.intro{font-size:11.5px;margin-top:10px}
+  .hero{grid-template-columns:1.3fr 1fr}
+  .viz .glow{display:none}.viz .scr{fill:#f6efe6}
+  .panels{grid-template-columns:1.15fr 1fr;gap:10px;margin:14px 0 8px}
+  .panel{padding:11px 12px}.panel h3{font-size:21px}.panel p{font-size:10.6px;margin-bottom:5px}.panel .contrast{font-size:9.8px}
+  .also{padding:6px 10px;font-size:10.4px;margin-bottom:12px}
+  .grow{padding-top:11px}h2{font-size:21px}
+  .loop{grid-template-columns:repeat(4,1fr);gap:9px}.lp{padding:8px}.lp p{font-size:9.6px}.loopnote{font-size:14px}
+  .lp:not(:last-child)::after{display:block}
+  .roadwrap{margin-top:10px;padding-top:8px}.road{flex-direction:row}.step span{font-size:10px}
+  .close{margin-top:10px;padding-top:9px;flex-direction:row}.close q{font-size:21px}
+  .badge{background:#fff;color:#9A5E2A;border:1px solid #9A5E2A}
+  .fine{font-size:8.3px;margin-top:9px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hero">
+ <div>
+  <div class="eyebrow">Caffevolve™ · Vision for Version II</div>
+  <h1>One profile.<br><em>Every device.</em></h1>
+  <p class="sub">Take your Caffevolve with you, and shape it on your phone.</p>
+  <p class="intro">Caffevolve already tunes every cup to the person drinking it. Version II takes that personal touch out of the kitchen and connects home, office and café into a single Caffevolve universe.</p>
+ </div>
+ <svg class="viz" viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A phone in the center connected to a home device, an office device and a café device">
+  <defs><radialGradient id="g" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#B8753A" stop-opacity=".30"/><stop offset="1" stop-color="#B8753A" stop-opacity="0"/></radialGradient></defs>
+  <circle class="glow" cx="180" cy="150" r="140" fill="url(#g)"/>
+  <path class="ln" d="M180 150 L70 62"/><path class="ln" d="M180 150 L290 62"/><path class="ln" d="M180 150 L180 252"/>
+  <rect class="ph" x="150" y="106" width="60" height="92" rx="12"/>
+  <rect class="scr" x="156" y="116" width="48" height="66" rx="6"/>
+  <circle class="ic" cx="180" cy="142" r="12"/><path class="ic" d="M174 142 l4 4 l8 -9"/>
+  <path class="ic" d="M164 166h32M168 172h24" opacity=".7"/>
+  <g transform="translate(70,62)"><circle class="ring" r="30"/><path class="ic" d="M-12 4 L0 -8 L12 4 M-8 2 V12 H8 V2"/><text class="lab" y="48">HOME</text></g>
+  <g transform="translate(290,62)"><circle class="ring" r="30"/><rect class="ic" x="-11" y="-12" width="22" height="24" rx="2"/><path class="ic" d="M-5 -6h3M2 -6h3M-5 0h3M2 0h3M-5 6h3M2 6h3"/><text class="lab" y="48">OFFICE</text></g>
+  <g transform="translate(180,252)"><circle class="ring" r="30"/><path class="ic" d="M-12 -8 H10 V6 a8 8 0 0 1 -8 8 H-4 a8 8 0 0 1 -8 -8 Z M10 -4 h4 a4 4 0 0 1 0 8 h-4"/></g>
+  <text class="lab" x="180" y="296">CAFÉ</text>
+ </svg>
+</div>
+
+<div class="panels">
+ <div class="panel">
+  <div class="tag">The big change</div>
+  <h3>Take your Caffevolve with you</h3>
+  <p>Your profile and your active standing go wherever you go. Walk up to any Caffevolve device that has opened its door to Passport, at a café, an office or a friend’s home, and pick up right where you left off when you walked out of the house.</p>
+  <p>You get the full control you have in your own kitchen, an extension of home limited only by what that device carries.</p>
+  <p class="contrast">Today, away from a Caffevolve device, a drink can only be trimmed by size or shot count.</p>
+ </div>
+ <div class="panel">
+  <div class="tag">The second change</div>
+  <h3>Shape it on your phone</h3>
+  <p>Complete most of your profile, your Sub-Profiles and your plans on your phone, wherever is comfortable, with no small-screen fiddling at the device.</p>
+  <p>Your device is where you brew. Your phone is where you shape it.</p>
+ </div>
+</div>
+<div class="also"><b>Also coming</b><span>Pay from your phone and skip the queue.</span></div>
+
+<div class="grow">
+ <h2>How the universe grows</h2>
+ <div class="loop">
+  <div class="lp"><div class="k">Office</div><p>Colleagues meet Caffevolve at work. Some of them bring one home.</p></div>
+  <div class="lp"><div class="k">Home &amp; friends</div><p>Guests at a friend’s home brew their own cup and see what it can do.</p></div>
+  <div class="lp"><div class="k">Café</div><p>Home and office customers walking in show the owner there is demand for the device.</p></div>
+  <div class="lp"><div class="k">More devices</div><p>Once installed, a café device meets potentially hundreds of new people.</p></div>
+ </div>
+ <p class="loopnote">Every device makes every Passport more valuable, and every Passport makes the next device easier to justify.</p>
+</div>
+
+<div class="roadwrap">
+ <div class="road">
+  <div class="step now"><small>Today</small><span>Precisely personalized brewing</span></div>
+  <div class="step"><small>Next</small><span>Phone-first setup and one profile on more than one device</span></div>
+  <div class="step"><small>Then</small><span>Caffevolve Passport at opted-in devices</span></div>
+  <div class="step"><small>Later</small><span>Pay from your phone</span></div>
+ </div>
+</div>
+
+<div class="close">
+ <q>Your coffee knows you. Now it can follow you.</q>
+ <span class="badge">Vision · Draft</span>
+</div>
+<p class="fine">Caffevolve™ Version II is a vision. The features described are planned, are subject to change, and are not available today. “Caffevolve Passport” is a working name. Confidential. Draft for review before any external use.</p>
+
+</div>
+</body>
+</html>
