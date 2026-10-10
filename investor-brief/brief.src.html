@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caffevolve Investor Brief</title>
+<style>
+/*FONTS*/
+:root{
+  --cream:#F5F1EA; --cream-dark:#EDE8DF; --paper:#FDFCFA;
+  --ink:#18140F; --ink-mid:#4A4540; --ink-light:#7C766F; --ink-faint:#C4BFB8;
+  --border:#DDD8CF; --border-light:#EAE6DF;
+  --gold:#B8903A; --gold-light:#F5EDD6; --gold-rule:#C9A84C;
+  --brown-deep:#3D2010; --caff:#4A2C18; --caff-mid:#7A5030; --decaf:#E3CFB0;
+  --green:#1A5C3A; --green-light:#E0F0E8; --blue:#1A4878;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --mono:'DM Mono','Courier New',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#D9D3C8;color:var(--ink);font-family:var(--sans);font-size:9.1px;line-height:1.45}
+@page{size:letter;margin:0}
+
+.page{width:8.5in;height:11in;margin:24px auto;background:var(--paper);padding:.4in .48in .34in;
+  position:relative;overflow:hidden;box-shadow:0 6px 30px rgba(40,25,10,.18);display:flex;flex-direction:column}
+@media print{
+  body{background:none}
+  .page{margin:0;box-shadow:none;page-break-after:always;break-after:page}
+  .page:last-child{page-break-after:auto;break-after:auto}
+}
+
+/* masthead */
+.mast{display:flex;justify-content:space-between;align-items:center;padding-bottom:7px;border-bottom:1px solid var(--ink)}
+.word{font:600 17px/1 var(--serif);letter-spacing:.24em;color:var(--brown-deep)}
+.word sup{font-size:8px;letter-spacing:0;vertical-align:top;position:relative;top:-1px}
+.mast .meta{font:400 7.4px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light)}
+.mast .meta b{color:var(--gold);font-weight:500}
+
+.eyebrow{font:500 7.4px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--gold)}
+h1{font:500 44px/1 var(--serif);letter-spacing:-.01em;color:var(--ink);margin:6px 0 6px}
+h1 em{font-style:italic;color:var(--caff-mid)}
+h2{font:600 19px/1.08 var(--serif);color:var(--ink);letter-spacing:-.003em}
+h2 em{font-style:italic;color:var(--caff-mid);font-weight:500}
+h3{font:600 12.4px/1.15 var(--serif);color:var(--ink)}
+p{color:var(--ink-mid)}
+b,strong{color:var(--ink);font-weight:600}
+.lede{font:500 13.4px/1.34 var(--serif);color:var(--ink-mid);max-width:39em}
+.lede strong{color:var(--brown-deep);font-weight:600}
+.sec-label{font:500 7px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light);margin-bottom:5px}
+.ref{font:400 6.4px/1.3 var(--mono);color:var(--gold);letter-spacing:.02em;margin-top:3px}
+.rule{height:1px;background:var(--border);margin:10px 0}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.12fr 1fr;gap:20px;margin-top:12px;align-items:start}
+.pa{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.pa > div{border-top:2px solid var(--ink);padding-top:6px}
+.pa > div.ans{border-top-color:var(--gold)}
+.pa h3{margin-bottom:3px}
+
+/* chart */
+.chart{background:var(--cream);border:1px solid var(--border-light);border-radius:8px;padding:10px 12px 8px}
+.chart .t{font:600 12.4px/1.1 var(--serif);color:var(--ink)}
+.chart .s{font-size:7.6px;color:var(--ink-light);margin-top:1px}
+.chart svg{display:block;width:100%;height:auto;margin-top:4px}
+.chart .cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;border-top:1px solid var(--border);padding-top:6px}
+.chart .cmp div{font-size:7.6px;color:var(--ink-mid);line-height:1.35}
+.chart .cmp .n{font:600 20px/1 var(--serif);color:var(--ink-light);display:block}
+.chart .cmp .yes .n{color:var(--caff)}
+.legend{display:flex;gap:12px;font-size:7px;color:var(--ink-light);margin-top:2px}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+
+/* components */
+.comps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.comps > div{padding:8px 11px;background:var(--paper)}
+.comps > div + div{border-left:1px solid var(--border)}
+.comps .k{font:500 6.8px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.comps h3{margin:3px 0 2px}
+.comps p{font-size:8.3px;line-height:1.4}
+.comps-cap{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px}
+.comps-cap .q{font:italic 500 11px/1.2 var(--serif);color:var(--caff-mid)}
+
+/* features */
+.feat-head{display:flex;justify-content:space-between;align-items:baseline;margin-top:13px}
+.feats{display:grid;grid-template-columns:1fr 1fr;column-gap:20px;row-gap:8px;margin-top:7px}
+.f{display:grid;grid-template-columns:20px 1fr;gap:6px;padding-top:6px;border-top:1px solid var(--border-light)}
+.f .num{font:500 13px/1 var(--serif);color:var(--gold)}
+.f h3{font-size:11.6px;margin-bottom:1.5px}
+.f p{font-size:8.25px;line-height:1.42}
+
+.foot{margin-top:auto;padding-top:7px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:16px;font-size:6.7px;color:var(--ink-light);line-height:1.4}
+.foot .pg{font-family:var(--mono);letter-spacing:.16em;white-space:nowrap}
+
+/* page 2 */
+.p2top{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;margin-top:11px}
+table.cmp{width:100%;border-collapse:collapse;margin-top:7px;font-size:7.9px}
+table.cmp th{font:500 6.6px/1.25 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);text-align:center;padding:0 3px 5px;vertical-align:bottom;border-bottom:1px solid var(--ink)}
+table.cmp th:first-child{text-align:left}
+table.cmp th.cv{color:var(--brown-deep);font-weight:500}
+table.cmp td{padding:3.6px 3px;border-bottom:1px solid var(--border-light);text-align:center;color:var(--ink-light)}
+table.cmp td:first-child{text-align:left;color:var(--ink-mid)}
+table.cmp td.cv{background:var(--gold-light);color:var(--brown-deep);font-weight:600}
+table.cmp tr:last-child td{border-bottom:none}
+.y{color:var(--green);font-weight:600}
+.cap{font:italic 500 10.6px/1.3 var(--serif);color:var(--caff-mid);margin-top:6px}
+
+.moat{background:var(--cream);border-radius:8px;padding:10px 12px;border:1px solid var(--border-light)}
+.moat ul{list-style:none;margin-top:5px}
+.moat li{font-size:8.1px;color:var(--ink-mid);padding:3.4px 0 3.4px 12px;position:relative;border-top:1px solid var(--border);line-height:1.38}
+.moat li:first-child{border-top:none}
+.moat li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+
+.gtm{margin-top:12px;background:var(--brown-deep);color:var(--cream);border-radius:10px;padding:13px 15px 11px}
+.gtm .eyebrow{color:#D4A853}
+.gtm .eyebrow::before{background:#D4A853}
+.gtm h2{color:#FBF6EC;margin-top:5px;font-size:20px}
+.gtm h2 em{color:#D4A853}
+.gtm .intro{font-size:8.6px;color:rgba(245,241,234,.78);margin-top:4px;max-width:62em}
+.flow{display:grid;grid-template-columns:1fr 16px 1fr 16px 1fr;align-items:stretch;margin-top:9px}
+.step{background:rgba(255,255,255,.06);border:1px solid rgba(212,168,83,.35);border-radius:8px;padding:8px 10px}
+.step .k{font:500 6.6px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#D4A853}
+.step h3{color:#FBF6EC;margin:3px 0 3px;font-size:12.6px}
+.step p{font-size:7.95px;color:rgba(245,241,234,.8);line-height:1.42}
+.step .tier{font:400 6.5px/1 var(--mono);letter-spacing:.12em;color:rgba(212,168,83,.85);margin-top:5px;text-transform:uppercase}
+.arrow{display:flex;align-items:center;justify-content:center;color:#D4A853;font-size:12px}
+.loop{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-top:9px;align-items:start}
+.loop .quote{font:italic 500 11.4px/1.3 var(--serif);color:#FBF6EC}
+.loop .why{font-size:7.9px;color:rgba(245,241,234,.78);line-height:1.42}
+.loop .why b{color:#FBF6EC}
+.road{display:grid;grid-template-columns:repeat(4,1fr);margin-top:9px;border-top:1px solid rgba(212,168,83,.35);padding-top:7px;gap:10px}
+.road div{font-size:7.6px;color:rgba(245,241,234,.8);line-height:1.35}
+.road .k{display:block;font:500 6.6px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#D4A853;margin-bottom:3px}
+.road .now{color:#FBF6EC}
+.gtm .ref{color:rgba(212,168,83,.9);margin-top:6px}
+
+.biz{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:12px}
+.biz > div{border-top:2px solid var(--ink);padding-top:6px}
+.biz h3{margin-bottom:3px}
+.biz p{font-size:8.15px;line-height:1.42}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:6px}
+.kpi{background:var(--cream);border-radius:6px;padding:5px 6px}
+.kpi .v{font:600 16px/1 var(--serif);color:var(--brown-deep)}
+.kpi .l{font-size:6.7px;color:var(--ink-light);margin-top:2px;line-height:1.25}
+.kpi.base{background:var(--gold-light)}
+.small{font-size:6.8px;color:var(--ink-light);margin-top:4px;line-height:1.35}
+
+.ask{display:grid;grid-template-columns:1.05fr 1fr;gap:16px;margin-top:12px;border:1px solid var(--gold-rule);border-radius:10px;padding:10px 13px;background:linear-gradient(180deg,var(--paper),var(--gold-light))}
+.ask .big{font:600 26px/1 var(--serif);color:var(--brown-deep)}
+.ask .terms{font:500 7.2px/1.5 var(--mono);letter-spacing:.06em;color:var(--ink-mid);text-transform:uppercase;margin-top:3px}
+.ask p{font-size:8.1px;line-height:1.42;margin-top:5px}
+.uof{width:100%;border-collapse:collapse;font-size:7.9px}
+.uof td{padding:3.2px 0;border-bottom:1px solid var(--border);color:var(--ink-mid);vertical-align:top}
+.uof td.a{text-align:right;font-weight:600;color:var(--ink);white-space:nowrap;padding-left:8px}
+.uof tr:last-child td{border-bottom:none}
+.contact{margin-top:6px;font-size:8.1px;color:var(--ink-mid)}
+.contact b{font-family:var(--serif);font-size:11px}
+
+
+/* page 1 has more room: larger, more legible type */
+.p1 .pa p{font-size:9.6px;line-height:1.5}
+.p1 .comps p{font-size:9.2px;line-height:1.45}
+.p1 .comps > div{padding:10px 12px}
+.p1 .feats{row-gap:13px;margin-top:9px}
+.p1 .f{padding-top:9px}
+.p1 .f h3{font-size:13px;margin-bottom:3px}
+.p1 .f p{font-size:9.35px;line-height:1.5}
+.p1 .ref{font-size:6.9px;margin-top:4px}
+.p1 .comps-cap{margin-top:16px}
+.p1 .feat-head{margin-top:18px}
+.p1 .feat-head h2{font-size:21px}
+.p1 .hero{margin-top:14px}
+.p2top .moat .q{font:italic 500 11px/1.3 var(--serif);color:var(--caff-mid);margin-top:7px}
+
+/* screen: small widths */
+@media screen and (max-width:860px){
+  body{font-size:11px;background:var(--paper)}
+  .page{width:auto;height:auto;margin:0;padding:24px 16px;box-shadow:none;overflow:visible}
+  .hero,.p2top,.loop,.ask,.pa{grid-template-columns:1fr}
+  .feats,.biz,.road{grid-template-columns:1fr}
+  .comps{grid-template-columns:1fr}
+  .comps > div + div{border-left:none;border-top:1px solid var(--border)}
+  .flow{grid-template-columns:1fr}
+  .arrow{transform:rotate(90deg);height:16px}
+  h1{font-size:36px}
+  .foot{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- ═════════════ PAGE 1 — THE PLATFORM ═════════════ -->
+<section class="page p1">
+  <div class="mast">
+    <div class="word">CAFFEVOLVE<sup>™</sup></div>
+    <div class="meta">Investor Brief · <b>October 2026</b> · Confidential</div>
+  </div>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow" style="margin-top:4px">The Caffeine Management &amp; Delivery Platform</div>
+      <h1>Coffee Without<br>a <em>Curfew.</em></h1>
+      <p class="lede">Caffevolve learns how each person responds to caffeine, works out the right caffeine content for <strong>every cup of the day</strong>, and then brews exactly that, at home, at work and at the café. <strong>Not less coffee. More of the day to enjoy it.</strong></p>
+
+      <div class="pa">
+        <div>
+          <h3>The problem</h3>
+          <p>Every coffee drinker carries two personal limits: past one, the lift turns to jitters; past the other, caffeine still in the system costs the night’s sleep. With no way to see either, people guess, and most simply stop by mid-afternoon. Decaf keeps the ritual but not the lift.</p>
+        </div>
+        <div class="ans">
+          <h3>The answer</h3>
+          <p>Change what is in the cup, not whether you have it. Caffevolve blends caffeinated and decaf beans in the exact ratio each moment allows. <b>The cup is no longer the decision. The blend inside it is.</b></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart" aria-label="Recommended caffeine blend steps down from 100 percent at 6am to 30 percent at 6pm">
+      <div class="t">One person. Five cups. One protected night.</div>
+      <div class="s">Recommended caffeinated share of each cup · expected bedtime 10:30 pm</div>
+      <svg viewBox="0 0 300 150" role="img">
+        <!-- gridlines -->
+        <g stroke="#DDD8CF" stroke-width=".6">
+          <line x1="26" y1="14" x2="296" y2="14"/><line x1="26" y1="52" x2="296" y2="52"/>
+          <line x1="26" y1="90" x2="296" y2="90"/><line x1="26" y1="128" x2="296" y2="128"/>
+        </g>
+        <g font-family="DM Mono,monospace" font-size="6.4" fill="#7C766F" text-anchor="end">
+          <text x="22" y="16">100%</text><text x="22" y="54">67%</text><text x="22" y="92">33%</text><text x="22" y="130">0%</text>
+        </g>
+        <!-- bars: height 114 = 100% ; base y=128 -->
+        <g>
+          <rect x="38"  y="14"  width="34" height="114" rx="2" fill="#4A2C18"/>
+          <rect x="92"  y="14"  width="34" height="11.4" rx="2" fill="#E3CFB0"/><rect x="92" y="25.4" width="34" height="102.6" fill="#4A2C18"/>
+          <rect x="146" y="14"  width="34" height="28.5" rx="2" fill="#E3CFB0"/><rect x="146" y="42.5" width="34" height="85.5" fill="#4A2C18"/>
+          <rect x="200" y="14"  width="34" height="51.3" rx="2" fill="#E3CFB0"/><rect x="200" y="65.3" width="34" height="62.7" fill="#4A2C18"/>
+          <rect x="254" y="14"  width="34" height="79.8" rx="2" fill="#E3CFB0"/><rect x="254" y="93.8" width="34" height="34.2" fill="#4A2C18"/>
+        </g>
+        <g font-family="Cormorant Garamond,Georgia,serif" font-size="11" font-weight="600" fill="#FDFCFA" text-anchor="middle">
+          <text x="55" y="122">100%</text><text x="109" y="122">90%</text><text x="163" y="122">75%</text><text x="217" y="122">55%</text><text x="271" y="122">30%</text>
+        </g>
+        <g font-family="DM Mono,monospace" font-size="6.6" fill="#4A4540" text-anchor="middle">
+          <text x="55" y="139">6 AM</text><text x="109" y="139">9 AM</text><text x="163" y="139">NOON</text><text x="217" y="139">3 PM</text><text x="271" y="139">6 PM</text>
+        </g>
+      </svg>
+      <div class="legend"><span><i style="background:#4A2C18"></i>Caffeinated bean</span><span><i style="background:#E3CFB0"></i>Decaf bean</span><span>Both ceilings held all day</span></div>
+      <div class="cmp">
+        <div><span class="n">2–3</span>cups, then habit forces a stop. The afternoon runs on whatever is left.</div>
+        <div class="yes"><span class="n">5</span>cups across the whole day, the afternoon strong, and bedtime caffeine just under the limit.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comps-cap">
+    <div class="sec-label" style="margin:0">One system · three components</div>
+    <div class="q">Each one is incomplete alone.</div>
+  </div>
+  <div class="comps" style="margin-top:5px">
+    <div>
+      <div class="k">01 · The brain</div>
+      <h3>Platform Intelligence</h3>
+      <p>Keeps a live estimate of the caffeine active in each person’s system and computes a personal blend recommendation for every cup.</p>
+    </div>
+    <div>
+      <div class="k">02 · Where it becomes coffee</div>
+      <h3>Precision Brewing Device</h3>
+      <p>Dispenses caffeinated and decaf beans in the recommended ratio, blends them before grinding, and brews to SCA Golden Cup standards.</p>
+    </div>
+    <div>
+      <div class="k">03 · Out the door</div>
+      <h3>CaffevolveGo</h3>
+      <p>The companion app that logs cups had elsewhere and recommends drinks at the office, café or store that fit the person’s limits.</p>
+    </div>
+  </div>
+
+  <div class="feat-head">
+    <h2>What no one else has built</h2>
+    <div class="sec-label" style="margin:0">Every feature below runs in the working prototype</div>
+  </div>
+  <div class="feats">
+    <div class="f"><div class="num">01</div><div>
+      <h3>Caffeine Behavior Instrument</h3>
+      <p>Plain, everyday questions (how many drinks before you feel wired, the latest caffeine that still lets you sleep) become a personal Wake Hours Ceiling, Bedtime Ceiling and Caffeine Decay Rate. No lab test, no wearable.</p>
+      <div class="ref">Prototype · su8Compute()</div>
+    </div></div>
+    <div class="f"><div class="num">02</div><div>
+      <h3>Dual-ceiling blend engine</h3>
+      <p>Each cup is tested against both limits at once: will it overstimulate right now, and what will still be active at bedtime? The strongest blend that clears both becomes the recommendation.</p>
+      <div class="ref">Prototype · computeRecommendedBlend()</div>
+    </div></div>
+    <div class="f"><div class="num">03</div><div>
+      <h3>A live 24-hour caffeine standing</h3>
+      <p>Every logged cup, home or away, decays at the person’s own rate, and leftover caffeine carries past midnight into the next day. Recommendations always start from the whole picture.</p>
+      <div class="ref">Prototype · eceDecayedMg(), getHalfLifeMins(), midnight carry-forward</div>
+    </div></div>
+    <div class="f"><div class="num">04</div><div>
+      <h3>Blend-then-grind brewing</h3>
+      <p>Two hoppers, one caffeinated and one decaf, feed a single grinder so caffeine is evenly distributed. Flavor and wellness additives are released into the coffee stream. Filed as patent-pending apparatus claims.</p>
+      <div class="ref">Prototype · hopperConfig (A caffeinated, B decaf)</div>
+    </div></div>
+    <div class="f"><div class="num">05</div><div>
+      <h3>Offsite Advisory System</h3>
+      <p>In front of a menu, the user picks worksite, coffee shop or convenience store. CaffevolveGo shows the full venue menu and ranks first the drinks that fit, before the order is placed.</p>
+      <div class="ref">Prototype · oasCompute(), oasRenderDrinks()</div>
+    </div></div>
+    <div class="f"><div class="num">06</div><div>
+      <h3>Plan my Day</h3>
+      <p>Lay out the whole day and see its peak and bedtime level before the first cup. Protect the one drink you won’t give up, and one tap suggests the smallest changes that bring the day back under. A saved plan resurfaces at each brew.</p>
+      <div class="ref">Prototype · pmdProject(), pmdComputeFix(), pmdReminderMatch()</div>
+    </div></div>
+    <div class="f"><div class="num">07</div><div>
+      <h3>Sub-Profiles</h3>
+      <p>Up to six day-and-time windows on the premium tier (three on others) that set strength and additives automatically. About five minutes to set up once, then a few seconds to start every brew.</p>
+      <div class="ref">Prototype · getActiveSubProfile(), MAX_SUB_PROFILES</div>
+    </div></div>
+    <div class="f"><div class="num">08</div><div>
+      <h3>An advisor, never a gatekeeper</h3>
+      <p>Any recommendation can be accepted, adjusted or overridden, and the device brews whatever the user chooses. The platform recommends; the person decides.</p>
+      <div class="ref">Prototype · manual blend override (brewSession.isManual)</div>
+    </div></div>
+  </div>
+
+  <div class="foot">
+    <div>Prototype references name the functions in the Caffevolve UX prototype that implement each feature. The five-cup day is an illustrative platform output for one profile. Caffevolve™ is a patent-pending platform built for licensing to premium appliance manufacturers.</div>
+    <div class="pg">01 / 02</div>
+  </div>
+</section>
+
+<!-- ═════════════ PAGE 2 — DIFFERENCE, MARKET ENTRY, BUSINESS ═════════════ -->
+<section class="page">
+  <div class="mast">
+    <div class="word">CAFFEVOLVE<sup>™</sup></div>
+    <div class="meta">Investor Brief · <b>October 2026</b> · Confidential</div>
+  </div>
+
+  <div class="p2top">
+    <div>
+      <div class="eyebrow">How it is different</div>
+      <h2 style="margin-top:5px">Everything else <em>remembers.</em> Caffevolve <em>reasons, and acts.</em></h2>
+      <table class="cmp">
+        <thead><tr>
+          <th style="width:34%"></th>
+          <th>Connected premium machines</th>
+          <th>Caffeine-tracking apps</th>
+          <th>Decaf &amp; half-caf</th>
+          <th class="cv">Caffevolve</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Learns how <b>you</b> respond to caffeine</td><td>—</td><td>Some</td><td>—</td><td class="cv">✓</td></tr>
+          <tr><td>Tracks caffeine still in your system</td><td>—</td><td class="y">✓</td><td>—</td><td class="cv">✓</td></tr>
+          <tr><td>Protects tonight’s sleep before you drink</td><td>—</td><td>Partly</td><td>By removing caffeine</td><td class="cv">✓</td></tr>
+          <tr><td>Changes the caffeine inside the cup</td><td>—</td><td>—</td><td>One fixed ratio</td><td class="cv">Every cup</td></tr>
+          <tr><td>Brews the recommendation</td><td class="y">✓</td><td>—</td><td class="y">✓</td><td class="cv">✓</td></tr>
+          <tr><td>Advises at work and the café</td><td>—</td><td>Logging only</td><td>—</td><td class="cv">✓</td></tr>
+        </tbody>
+      </table>
+      <p class="cap">Connected machines save your favorite drink and start from your phone. Tracking apps can count caffeine but cannot change the cup. No existing product pairs a brewer, an app and a reasoning layer to manage caffeine.</p>
+    </div>
+
+    <div class="moat">
+      <div class="sec-label">The moat</div>
+      <h3>The housing can be copied. The mechanisms and the intelligence cannot.</h3>
+      <ul>
+        <li><b>Two provisional patents filed</b>, February 2026 (USPTO 63/975,562) and June 2026, with utility filing targeted for Q4 2026.</li>
+        <li><b>Seven independent and eleven dependent claim candidates</b> across hardware, method and system: blend-then-grind, in-stream additives, the behavior instrument, the dual-ceiling engine, adaptive feedback and the offsite advisor.</li>
+        <li><b>CAFFEVOLVE™ trademark</b>, Class 11, Notice of Allowance issued.</li>
+        <li><b>The account follows the person</b>, not the machine, across every licensee’s hardware. No single manufacturer can build that alone.</li>
+      </ul>
+      <div class="q">A competitor can copy the box. Matching the result means performing the claimed process.</div>
+    </div>
+  </div>
+
+  <div class="gtm">
+    <div class="eyebrow">The market-entry plan</div>
+    <h2>Commercial first. <em>The office and café sell the home.</em></h2>
+    <p class="intro">Selling a home unit cold asks a buyer to pay for an unfamiliar experience before they have felt it once. So Caffevolve launches where people already drink their afternoon coffee and lets them live inside the full platform, every day, at zero personal risk. Each commercial placement is an onboarding engine, not a demo.</p>
+    <div class="flow">
+      <div class="step">
+        <div class="k">Step 1 · Office</div>
+        <h3>The sharp tip</h3>
+        <p>One buyer, the employer, equips a whole office at once from the amenity budget that already funds the espresso machine. Every workday cup builds an employee’s profile, right where the afternoon cutoff hurts most.</p>
+        <div class="tier">Culminara Office</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <div class="k">Step 2 · Café</div>
+        <h3>The scale</h3>
+        <p>A self-serve station away from the barista line. Drip customers are served in seconds, the espresso queue moves faster, and each installed device introduces the platform to potentially hundreds of people.</p>
+        <div class="tier">Culminara Caffè</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <div class="k">Step 3 · Home</div>
+        <h3>The conversion</h3>
+        <p>By the time they shop, their profile already knows them. The home purchase stops being a new gadget and becomes continuity of something that already works, which makes the consumer arena warm instead of cold.</p>
+        <div class="tier">Originara · Advancara</div>
+      </div>
+    </div>
+    <div class="loop">
+      <div class="quote">Every device makes every profile more valuable, and every profile makes the next device easier to justify.</div>
+      <div class="why"><b>Why this isn’t Keurig’s office play.</b> Keurig’s office unit introduced a generic machine. A Caffevolve placement builds a personal profile at work that the user carries home, a switching cost the commercial channel creates on the licensee’s behalf.</div>
+    </div>
+    <div class="road">
+      <div class="now"><span class="k">Today</span>Personalized brewing at home and in the office, with CaffevolveGo advising away</div>
+      <div><span class="k">Next</span>Phone-first setup, and one profile on more than one device</div>
+      <div><span class="k">Then</span>Caffevolve Passport: walk up to any opted-in device and pick up where you left off</div>
+      <div><span class="k">Later</span>Pay from your phone and skip the queue</div>
+    </div>
+    <div class="ref">In the prototype today: an office device brews against the same personal profile and logs to the same day (officeBrew(), setOfficeCaffevolve()); four device tiers are configured (DEVICE_TIER). Next, Then and Later are planned Version II features; “Passport” is a working name.</div>
+  </div>
+
+  <div class="biz">
+    <div>
+      <h3>Asset-light licensing</h3>
+      <p>Caffevolve does not build appliances. It licenses the complete platform to premium manufacturers and earns a royalty on every unit sold. Tiers differ in scale (capacity, profiles, additives), never in intelligence. Licensing targets include Breville, De’Longhi, Jura, Philips, Ninja and Fellow.</p>
+      <div class="small">Named as targets for licensing conversations, not existing partners.</div>
+    </div>
+    <div>
+      <h3>The shelf it sits on</h3>
+      <div class="kpis" style="grid-template-columns:1fr 1fr">
+        <div class="kpi"><div class="v">$7.4B</div><div class="l">Premium espresso &amp; capsule machines, 2025, ~5%/yr</div></div>
+        <div class="kpi"><div class="v">$1.1B</div><div class="l">Super-automatic bean-to-cup, 2024, ~7%/yr</div></div>
+      </div>
+      <div class="small">Global. Fortune Business Insights (2026); DataHorizzon Research (2024). The connected, app-paired slice is growing fastest but is not yet consistently measured.</div>
+    </div>
+    <div>
+      <h3>Five-year royalty model</h3>
+      <div class="kpis">
+        <div class="kpi"><div class="v">~$0.7M</div><div class="l">1 licensee</div></div>
+        <div class="kpi base"><div class="v">~$1.7M</div><div class="l">2 licensees · base</div></div>
+        <div class="kpi"><div class="v">~$4M+</div><div class="l">4 licensees</div></div>
+      </div>
+      <div class="small">Cumulative, seeded demand only, with direct home sales held at zero. Commercial units carry about 79% of base-case royalty. A directional model, not a forecast.</div>
+    </div>
+  </div>
+
+  <div class="ask">
+    <div>
+      <div class="sec-label">The ask</div>
+      <div class="big">$250,000 pre-seed</div>
+      <div class="terms">Five $50K post-money SAFEs · $6M cap · MFN + pro rata</div>
+      <p><b>Built before funded.</b> A single founder with a prior successful exit and coffee-industry operating experience has taken the platform this far without outside capital: a 150+ screen interactive prototype past its 200th iteration, two provisional patents, an allowed trademark, a full platform reference and a live site at caffevolvetech.com.</p>
+      <div class="contact"><b>Brent Langevin</b>, Founder · Caffevolve Inc. · brent.langevin@caffevolvetech.com</div>
+    </div>
+    <div>
+      <div class="sec-label">Use of funds · 18 months</div>
+      <table class="uof">
+        <tr><td>Hardware &amp; engineering: three proof-of-concept units of the brewing device and CaffevolveGo, plus manufacturability review</td><td class="a">$110K</td></tr>
+        <tr><td>IP prosecution, the utility patent filing and trademark work</td><td class="a">$50K</td></tr>
+        <tr><td>Founder expense reimbursement and supplemental compensation</td><td class="a">$70K</td></tr>
+        <tr><td>Contingency for hardware and legal timelines</td><td class="a">$20K</td></tr>
+      </table>
+      <p style="margin-top:4px">Goal: secure full IP protection and bring the platform to its first licensee agreement.</p>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div>Confidential. Provided under NDA. Not an offer to sell securities. Royalty figures are directional outputs of the Caffevolve royalty model, not forecasts. Market figures are as published by each firm. Full terms are in the Pre-Seed SAFE Financing Summary.</div>
+    <div class="pg">02 / 02</div>
+  </div>
+</section>
+
+</body>
+</html>
