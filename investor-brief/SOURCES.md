@@ -43,3 +43,5 @@ All line numbers refer to `caffevolve_prototype_web_current.html` on branch
 - Market: Fortune Business Insights ($7.4B, 2025, ~5.1%/yr) and DataHorizzon Research ($1.1B, 2024, ~7.2%/yr), as cited in the portal and royalty one-pager.
 - Royalty: Low / Base / High = $735K / $1.74M / $4.16M five-year total, seeded-only; commercial share 79% (royalty model v4 base case).
 - Round: $250K as five $50K post-money SAFEs, $6M cap, MFN + pro rata; use of proceeds per portal Round Structure (deck's $15K engineering + $95K prototype = the portal's $110K hardware line).
+
+**Feature 04 wording (Dispense, Blend, Grind & Brew):** gravimetric dispensing into a blending chamber with agitator arm, burr grinder, additives dispensed into the brew after extraction, single cup or full carafe. Source: `Caffevolve_Platform_Reference_web_v71.html` on `claude/gifted-goldberg-i5962c` (Hardware: dual hoppers, blending chamber, grind system, carafe).
