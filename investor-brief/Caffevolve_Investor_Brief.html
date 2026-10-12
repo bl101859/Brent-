@@ -131,6 +131,18 @@ b,strong{color:var(--ink);font-weight:600}
 .prob p{font-size:9.4px;line-height:1.5}
 .prob1 .open,.prob .open{font:italic 500 11.4px/1 var(--serif);color:var(--caff-mid)}
 .page > *{flex-shrink:0}
+.story .blk{border-top:2px solid var(--ink);padding-top:5px}
+.story .blk + .blk{margin-top:9px}
+.story .blk.answer{border-top-color:var(--gold)}
+.story h3{margin-bottom:2px}
+.story p{font-size:9.3px;line-height:1.48}
+.story p + p{margin-top:4px}
+.story .open{font:italic 500 11.4px/1 var(--serif);color:var(--caff-mid)}
+.p1 .hero{grid-template-columns:1.08fr 1fr;align-items:center}
+.intro-plat{margin-top:14px;padding-top:10px;border-top:1px solid var(--ink)}
+.ip-row{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;margin-top:5px}
+.intro-plat h1{font-size:34px;margin:0;white-space:nowrap}
+.intro-plat .lede{font-size:12.6px;line-height:1.35}
 /* chart */
 .chart{background:var(--cream);border:1px solid var(--border-light);border-radius:8px;padding:10px 12px 8px}
 .chart .t{font:600 12.4px/1.1 var(--serif);color:var(--ink)}
@@ -248,7 +260,7 @@ table.cmp tr:last-child td{border-bottom:none}
 @media screen and (max-width:860px){
   body{font-size:11px;background:var(--paper)}
   .page{width:auto;height:auto;margin:0;padding:24px 16px;box-shadow:none;overflow:visible}
-  .hero,.p2top,.loop,.ask,.pa,.prob{grid-template-columns:1fr}
+  .hero,.p2top,.loop,.ask,.pa,.prob,.ip-row{grid-template-columns:1fr}
   .feats,.biz,.road{grid-template-columns:1fr}
   .comps{grid-template-columns:1fr}
   .comps > div + div{border-left:none;border-top:1px solid var(--border)}
@@ -256,6 +268,7 @@ table.cmp tr:last-child td{border-bottom:none}
   .arrow{transform:rotate(90deg);height:16px}
   h1{font-size:36px}
   .foot{flex-direction:column}
+  .intro-plat h1{white-space:normal}
 }
 </style>
 </head>
@@ -269,14 +282,19 @@ table.cmp tr:last-child td{border-bottom:none}
   </div>
 
   <div class="hero">
-    <div>
-      <div class="eyebrow" style="margin-top:4px">The Caffeine Management &amp; Delivery Platform</div>
-      <h1>Coffee Without<br>a <em>Curfew.</em></h1>
-      <p class="lede">Caffevolve learns how each person responds to caffeine, works out the right caffeine content for <strong>every cup of the day</strong>, and then brews exactly that, at home, at work and at the café. <strong>Not less coffee. More of the day to enjoy it.</strong></p>
-
-      <div class="prob1">
-        <h3>The problem</h3>
+    <div class="story">
+      <div class="blk">
+        <h3>The Problem</h3>
         <p><span class="open">The slumber that clears. The mind that arrives.</span> Every day, coffee creates the conditions for our best work and our most human moments. But that lift follows a curve, not a straight line. Beyond a personal threshold the gains reverse: agitation replaces calm, and long after the cup is finished, the same compound that sharpened the afternoon quietly steals the night.</p>
+      </div>
+      <div class="blk">
+        <h3>The Reaction</h3>
+        <p><span class="open">So they stop.</span> Not because the work is done, but because too many restless nights taught them that another cup after a certain point is a gamble. What they give up is real: the meeting that needed one more hour of sharp thinking, the afternoon that could have finished strong instead of fading quietly away.</p>
+      </div>
+      <div class="blk answer">
+        <h3>The Answer</h3>
+        <p>Every coffee drinker has a personal caffeine threshold, a limit set by their own body before caffeine starts working against them. Each morning, that threshold becomes a daily allowance: a budget you draw from, cup by cup. Each standard cup claims a fixed slice, so the choice has always been binary. “Yes, I’ll have another cup.” Or, “No, I really shouldn’t.” Period.</p>
+        <p>Caffevolve draws on that same budget with far more precision. It calculates the right caffeine dose for every cup, stretching the same threshold across more hours of the day. <b>Not fewer cups. More cups, each one right-sized.</b></p>
       </div>
     </div>
 
@@ -315,14 +333,11 @@ table.cmp tr:last-child td{border-bottom:none}
     </div>
   </div>
 
-  <div class="prob">
-    <div>
-      <h3>So they stop.</h3>
-      <p>Not because the work is done, but because too many restless nights taught them that another cup after a certain point is a gamble. What they give up is real: the meeting that needed one more hour of sharp thinking, the afternoon that could have finished strong instead of fading quietly away.</p>
-    </div>
-    <div class="answer">
-      <h3>The answer</h3>
-      <p>Change what is in the cup, not whether you have it. Caffevolve blends caffeinated and decaf beans in the exact ratio each moment allows. <b>The cup is no longer the decision. The blend inside it is.</b></p>
+  <div class="intro-plat">
+    <div class="eyebrow">The Caffeine Management &amp; Delivery Platform</div>
+    <div class="ip-row">
+      <h1>Coffee Without a <em>Curfew.</em></h1>
+      <p class="lede">Caffevolve learns how each person responds to caffeine, works out the right caffeine content for <strong>every cup of the day</strong>, and then brews exactly that, at home, at work and at the café.</p>
     </div>
   </div>
 
