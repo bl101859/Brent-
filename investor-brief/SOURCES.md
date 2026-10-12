@@ -45,3 +45,5 @@ All line numbers refer to `caffevolve_prototype_web_current.html` on branch
 - Round: $250K as five $50K post-money SAFEs, $6M cap, MFN + pro rata; use of proceeds per portal Round Structure (deck's $15K engineering + $95K prototype = the portal's $110K hardware line).
 
 **Feature 04 wording (Dispense, Blend, Grind & Brew):** gravimetric dispensing into a blending chamber with agitator arm, burr grinder, additives dispensed into the brew after extraction, single cup or full carafe. Source: `Caffevolve_Platform_Reference_web_v71.html` on `claude/gifted-goldberg-i5962c` (Hardware: dual hoppers, blending chamber, grind system, carafe).
+
+**Feature 06 reminder ("reminds you each time you reach for a drink"):** `pmdShowReminder()` is called on the brew screens (PS2a, BN-HTB, BN-Decaf) and the CaffevolveGo screen (CGO), firing when a planned drink is within ±90 min (`PMD_REMINDER_WINDOW`, `pmdReminderMatch()`). Prototype ~line 9096–9111, 21209.
