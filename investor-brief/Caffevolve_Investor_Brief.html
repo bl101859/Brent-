@@ -301,47 +301,55 @@ table.cmp tr:last-child td{border-bottom:none}
     <div class="chart" aria-label="Today: three full-strength cups at 6am, 9am and noon, then none. The Caffevolve way: five cups at 100, 90, 75, 55 and 30 percent caffeinated">
       <div class="t">Three cups to five, the Caffevolve way.</div>
       <div class="s">Caffeinated share of each cup across one day</div>
-      <svg viewBox="0 0 300 186" role="img">
+<svg viewBox="0 0 320 186" role="img">
         <style>
           .pct{font-family:'Cormorant Garamond',Georgia,serif;font-size:10.5px;font-weight:600;fill:#FDFCFA;text-anchor:middle}
-          .stop{font-family:'DM Mono',monospace;font-size:5.8px;fill:#7C766F;text-anchor:middle;letter-spacing:.06em}
-          .grp{font-family:'DM Mono',monospace;font-size:6.4px;letter-spacing:.14em;fill:#7C766F}
-          .grp.cv{fill:#B8903A}
+          .stop{font-family:'DM Mono',monospace;font-size:5.6px;fill:#7C766F;text-anchor:middle;letter-spacing:.06em}
+          .desc{font-family:'DM Mono',monospace;font-size:5.9px;letter-spacing:.12em;fill:#7C766F}
+          .row{font-family:'Cormorant Garamond',Georgia,serif;font-size:13px;font-weight:600;fill:#7C766F}
+          .row.cv{fill:#4A2C18}
           .tm{font-family:'DM Mono',monospace;font-size:6.6px;fill:#4A4540;text-anchor:middle}
         </style>
-        <text x="38" y="9" class="grp">TODAY · THREE FULL-STRENGTH CUPS, THEN STOP</text>
-        <line x1="34" y1="76" x2="292" y2="76" stroke="#DDD8CF" stroke-width=".6"/>
-          <rect x="38" y="14.0" width="34" height="62.0" rx="2" fill="#4A2C18"/>
-          <text x="55" y="70" class="pct">100%</text>
-          <rect x="92" y="14.0" width="34" height="62.0" rx="2" fill="#4A2C18"/>
-          <text x="109" y="70" class="pct">100%</text>
-          <rect x="146" y="14.0" width="34" height="62.0" rx="2" fill="#4A2C18"/>
-          <text x="163" y="70" class="pct">100%</text>
-          <rect x="200" y="14" width="34" height="62" rx="2" fill="none" stroke="#C4BFB8" stroke-width=".8" stroke-dasharray="3 3"/>
-          <text x="217" y="48.0" class="stop">no cup</text>
-          <rect x="254" y="14" width="34" height="62" rx="2" fill="none" stroke="#C4BFB8" stroke-width=".8" stroke-dasharray="3 3"/>
-          <text x="271" y="48.0" class="stop">no cup</text>
-        <text x="38" y="96" class="grp cv">THE CAFFEVOLVE WAY · FIVE RIGHT-SIZED CUPS</text>
-        <line x1="34" y1="163" x2="292" y2="163" stroke="#DDD8CF" stroke-width=".6"/>
-          <rect x="38" y="101.0" width="34" height="62.0" rx="2" fill="#4A2C18"/>
-          <text x="55" y="157" class="pct">100%</text>
-          <rect x="92" y="101" width="34" height="6.2" rx="2" fill="#E3CFB0"/>
-          <rect x="92" y="107.2" width="34" height="55.8" fill="#4A2C18"/>
-          <text x="109" y="157" class="pct">90%</text>
-          <rect x="146" y="101" width="34" height="15.5" rx="2" fill="#E3CFB0"/>
-          <rect x="146" y="116.5" width="34" height="46.5" fill="#4A2C18"/>
-          <text x="163" y="157" class="pct">75%</text>
-          <rect x="200" y="101" width="34" height="27.9" rx="2" fill="#E3CFB0"/>
-          <rect x="200" y="128.9" width="34" height="34.1" fill="#4A2C18"/>
-          <text x="217" y="157" class="pct">55%</text>
-          <rect x="254" y="101" width="34" height="43.4" rx="2" fill="#E3CFB0"/>
-          <rect x="254" y="144.4" width="34" height="18.6" fill="#4A2C18"/>
-          <text x="271" y="157" class="pct">30%</text>
-        <g class="tm">
-          <text x="55" y="174" class="tm">6 AM</text><text x="109" y="174" class="tm">9 AM</text><text x="163" y="174" class="tm">NOON</text><text x="217" y="174" class="tm">3 PM</text><text x="271" y="174" class="tm">6 PM</text>
-        </g>
+        <text x="0" y="49.0" class="row">Today</text>
+        <text x="0" y="129.0" class="row cv">The</text>
+        <text x="0" y="143.0" class="row cv">Caffevolve</text>
+        <text x="0" y="157.0" class="row cv">Way</text>
+        <text x="79" y="9" class="desc">THREE FULL-STRENGTH CUPS, THEN STOP</text>
+        <text x="79" y="96" class="desc">FIVE RIGHT-SIZED CUPS</text>
+        <line x1="74" y1="76" x2="318" y2="76" stroke="#DDD8CF" stroke-width=".6"/>
+        <line x1="74" y1="163" x2="318" y2="163" stroke="#DDD8CF" stroke-width=".6"/>
+        <rect x="79.0" y="14" width="30" height="62" rx="2" fill="#9C968E"/>
+        <text x="94" y="70" class="pct">100%</text>
+        <rect x="131.0" y="14" width="30" height="62" rx="2" fill="#9C968E"/>
+        <text x="146" y="70" class="pct">100%</text>
+        <rect x="183.0" y="14" width="30" height="62" rx="2" fill="#9C968E"/>
+        <text x="198" y="70" class="pct">100%</text>
+        <rect x="235.0" y="14" width="30" height="62" rx="2" fill="none" stroke="#B9B3AB" stroke-width=".8" stroke-dasharray="3 3"/>
+        <text x="250" y="47.0" class="stop">no cup</text>
+        <rect x="287.0" y="14" width="30" height="62" rx="2" fill="none" stroke="#B9B3AB" stroke-width=".8" stroke-dasharray="3 3"/>
+        <text x="302" y="47.0" class="stop">no cup</text>
+        <rect x="79.0" y="101.0" width="30" height="62.0" fill="#4A2C18"/>
+        <rect x="79.0" y="101" width="30" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="94" y="157" class="pct">100%</text>
+        <rect x="131.0" y="101" width="30" height="6.2" fill="#E3CFB0"/>
+        <rect x="131.0" y="107.2" width="30" height="55.8" fill="#4A2C18"/>
+        <rect x="131.0" y="101" width="30" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="146" y="157" class="pct">90%</text>
+        <rect x="183.0" y="101" width="30" height="15.5" fill="#E3CFB0"/>
+        <rect x="183.0" y="116.5" width="30" height="46.5" fill="#4A2C18"/>
+        <rect x="183.0" y="101" width="30" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="198" y="157" class="pct">75%</text>
+        <rect x="235.0" y="101" width="30" height="27.9" fill="#E3CFB0"/>
+        <rect x="235.0" y="128.9" width="30" height="34.1" fill="#4A2C18"/>
+        <rect x="235.0" y="101" width="30" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="250" y="157" class="pct">55%</text>
+        <rect x="287.0" y="101" width="30" height="43.4" fill="#E3CFB0"/>
+        <rect x="287.0" y="144.4" width="30" height="18.6" fill="#4A2C18"/>
+        <rect x="287.0" y="101" width="30" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="302" y="157" class="pct">30%</text>
+        <text x="94" y="174" class="tm">6 AM</text><text x="146" y="174" class="tm">9 AM</text><text x="198" y="174" class="tm">NOON</text><text x="250" y="174" class="tm">3 PM</text><text x="302" y="174" class="tm">6 PM</text>
       </svg>
-      <div class="legend"><span><i style="background:#4A2C18"></i>Caffeinated bean</span><span><i style="background:#E3CFB0"></i>Decaf bean</span></div>
+      <div class="legend"><span><i style="background:#9C968E"></i>Standard full-strength cup</span><span><i style="background:#4A2C18;outline:1px solid #B8903A"></i>Caffeinated bean</span><span><i style="background:#E3CFB0;outline:1px solid #B8903A"></i>Decaf bean</span></div>
       <div class="cmp">
         <div><span class="n">3</span>full-strength cups, then the cutoff. The afternoon runs on whatever is left.</div>
         <div class="yes"><span class="n">5</span>cups across the whole day. The afternoon finishes strong and the night stays protected.</div>
