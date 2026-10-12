@@ -287,37 +287,28 @@ table.cmp tr:last-child td{border-bottom:none}
 .p2top .moat h3{font-size:13px}
 .p2top .moat .q{font-size:11.6px;margin-top:6px}
 
-/* page 2 spread to fill the page */
-.p2 .p2top{margin-top:12px;gap:22px}
-.p2 .leap{font-size:10px;line-height:1.56;margin-top:8px}
-.p2 .p2top .moat li{font-size:9.3px}
-.p2 .p2top .moat h3{font-size:14px}
-.p2 .p2top .moat .q{font-size:12.6px}
-.p2 .gtm{margin-top:15px;padding:15px 17px 13px}
-.p2 .gtm h2{font-size:22px}
-.p2 .gtm .intro{font-size:9.4px;margin-top:6px}
-.p2 .flow{margin-top:12px}
-.p2 .step{padding:10px 12px}
-.p2 .step h3{font-size:13.6px}
-.p2 .step p{font-size:8.6px;line-height:1.45}
-.p2 .step .tier{margin-top:7px}
-.p2 .loop{margin-top:12px}
-.p2 .loop .quote{font-size:12.6px}
-.p2 .loop .why{font-size:8.7px}
-.p2 .biz{margin-top:15px;gap:20px}
-.p2 .biz h3{font-size:14px;margin-bottom:5px}
-.p2 .biz p{font-size:8.8px;line-height:1.45}
-.p2 .kpis{margin-top:8px;gap:6px}
-.p2 .kpi{padding:7px 8px}
-.p2 .kpi .v{font-size:18px}
-.p2 .kpi .l{font-size:7.4px}
-.p2 .small{font-size:7.4px;margin-top:6px}
-.p2 .ask{margin-top:15px;padding:12px 15px}
-.p2 .ask .big{font-size:29px}
-.p2 .ask p{font-size:8.7px;margin-top:6px}
-.p2 .uof{font-size:8.7px}
-.p2 .uof td{padding:4px 0}
-.p2 .contact{font-size:8.9px;margin-top:8px}
+/* three-page layout at standard brief type sizes */
+.page > .z{zoom:var(--z,1.26);flex:1;display:flex;flex-direction:column;min-height:0}
+.page > .z > *{flex-shrink:0}
+.page > .z{justify-content:space-between}
+.page > .z > .foot{margin-top:6px}
+.story p,.p1 .pa p{font-size:9.6px;line-height:1.5}
+.p1 .comps p{font-size:9.4px}
+.p1 .f p{font-size:9.6px;line-height:1.5}
+.leap{font-size:9.6px}
+.p2top .moat li{font-size:9.2px}
+.gtm .intro{font-size:9.4px}
+.step p{font-size:9.2px;line-height:1.45}
+.loop .why{font-size:9.2px}
+.biz p{font-size:9.4px;line-height:1.45}
+.ask p{font-size:9.4px}
+.uof{font-size:9.2px}
+.contact{font-size:9.2px}
+.kpi .l{font-size:7.6px}
+.small{font-size:7.6px}
+.chart .rowcap,.chart .cmp div{font-size:8.4px}
+.legend{font-size:7.6px}
+.foot{font-size:7.2px}
 
 /* screen: small widths */
 @media screen and (max-width:860px){
@@ -339,6 +330,7 @@ table.cmp tr:last-child td{border-bottom:none}
 
 <!-- ═════════════ PAGE 1 — THE PLATFORM ═════════════ -->
 <section class="page p1">
+<div class="z">
   <div class="mast">
     <div class="word">CAFFEVOLVE<sup>™</sup></div>
     <div class="meta">Investor Brief · <b>October 2026</b> · Confidential</div>
@@ -558,6 +550,21 @@ table.cmp tr:last-child td{border-bottom:none}
   </div>
   </div>
 
+  <div class="foot">
+    <div>The five-cup day is an illustrative platform output for one profile. Caffevolve™ is a patent-pending platform built for licensing to premium appliance manufacturers.</div>
+    <div class="pg">01 / 03</div>
+  </div>
+</div>
+</section>
+
+<!-- ═════════════ PAGE 2 — FEATURES, DIFFERENCE, MOAT ═════════════ -->
+<section class="page p1">
+<div class="z">
+  <div class="mast">
+    <div class="word">CAFFEVOLVE<sup>™</sup></div>
+    <div class="meta">Investor Brief · <b>October 2026</b> · Confidential</div>
+  </div>
+
   <div class="feat-head">
     <h2>What no one else has built</h2>
     <div class="sec-label" style="margin:0">Every feature below runs in the working prototype</div>
@@ -589,19 +596,6 @@ table.cmp tr:last-child td{border-bottom:none}
     </div></div>
   </div>
 
-  <div class="foot">
-    <div>The five-cup day is an illustrative platform output for one profile. Caffevolve™ is a patent-pending platform built for licensing to premium appliance manufacturers.</div>
-    <div class="pg">01 / 02</div>
-  </div>
-</section>
-
-<!-- ═════════════ PAGE 2 — DIFFERENCE, MARKET ENTRY, BUSINESS ═════════════ -->
-<section class="page p2">
-  <div class="mast">
-    <div class="word">CAFFEVOLVE<sup>™</sup></div>
-    <div class="meta">Investor Brief · <b>October 2026</b> · Confidential</div>
-  </div>
-
   <div class="p2top">
     <div>
       <div class="eyebrow">How it is different</div>
@@ -621,6 +615,21 @@ table.cmp tr:last-child td{border-bottom:none}
       </ul>
       <div class="q">A competitor can copy the box. Matching the result means performing the claimed process.</div>
     </div>
+  </div>
+
+  <div class="foot">
+    <div>Confidential. Provided under NDA. Caffevolve™ is a patent-pending platform built for licensing to premium appliance manufacturers.</div>
+    <div class="pg">02 / 03</div>
+  </div>
+</div>
+</section>
+
+<!-- ═════════════ PAGE 3 — MARKET ENTRY, BUSINESS, THE ASK ═════════════ -->
+<section class="page p2">
+<div class="z">
+  <div class="mast">
+    <div class="word">CAFFEVOLVE<sup>™</sup></div>
+    <div class="meta">Investor Brief · <b>October 2026</b> · Confidential</div>
   </div>
 
   <div class="gtm">
@@ -700,8 +709,9 @@ table.cmp tr:last-child td{border-bottom:none}
 
   <div class="foot">
     <div>Confidential. Provided under NDA. Not an offer to sell securities. Market figures are as published by each firm. Full terms are in the Pre-Seed SAFE Financing Summary.</div>
-    <div class="pg">02 / 02</div>
+    <div class="pg">03 / 03</div>
   </div>
+</div>
 </section>
 
 </body>
