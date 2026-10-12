@@ -121,6 +121,16 @@ b,strong{color:var(--ink);font-weight:600}
 .pa > div.ans{border-top-color:var(--gold)}
 .pa h3{margin-bottom:3px}
 
+.prob1{margin-top:12px;border-top:2px solid var(--ink);padding-top:6px}
+.prob1 h3{margin-bottom:3px}
+.prob1 p{font-size:9.4px;line-height:1.5}
+.prob{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:12px}
+.prob > div{border-top:2px solid var(--ink);padding-top:6px}
+.prob > div.answer{border-top-color:var(--gold)}
+.prob h3{margin-bottom:3px}
+.prob p{font-size:9.4px;line-height:1.5}
+.prob1 .open,.prob .open{font:italic 500 11.4px/1 var(--serif);color:var(--caff-mid)}
+.page > *{flex-shrink:0}
 /* chart */
 .chart{background:var(--cream);border:1px solid var(--border-light);border-radius:8px;padding:10px 12px 8px}
 .chart .t{font:600 12.4px/1.1 var(--serif);color:var(--ink)}
@@ -223,22 +233,22 @@ table.cmp tr:last-child td{border-bottom:none}
 .p1 .pa p{font-size:9.6px;line-height:1.5}
 .p1 .comps p{font-size:9.2px;line-height:1.45}
 .p1 .comps > div{padding:10px 12px}
-.p1 .feats{row-gap:13px;margin-top:9px}
-.p1 .f{padding-top:9px}
+.p1 .feats{row-gap:7px;margin-top:7px}
+.p1 .f{padding-top:6px}
 .p1 .f h3{font-size:13px;margin-bottom:3px}
-.p1 .f p{font-size:9.35px;line-height:1.5}
+.p1 .f p{font-size:9.1px;line-height:1.47}
 .p1 .ref{font-size:6.9px;margin-top:4px}
-.p1 .comps-cap{margin-top:16px}
-.p1 .feat-head{margin-top:18px}
+.p1 .comps-cap{margin-top:12px}
+.p1 .feat-head{margin-top:12px}
 .p1 .feat-head h2{font-size:21px}
-.p1 .hero{margin-top:14px}
+.p1 .hero{margin-top:10px}
 .p2top .moat .q{font:italic 500 11px/1.3 var(--serif);color:var(--caff-mid);margin-top:7px}
 
 /* screen: small widths */
 @media screen and (max-width:860px){
   body{font-size:11px;background:var(--paper)}
   .page{width:auto;height:auto;margin:0;padding:24px 16px;box-shadow:none;overflow:visible}
-  .hero,.p2top,.loop,.ask,.pa{grid-template-columns:1fr}
+  .hero,.p2top,.loop,.ask,.pa,.prob{grid-template-columns:1fr}
   .feats,.biz,.road{grid-template-columns:1fr}
   .comps{grid-template-columns:1fr}
   .comps > div + div{border-left:none;border-top:1px solid var(--border)}
@@ -264,15 +274,9 @@ table.cmp tr:last-child td{border-bottom:none}
       <h1>Coffee Without<br>a <em>Curfew.</em></h1>
       <p class="lede">Caffevolve learns how each person responds to caffeine, works out the right caffeine content for <strong>every cup of the day</strong>, and then brews exactly that, at home, at work and at the café. <strong>Not less coffee. More of the day to enjoy it.</strong></p>
 
-      <div class="pa">
-        <div>
-          <h3>The problem</h3>
-          <p>Every coffee drinker carries two personal limits: past one, the lift turns to jitters; past the other, caffeine still in the system costs the night’s sleep. With no way to see either, people guess, and most simply stop by mid-afternoon. Decaf keeps the ritual but not the lift.</p>
-        </div>
-        <div class="ans">
-          <h3>The answer</h3>
-          <p>Change what is in the cup, not whether you have it. Caffevolve blends caffeinated and decaf beans in the exact ratio each moment allows. <b>The cup is no longer the decision. The blend inside it is.</b></p>
-        </div>
+      <div class="prob1">
+        <h3>The problem</h3>
+        <p><span class="open">The slumber that clears. The mind that arrives.</span> Every day, coffee creates the conditions for our best work and our most human moments. But that lift follows a curve, not a straight line. Beyond a personal threshold the gains reverse: agitation replaces calm, and long after the cup is finished, the same compound that sharpened the afternoon quietly steals the night.</p>
       </div>
     </div>
 
@@ -308,6 +312,17 @@ table.cmp tr:last-child td{border-bottom:none}
         <div><span class="n">2–3</span>cups, then habit forces a stop. The afternoon runs on whatever is left.</div>
         <div class="yes"><span class="n">5</span>cups across the whole day, the afternoon strong, and bedtime caffeine just under the limit.</div>
       </div>
+    </div>
+  </div>
+
+  <div class="prob">
+    <div>
+      <h3>So they stop.</h3>
+      <p>Not because the work is done, but because too many restless nights taught them that another cup after a certain point is a gamble. What they give up is real: the meeting that needed one more hour of sharp thinking, the afternoon that could have finished strong instead of fading quietly away.</p>
+    </div>
+    <div class="answer">
+      <h3>The answer</h3>
+      <p>Change what is in the cup, not whether you have it. Caffevolve blends caffeinated and decaf beans in the exact ratio each moment allows. <b>The cup is no longer the decision. The blend inside it is.</b></p>
     </div>
   </div>
 
