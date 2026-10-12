@@ -176,6 +176,15 @@ b,strong{color:var(--ink);font-weight:600}
 .comps h3{margin:3px 0 2px}
 .comps p{font-size:8.3px;line-height:1.4}
 .comps-cap{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-top:12px}
+.platbox{margin-top:11px;border:1px solid var(--gold-rule);border-radius:10px;overflow:hidden;background:var(--cream)}
+.platbox .titleband{margin-top:0;border-radius:0}
+.p1 .platbox .comps-cap{margin:11px 14px 0;display:block;text-align:center}
+.platbox .comps-cap .q{margin-top:4px;font-size:11.5px}
+.platbox .comps{margin:8px 14px 13px;border:none;border-radius:0;background:transparent}
+.p1 .platbox .comps > div{background:transparent;padding:6px 14px}
+.p1 .platbox .comps > div:first-child{padding-left:0}
+.p1 .platbox .comps > div:last-child{padding-right:0}
+.platbox .comps > div + div{border-left:1px solid var(--gold-rule)}
 .comps-cap .q{font:italic 500 11px/1.2 var(--serif);color:var(--caff-mid)}
 
 /* features */
@@ -258,13 +267,13 @@ table.cmp tr:last-child td{border-bottom:none}
 .p1 .pa p{font-size:9.6px;line-height:1.5}
 .p1 .comps p{font-size:9.2px;line-height:1.45}
 .p1 .comps > div{padding:10px 12px}
-.p1 .feats{row-gap:4px;margin-top:5px}
-.p1 .f{padding-top:5px}
+.p1 .feats{row-gap:9px;margin-top:7px}
+.p1 .f{padding-top:8px}
 .p1 .f h3{font-size:13px;margin-bottom:3px}
 .p1 .f p{font-size:9px;line-height:1.44}
 .p1 .ref{font-size:6.9px;margin-top:4px}
 .p1 .comps-cap{margin-top:9px}
-.p1 .feat-head{margin-top:9px}
+.p1 .feat-head{margin-top:14px}
 .p1 .feat-head h2{font-size:21px}
 .p1 .hero{margin-top:10px}
 .p2top .moat .q{font:italic 500 11px/1.3 var(--serif);color:var(--caff-mid);margin-top:7px}
@@ -377,6 +386,7 @@ table.cmp tr:last-child td{border-bottom:none}
     </div>
   </div>
 
+  <div class="platbox">
   <div class="titleband">
     <div class="lockup"><span class="tb-logo">Caffevolve<sup>™</sup></span><svg class="bean" xmlns="http://www.w3.org/2000/svg" viewBox="14 10 212 156" role="img" aria-hidden="true" >
   
@@ -488,7 +498,7 @@ table.cmp tr:last-child td{border-bottom:none}
     <div class="sec-label" style="margin:0">One system · Three components</div>
     <div class="q">Each incomplete alone. A brewer with no intelligence is just a coffee maker. Intelligence with no device can recommend, but can’t act.</div>
   </div>
-  <div class="comps" style="margin-top:5px">
+  <div class="comps">
     <div>
       <div class="k">01 · The brain</div>
       <h3>Platform Intelligence</h3>
@@ -504,6 +514,7 @@ table.cmp tr:last-child td{border-bottom:none}
       <h3>Away from Home Guidance</h3>
       <p>CaffevolveGo, the mobile app that follows you, so every cup you consider away from home gets the same personalized guidance as one brewed there.</p>
     </div>
+  </div>
   </div>
 
   <div class="feat-head">
@@ -540,16 +551,6 @@ table.cmp tr:last-child td{border-bottom:none}
       <h3>Plan my Day</h3>
       <p>Lay out the whole day and see its peak and bedtime level before the first cup. Protect the one drink you won’t give up, and one tap suggests the smallest changes that bring the day back under. A saved plan resurfaces at each brew.</p>
       <div class="ref">Prototype · pmdProject(), pmdComputeFix(), pmdReminderMatch()</div>
-    </div></div>
-    <div class="f"><div class="num">07</div><div>
-      <h3>Sub-Profiles</h3>
-      <p>Up to six day-and-time windows on the premium tier (three on others) that set strength and additives automatically. About five minutes to set up once, then a few seconds to start every brew.</p>
-      <div class="ref">Prototype · getActiveSubProfile(), MAX_SUB_PROFILES</div>
-    </div></div>
-    <div class="f"><div class="num">08</div><div>
-      <h3>An advisor, never a gatekeeper</h3>
-      <p>Any recommendation can be accepted, adjusted or overridden, and the device brews whatever the user chooses. The platform recommends; the person decides.</p>
-      <div class="ref">Prototype · manual blend override (brewSession.isManual)</div>
     </div></div>
   </div>
 
