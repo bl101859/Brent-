@@ -321,6 +321,9 @@ table.cmp tr:last-child td{border-bottom:none}
 @keyframes briefTod{0%{transform:translateX(0)}25%{transform:translateX(33.3px)}51%{transform:translateX(66.7px)}69%{transform:translateX(100px)}100%{transform:translateX(100px)}}
 @keyframes briefTagline{0%{opacity:0}69%{opacity:1}77%{opacity:1}85%{opacity:0}100%{opacity:0}}
 .blendcup .tod-highlight{animation:briefTod 13s linear infinite}
+/* the blend line drops through the cup as the day runs: more decaf by evening (pure CSS, no script needed) */
+@keyframes briefBlend{0%{transform:translateY(2.7px)}25%{transform:translateY(5.6px)}37.6%{transform:translateY(24px)}51%{transform:translateY(30.9px)}69%{transform:translateY(40.1px)}100%{transform:translateY(40.1px)}}
+.blendcup .liquid-move{animation:briefBlend 13s linear infinite}
 .blendcup .curfew-tagline{opacity:0;animation:briefTagline 13s linear infinite}
 .blendcup .cup-still{display:none}
 @media print{
@@ -391,18 +394,14 @@ table.cmp tr:last-child td{border-bottom:none}
           <clipPath id="briefCupClip"><path d="M36,70 L104,70 L97,113 Q96,116 93,116 L47,116 Q44,116 43,113 Z"/></clipPath>
           <pattern id="briefDecafDots" width="1.6" height="1.6" patternUnits="userSpaceOnUse"><circle cx="0.8" cy="0.8" r="0.3" fill="#2e1c0f" opacity="0.7"/></pattern>
           <linearGradient id="briefCupLiveGrad" x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0%" stop-color="#4a2c16"/>
-            <stop class="grad-stop-dark-end" offset="92.5%" stop-color="#4a2c16"/>
-            <stop class="grad-stop-light-start" offset="100%" stop-color="#7c5c3e"/>
-            <stop offset="100%" stop-color="#c9a876"/>
+            <stop offset="0%" stop-color="#4a2c16"/><stop offset="48%" stop-color="#4a2c16"/>
+            <stop offset="52%" stop-color="#7c5c3e"/><stop offset="100%" stop-color="#c9a876"/>
           </linearGradient>
           <linearGradient id="briefCupLiveMaskGrad" x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0%" stop-color="#000"/>
-            <stop class="grad-stop-dark-end" offset="92.5%" stop-color="#000"/>
-            <stop class="grad-stop-light-start" offset="100%" stop-color="#fff"/>
-            <stop offset="100%" stop-color="#fff"/>
+            <stop offset="0%" stop-color="#000"/><stop offset="48%" stop-color="#000"/>
+            <stop offset="52%" stop-color="#fff"/><stop offset="100%" stop-color="#fff"/>
           </linearGradient>
-          <mask id="briefCupLiveMask"><rect x="5" y="70" width="130" height="46" fill="url(#briefCupLiveMaskGrad)"/></mask>
+          <mask id="briefCupLiveMask"><rect x="5" y="0" width="130" height="138" fill="url(#briefCupLiveMaskGrad)"/></mask>
           <linearGradient id="briefCupStillGrad" x1="0" y1="1" x2="0" y2="0">
             <stop offset="0%" stop-color="#4a2c16"/>
             <stop offset="45%" stop-color="#4a2c16"/>
@@ -418,8 +417,10 @@ table.cmp tr:last-child td{border-bottom:none}
           <mask id="briefCupStillMask"><rect x="5" y="70" width="130" height="46" fill="url(#briefCupStillMaskGrad)"/></mask>
         </defs>
         <g clip-path="url(#briefCupClip)" class="cup-live">
-          <rect x="5" y="70" width="130" height="46" fill="url(#briefCupLiveGrad)"/>
-          <rect x="5" y="70" width="130" height="46" fill="url(#briefDecafDots)" mask="url(#briefCupLiveMask)"/>
+          <g class="liquid-move">
+            <rect x="5" y="0" width="130" height="138" fill="url(#briefCupLiveGrad)"/>
+            <rect x="5" y="0" width="130" height="138" fill="url(#briefDecafDots)" mask="url(#briefCupLiveMask)"/>
+          </g>
         </g>
         <g clip-path="url(#briefCupClip)" class="cup-still">
           <rect x="5" y="70" width="130" height="46" fill="url(#briefCupStillGrad)"/>
@@ -797,19 +798,5 @@ table.cmp tr:last-child td{border-bottom:none}
 </div>
 </section>
 
-<script>
-/* Blend cup driver, from the portal: over a 13-second "day" the cup's
-   blend shifts from caffeinated toward decaf in step with the time dot. */
-(function(){
-  const CYCLE_MS=13000, KEY_TIMES=[0,0.25,0.376,0.51,0.69,1.0];
-  const DARK_END_VALS=[92.5,85,45,30,7.5,7.5], LIGHT_START_VALS=[100,95,55,40,22.5,22.5];
-  function interp(times,vals,t){for(let i=0;i<times.length-1;i++){if(t>=times[i]&&t<=times[i+1]){const l=(t-times[i])/(times[i+1]-times[i]);return vals[i]+(vals[i+1]-vals[i])*l;}}return vals[vals.length-1];}
-  const d=document.querySelectorAll('.grad-stop-dark-end'), l=document.querySelectorAll('.grad-stop-light-start');
-  if(!d.length) return;
-  function tick(ts){const t=(ts%CYCLE_MS)/CYCLE_MS;const a=interp(KEY_TIMES,DARK_END_VALS,t),b=interp(KEY_TIMES,LIGHT_START_VALS,t);
-    d.forEach(e=>e.setAttribute('offset',a+'%'));l.forEach(e=>e.setAttribute('offset',b+'%'));requestAnimationFrame(tick);}
-  requestAnimationFrame(tick);
-})();
-</script>
 </body>
 </html>
