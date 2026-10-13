@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caffevolve Investor Brief</title>
+<style>
+/*FONTS*/
+:root{
+  --cream:#F5F1EA; --cream-dark:#EDE8DF; --paper:#FDFCFA;
+  --ink:#18140F; --ink-mid:#4A4540; --ink-light:#7C766F; --ink-faint:#C4BFB8;
+  --border:#DDD8CF; --border-light:#EAE6DF;
+  --gold:#B8903A; --gold-light:#F5EDD6; --gold-rule:#C9A84C;
+  --brown-deep:#3D2010; --caff:#4A2C18; --caff-mid:#7A5030; --decaf:#E3CFB0;
+  --green:#1A5C3A; --green-light:#E0F0E8; --blue:#1A4878;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+  --mono:'DM Mono','Courier New',monospace;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#2A1710;color:var(--ink);font-family:var(--sans);font-size:9.1px;line-height:1.45}
+@page{size:letter;margin:0}
+
+.page{width:8.5in;height:11in;margin:24px auto;background:var(--paper);padding:.4in .48in .34in;
+  position:relative;overflow:hidden;box-shadow:0 6px 30px rgba(40,25,10,.18);display:flex;flex-direction:column}
+@media print{
+  body{background:none}
+  .page{margin:0;box-shadow:none;page-break-after:always;break-after:page}
+  .page:last-child{page-break-after:auto;break-after:auto}
+}
+
+/* masthead */
+.mast{display:flex;justify-content:space-between;align-items:center;padding-bottom:7px;border-bottom:1px solid var(--ink)}
+.word{font:600 17px/1 var(--serif);letter-spacing:.24em;color:var(--brown-deep)}
+.word sup{font-size:8px;letter-spacing:0;vertical-align:top;position:relative;top:-1px}
+.mast .meta{font:400 7.4px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light)}
+.mast .meta b{color:var(--gold);font-weight:500}
+
+.eyebrow{font:500 7.4px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--gold)}
+h1{font:500 44px/1 var(--serif);letter-spacing:-.01em;color:var(--brown-deep);margin:6px 0 6px}
+h1 em{font-style:italic;color:var(--caff-mid)}
+h2{font:600 19px/1.08 var(--serif);color:var(--brown-deep);letter-spacing:-.003em}
+h2 em{font-style:italic;color:var(--caff-mid);font-weight:500}
+h3{font:600 12.4px/1.15 var(--serif);color:var(--brown-deep)}
+p{color:var(--ink-mid)}
+b,strong{color:var(--ink);font-weight:600}
+.lede{font:500 13.4px/1.34 var(--serif);color:var(--ink-mid);max-width:39em}
+.lede strong{color:var(--brown-deep);font-weight:600}
+.sec-label{font:500 7px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light);margin-bottom:5px}
+.ref{font:400 6.4px/1.3 var(--mono);color:var(--gold);letter-spacing:.02em;margin-top:3px}
+.rule{height:1px;background:var(--border);margin:10px 0}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.12fr 1fr;gap:20px;margin-top:12px;align-items:start}
+.pa{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.pa > div{border-top:2px solid var(--ink);padding-top:6px}
+.pa > div.ans{border-top-color:var(--gold)}
+.pa h3{margin-bottom:3px}
+
+.prob1{margin-top:12px;border-top:2px solid var(--ink);padding-top:6px}
+.prob1 h3{margin-bottom:3px}
+.prob1 p{font-size:9.4px;line-height:1.5}
+.prob{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:12px}
+.prob > div{border-top:2px solid var(--ink);padding-top:6px}
+.prob > div.answer{border-top-color:var(--gold)}
+.prob h3{margin-bottom:3px}
+.prob p{font-size:9.4px;line-height:1.5}
+.prob1 .open,.prob .open{font:italic 500 11.4px/1 var(--serif);color:var(--caff-mid)}
+.page > *{flex-shrink:0}
+.story .blk{border-top:2px solid var(--ink);padding-top:5px}
+.story .blk + .blk{margin-top:9px}
+.story .blk.answer{border-top-color:var(--gold)}
+.story h3{margin-bottom:2px}
+.story p{font-size:9.3px;line-height:1.48}
+.story p + p{margin-top:4px}
+.story .open{font:italic 500 11.4px/1 var(--serif);color:var(--caff-mid)}
+.p1 .hero{grid-template-columns:1.08fr 1fr;align-items:center}
+.intro-plat{margin-top:14px;padding-top:10px;border-top:1px solid var(--ink)}
+.ip-row{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;margin-top:5px}
+.intro-plat h1{font-size:34px;margin:0;white-space:nowrap}
+.intro-plat .lede{font-size:12.6px;line-height:1.35}
+.titleband{margin-top:11px;border-radius:10px;text-align:center;padding:10px 16px 11px;
+  background:radial-gradient(ellipse 80% 60% at 50% 38%,rgba(184,117,58,.12) 0%,transparent 65%),radial-gradient(ellipse 120% 90% at 50% 100%,#48291B 0%,#2A1710 60%),#2A1710}
+.titleband .lockup{position:relative;display:inline-block}
+.tb-logo{font:600 41px/1 var(--serif);color:#D4A853;letter-spacing:.015em}
+.tb-logo sup{font-size:.32em;margin-left:.15em;vertical-align:top;position:relative;top:4px}
+.titleband .bean{position:absolute;left:100%;top:50%;transform:translateY(-66%);margin-left:10px;height:36px;width:auto;filter:drop-shadow(0 3px 10px rgba(0,0,0,.35))}
+.tb-desc{font:600 9.6px/1 var(--sans);letter-spacing:.32em;text-transform:uppercase;color:#F2E9D8;opacity:.92;margin-top:9px;padding-left:.32em}
+.tb-tag{font:italic 500 17px/1 var(--serif);color:#B8753A;letter-spacing:.02em;margin-top:9px}
+/* chart */
+.chart .rowcap{display:flex;align-items:baseline;gap:6px;margin:2px 0 8px 23.1%;font-size:7.8px;color:var(--ink-mid);line-height:1.35}
+.chart .rowcap .n{font:600 18px/1 var(--serif);color:#9A7452}
+.chart .rowcap.yes .n{color:var(--caff)}
+.chart .legend{margin-top:6px;border-top:1px solid var(--border);padding-top:6px}
+
+.chart{background:var(--cream);border:1px solid var(--border-light);border-radius:8px;padding:10px 12px 8px}
+.chart .t{font:600 15.5px/1.12 var(--serif);color:var(--brown-deep)}
+.chart .s{font-size:9.5px;color:var(--ink-light);margin-top:1px}
+.chart svg{display:block;width:100%;height:auto;margin-top:4px}
+.chart .cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;border-top:1px solid var(--border);padding-top:6px}
+.chart .cmp div{font-size:7.6px;color:var(--ink-mid);line-height:1.35}
+.chart .cmp .n{font:600 20px/1 var(--serif);color:var(--ink-light);display:block}
+.chart .cmp .yes .n{color:var(--caff)}
+.legend{display:flex;gap:12px;font-size:7px;color:var(--ink-light);margin-top:2px}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+
+/* components */
+.comps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.comps > div{padding:8px 11px;background:var(--paper)}
+.comps > div + div{border-left:1px solid var(--border)}
+.comps .k{font:500 6.8px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.comps h3{margin:3px 0 2px}
+.comps p{font-size:8.3px;line-height:1.4}
+.comps-cap{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-top:12px}
+.featbox{margin-top:9px;border:1px solid var(--gold-rule);border-radius:10px;padding:7px 12px 7px;background:var(--cream)}
+.p1 .featbox .feat-head{margin-top:0}
+.p1 .featbox .f{padding-top:5px}
+.platbox{margin-top:11px;border:1px solid var(--gold-rule);border-radius:10px;overflow:hidden;background:var(--cream)}
+.platbox .titleband{margin-top:0;border-radius:0}
+.p1 .platbox .comps-cap{margin:11px 14px 0;display:block;text-align:center}
+.platbox .comps-cap .q{margin-top:4px;font-size:11.5px}
+.platbox .comps{margin:8px 14px 13px;border:none;border-radius:0;background:transparent}
+.p1 .platbox .comps > div{background:transparent;padding:6px 14px}
+.p1 .platbox .comps > div:first-child{padding-left:0}
+.p1 .platbox .comps > div:last-child{padding-right:0}
+.platbox .comps > div + div{border-left:1px solid var(--gold-rule)}
+.comps-cap .q{font:italic 500 11px/1.2 var(--serif);color:var(--caff-mid)}
+
+/* features */
+.feat-head{display:flex;justify-content:space-between;align-items:baseline;margin-top:13px}
+.feats{display:grid;grid-template-columns:1fr 1fr;column-gap:20px;row-gap:8px;margin-top:7px}
+.f{display:grid;grid-template-columns:20px 1fr;gap:6px;padding-top:6px;border-top:1px solid var(--border-light)}
+.f .num{font:500 13px/1 var(--serif);color:var(--gold)}
+.f h3{font-size:11.6px;margin-bottom:1.5px}
+.f p{font-size:8.25px;line-height:1.42}
+
+.foot{margin-top:auto;padding-top:7px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:16px;font-size:6.7px;color:var(--ink-light);line-height:1.4}
+.foot .pg{font-family:var(--mono);letter-spacing:.16em;white-space:nowrap}
+
+/* page 2 */
+.p2top{display:grid;grid-template-columns:1.35fr 1fr;gap:18px;margin-top:11px}
+table.cmp{width:100%;border-collapse:collapse;margin-top:7px;font-size:7.9px}
+.leap{font-size:9.4px;line-height:1.55;margin-top:7px}
+.leap b{color:var(--caff-mid);font-weight:700}
+.cloop{font:italic 500 14px/1.25 var(--serif);color:var(--caff-mid);margin:9px 0 2px;padding-left:10px;border-left:2px solid var(--gold)}
+table.cmp th{font:500 6.6px/1.25 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);text-align:center;padding:0 3px 5px;vertical-align:bottom;border-bottom:1px solid var(--ink)}
+table.cmp th:first-child{text-align:left}
+table.cmp th.cv{color:var(--brown-deep);font-weight:500}
+table.cmp td{padding:3.6px 3px;border-bottom:1px solid var(--border-light);text-align:center;color:var(--ink-light)}
+table.cmp td:first-child{text-align:left;color:var(--ink-mid)}
+table.cmp td.cv{background:var(--gold-light);color:var(--brown-deep);font-weight:600}
+table.cmp tr:last-child td{border-bottom:none}
+.y{color:var(--green);font-weight:600}
+.cap{font:italic 500 10.6px/1.3 var(--serif);color:var(--caff-mid);margin-top:6px}
+
+.moat{background:var(--cream);border-radius:8px;padding:10px 12px;border:1px solid var(--border-light)}
+.moat ul{list-style:none;margin-top:5px}
+.moat li{font-size:8.1px;color:var(--ink-mid);padding:3.4px 0 3.4px 12px;position:relative;border-top:1px solid var(--border);line-height:1.38}
+.moat li:first-child{border-top:none}
+.moat li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+
+.gtm{margin-top:12px;background:var(--brown-deep);color:var(--cream);border-radius:10px;padding:13px 15px 11px}
+.gtm .eyebrow{color:#D4A853}
+.gtm .eyebrow::before{background:#D4A853}
+.gtm h2{color:#FBF6EC;margin-top:5px;font-size:20px}
+.gtm h2 em{color:#D4A853}
+.gtm .intro{font-size:8.6px;color:rgba(245,241,234,.78);margin-top:4px;max-width:62em}
+.flow{display:grid;grid-template-columns:1.15fr 16px 1.35fr 16px 0.9fr;align-items:stretch;margin-top:9px}
+.step{background:rgba(255,255,255,.06);border:1px solid rgba(212,168,83,.35);border-radius:8px;padding:8px 10px}
+.step .k{font:500 6.6px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#D4A853}
+.step h3{color:#FBF6EC;margin:3px 0 3px;font-size:12.6px}
+.step p{font-size:7.95px;color:rgba(245,241,234,.8);line-height:1.42}
+.step p + p{margin-top:5px}
+.step .tier{font:400 6.5px/1 var(--mono);letter-spacing:.12em;color:rgba(212,168,83,.85);margin-top:5px;text-transform:uppercase}
+.arrow{display:flex;align-items:center;justify-content:center;color:#D4A853;font-size:12px}
+.loop{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-top:9px;align-items:start}
+.loop .quote{font:italic 500 11.4px/1.3 var(--serif);color:#FBF6EC}
+.loop .why{font-size:7.9px;color:rgba(245,241,234,.78);line-height:1.42}
+.loop .why b{color:#FBF6EC}
+.road{display:grid;grid-template-columns:repeat(4,1fr);margin-top:9px;border-top:1px solid rgba(212,168,83,.35);padding-top:7px;gap:10px}
+.road div{font-size:7.6px;color:rgba(245,241,234,.8);line-height:1.35}
+.road .k{display:block;font:500 6.6px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#D4A853;margin-bottom:3px}
+.road .now{color:#FBF6EC}
+.gtm .ref{color:rgba(212,168,83,.9);margin-top:6px}
+
+.biz{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:12px}
+.biz > div{border-top:2px solid var(--ink);padding-top:6px}
+.biz h3{margin-bottom:3px}
+.biz p{font-size:8.15px;line-height:1.42}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:6px}
+.kpi{background:var(--cream);border-radius:6px;padding:5px 6px}
+.kpi .v{font:600 16px/1 var(--serif);color:var(--brown-deep)}
+.kpi .l{font-size:6.7px;color:var(--ink-light);margin-top:2px;line-height:1.25}
+.kpi.base{background:var(--gold-light)}
+.small{font-size:6.8px;color:var(--ink-light);margin-top:4px;line-height:1.35}
+
+.ask{display:grid;grid-template-columns:1.05fr 1fr;gap:16px;margin-top:12px;border:1px solid var(--gold-rule);border-radius:10px;padding:10px 13px;background:linear-gradient(180deg,var(--paper),var(--gold-light))}
+.ask .big{font:600 26px/1 var(--serif);color:var(--brown-deep)}
+.ask .terms{font:500 7.2px/1.5 var(--mono);letter-spacing:.06em;color:var(--ink-mid);text-transform:uppercase;margin-top:3px}
+.ask p{font-size:8.1px;line-height:1.42;margin-top:5px}
+.uof{width:100%;border-collapse:collapse;font-size:7.9px}
+.uof td{padding:3.2px 0;border-bottom:1px solid var(--border);color:var(--ink-mid);vertical-align:top}
+.uof td.a{text-align:right;font-weight:600;color:var(--ink);white-space:nowrap;padding-left:8px}
+.uof tr:last-child td{border-bottom:none}
+.contact{margin-top:6px;font-size:8.1px;color:var(--ink-mid)}
+.contact b{font-family:var(--serif);font-size:11px}
+
+
+/* page 1 has more room: larger, more legible type */
+.p1 .pa p{font-size:9.6px;line-height:1.5}
+.p1 .comps p{font-size:9.2px;line-height:1.45}
+.p1 .comps > div{padding:10px 12px}
+.p1 .feats{row-gap:3px;margin-top:5px}
+.p1 .f{padding-top:7px}
+.p1 .f h3{font-size:13px;margin-bottom:3px}
+.p1 .f p{font-size:9px;line-height:1.44}
+.p1 .ref{font-size:6.9px;margin-top:4px}
+.p1 .comps-cap{margin-top:9px}
+.p1 .feat-head{margin-top:11px}
+.p1 .feat-head h2{font-size:21px}
+.p1 .hero{margin-top:10px}
+.p2top .moat .q{font:italic 500 11px/1.3 var(--serif);color:var(--caff-mid);margin-top:7px}
+.p2top .moat{display:flex;flex-direction:column}
+.p2top .moat ul{flex:1;display:flex;flex-direction:column;justify-content:space-around;margin-top:8px}
+.p2top .moat li{font-size:8.5px;line-height:1.42;padding:4px 0 4px 14px}
+.p2top .moat li::before{top:10px}
+.p2top .moat h3{font-size:13px}
+.p2top .moat .q{font-size:11.6px;margin-top:6px}
+
+/* three-page layout at standard brief type sizes */
+.page > .z{zoom:var(--z,1.26);flex:1;display:flex;flex-direction:column;min-height:0}
+.page > .z > *{flex-shrink:0}
+.page > .z{justify-content:space-between}
+.page > .z > .foot{margin-top:6px}
+.story p,.p1 .pa p{font-size:9.6px;line-height:1.5}
+.p1 .comps p{font-size:9.4px}
+.p1 .f p{font-size:9.6px;line-height:1.5}
+.leap{font-size:9.6px}
+.p2top .moat li{font-size:9.2px}
+.gtm .intro{font-size:9.4px}
+.step p{font-size:9.2px;line-height:1.45}
+.loop .why{font-size:9.2px}
+.biz p{font-size:9.4px;line-height:1.45}
+.ask p{font-size:9.4px}
+.uof{font-size:9.2px}
+.contact{font-size:9.2px}
+.kpi .l{font-size:7.6px}
+.small{font-size:7.6px}
+.ask{padding:15px 17px;margin-top:14px;gap:22px}
+.ask .big{font-size:33px}
+.ask .terms{font-size:7.4px;letter-spacing:.02em}
+.ask p{font-size:10.2px;line-height:1.48}
+.uof{font-size:10px}
+.uof td{padding:4.6px 0}
+.contact{font-size:10px}
+.contact b{font-size:12.5px}
+.chart .rowcap,.chart .cmp div{font-size:8.4px}
+.legend{font-size:7.6px}
+.foot{font-size:7.2px}
+
+
+/* the portal's blend cup: the blend shifts from caffeinated toward decaf as the day runs (still frame in print) */
+.chart .chead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.chart .chead-txt{align-self:flex-start}
+.chart .chead-txt{flex:1;min-width:0}
+.chart .blendcup{display:flex;justify-content:center;margin:-6px 0 0;flex:0 0 auto}
+.chart .blendcup svg{width:92px;height:auto;overflow:visible}
+.blendcup .steam-wisp{transform-box:fill-box;transform-origin:center bottom;animation:briefSteam 3.4s ease-in-out infinite}
+.blendcup .steam-wisp:nth-child(2){animation-delay:.7s}
+.blendcup .steam-wisp:nth-child(3){animation-delay:1.4s}
+@keyframes briefSteam{0%{opacity:0;transform:translateY(6px) scaleY(.9)}22%{opacity:.85}70%{opacity:.45}100%{opacity:0;transform:translateY(-16px) scaleY(1.08)}}
+@keyframes briefTod{0%{transform:translateX(0)}25%{transform:translateX(33.3px)}51%{transform:translateX(66.7px)}69%{transform:translateX(100px)}100%{transform:translateX(100px)}}
+@keyframes briefTagline{0%{opacity:0}69%{opacity:1}77%{opacity:1}85%{opacity:0}100%{opacity:0}}
+.blendcup .tod-highlight{animation:briefTod 13s linear infinite}
+/* the blend line drops through the cup as the day runs: more decaf by evening (pure CSS, no script needed) */
+@keyframes briefBlend{0%{transform:translateY(2.7px)}25%{transform:translateY(5.6px)}37.6%{transform:translateY(24px)}51%{transform:translateY(30.9px)}69%{transform:translateY(40.1px)}100%{transform:translateY(40.1px)}}
+.blendcup .liquid-move{animation:briefBlend 13s linear infinite}
+.blendcup .curfew-tagline{opacity:0;animation:briefTagline 13s linear infinite}
+.blendcup .cup-still{display:none}
+@media print{
+  .blendcup .cup-live{display:none}.blendcup .cup-still{display:inline}
+  .blendcup .steam-wisp{animation:none;opacity:.7}
+  .blendcup .tod-highlight{animation:none;transform:translateX(66.7px)}
+  .blendcup .curfew-tagline{animation:none;opacity:1}
+}
+@media (prefers-reduced-motion:reduce){
+  .blendcup .cup-live{display:none}.blendcup .cup-still{display:inline}
+  .blendcup .steam-wisp{animation:none;opacity:.7}
+  .blendcup .tod-highlight{animation:none;transform:translateX(66.7px)}
+  .blendcup .curfew-tagline{animation:none;opacity:1}
+}
+
+/* screen: small widths */
+@media screen and (max-width:860px){
+  body{font-size:11px;background:var(--paper)}
+  .page{width:auto;height:auto;margin:0;padding:24px 16px;box-shadow:none;overflow:visible}
+  .hero,.p2top,.loop,.ask,.pa,.prob,.ip-row{grid-template-columns:1fr}
+  .feats,.biz,.road{grid-template-columns:1fr}
+  .comps{grid-template-columns:1fr}
+  .comps > div + div{border-left:none;border-top:1px solid var(--border)}
+  .flow{grid-template-columns:1fr}
+  .arrow{transform:rotate(90deg);height:16px}
+  h1{font-size:36px}
+  .foot{flex-direction:column}
+  .intro-plat h1{white-space:normal}
+}
+/* marketing plan panel: deep brown band, creme step cards with deep brown text */
+.step{background:#F6EFE3;border:1px solid #D4A853}
+.step .k,.step .tier{color:#8A5A17}
+.step h3{color:#2A1710}.step p{color:#2A1710}
+</style>
+</head>
+<body>
+
+<!-- ═════════════ PAGE 1 — THE PLATFORM ═════════════ -->
+<section class="page p1">
+<div class="z">
+  <div class="mast">
+    <div class="word">CAFFEVOLVE<sup>™</sup></div>
+    <div class="meta">Investor Brief · <b>October 2026</b> · Confidential</div>
+  </div>
+
+  <div class="hero">
+    <div class="story">
+      <div class="blk">
+        <h3>The Problem</h3>
+        <p><span class="open">The slumber that clears. The mind that arrives.</span> Every day, coffee creates the conditions for our best work and our most human moments. But that lift follows a curve, not a straight line. Beyond a personal threshold the gains reverse: agitation replaces calm, and long after the cup is finished, the same compound that sharpened the afternoon quietly steals the night.</p>
+      </div>
+      <div class="blk">
+        <h3>The Reaction</h3>
+        <p><span class="open">So most of us stop.</span> Not because the work is done, but because too many restless nights taught us that another cup after a certain point is a gamble. What we give up is real: the meeting that needed one more hour of sharp thinking, the afternoon that could have finished strong instead of fading quietly away.</p>
+      </div>
+      <div class="blk answer">
+        <h3>The Caffevolve Way</h3>
+        <p>Every coffee drinker has a personal caffeine threshold, a limit set by their own body before caffeine starts working against them. Each morning, that threshold becomes a daily allowance: a budget you draw from, cup by cup. Each standard cup claims a fixed slice, so the choice has always been binary. “Yes, I’ll have another cup.” Or, “No, I really shouldn’t.” Period.</p>
+        <p>Caffevolve draws on that same budget with far more precision. It calculates the right caffeine dose for every cup, stretching the same threshold across more hours of the day. <b>Not fewer cups. More cups, each one right-sized.</b></p>
+      </div>
+    </div>
+
+    <div class="chart" aria-label="Today: three full-strength cups at 6am, 9am and noon, then none. The Caffevolve way: five cups at 100, 90, 75, 55 and 30 percent caffeinated">
+      <div class="chead">
+        <div class="chead-txt">
+          <div class="t">Three cups to five, the Caffevolve way.</div>
+        <div class="s">Caffeinated share of each cup across one day</div>
+        </div>
+      <div class="blendcup" aria-hidden="true">
+      <svg viewBox="0 -10 140 196" xmlns="http://www.w3.org/2000/svg">
+        <g class="steam-wisp" fill="none" stroke="#B8753A" stroke-width="2.6" stroke-linecap="round"><path d="M50,58 C45,48 55,42 50,32 C45,22 55,16 50,6"/></g>
+        <g class="steam-wisp" fill="none" stroke="#D4A853" stroke-width="2.6" stroke-linecap="round"><path d="M70,58 C65,46 76,39 70,26 C64,13 76,8 70,-4"/></g>
+        <g class="steam-wisp" fill="none" stroke="#B8753A" stroke-width="2.6" stroke-linecap="round"><path d="M90,58 C85,48 95,42 90,32 C85,22 95,16 90,6"/></g>
+        <ellipse cx="70" cy="120" rx="40" ry="7" fill="none" stroke="rgba(184,117,58,.45)" stroke-width="2"/>
+        <path d="M32,64 L108,64 L100,116 Q99,120 95,120 L45,120 Q41,120 40,116 Z" fill="#48291B" stroke="#B8753A" stroke-width="2.6" stroke-linejoin="round"/>
+        <defs>
+          <clipPath id="briefCupClip"><path d="M36,70 L104,70 L97,113 Q96,116 93,116 L47,116 Q44,116 43,113 Z"/></clipPath>
+          <pattern id="briefDecafDots" width="1.6" height="1.6" patternUnits="userSpaceOnUse"><circle cx="0.8" cy="0.8" r="0.3" fill="#2e1c0f" opacity="0.7"/></pattern>
+          <linearGradient id="briefCupLiveGrad" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#4a2c16"/><stop offset="48%" stop-color="#4a2c16"/>
+            <stop offset="52%" stop-color="#7c5c3e"/><stop offset="100%" stop-color="#c9a876"/>
+          </linearGradient>
+          <linearGradient id="briefCupLiveMaskGrad" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#000"/><stop offset="48%" stop-color="#000"/>
+            <stop offset="52%" stop-color="#fff"/><stop offset="100%" stop-color="#fff"/>
+          </linearGradient>
+          <mask id="briefCupLiveMask"><rect x="5" y="0" width="130" height="138" fill="url(#briefCupLiveMaskGrad)"/></mask>
+          <linearGradient id="briefCupStillGrad" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#4a2c16"/>
+            <stop offset="45%" stop-color="#4a2c16"/>
+            <stop offset="55%" stop-color="#7c5c3e"/>
+            <stop offset="100%" stop-color="#c9a876"/>
+          </linearGradient>
+          <linearGradient id="briefCupStillMaskGrad" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#000"/>
+            <stop offset="45%" stop-color="#000"/>
+            <stop offset="55%" stop-color="#fff"/>
+            <stop offset="100%" stop-color="#fff"/>
+          </linearGradient>
+          <mask id="briefCupStillMask"><rect x="5" y="70" width="130" height="46" fill="url(#briefCupStillMaskGrad)"/></mask>
+        </defs>
+        <g clip-path="url(#briefCupClip)" class="cup-live">
+          <g class="liquid-move">
+            <rect x="5" y="0" width="130" height="138" fill="url(#briefCupLiveGrad)"/>
+            <rect x="5" y="0" width="130" height="138" fill="url(#briefDecafDots)" mask="url(#briefCupLiveMask)"/>
+          </g>
+        </g>
+        <g clip-path="url(#briefCupClip)" class="cup-still">
+          <rect x="5" y="70" width="130" height="46" fill="url(#briefCupStillGrad)"/>
+          <rect x="5" y="70" width="130" height="46" fill="url(#briefDecafDots)" mask="url(#briefCupStillMask)"/>
+        </g>
+        <ellipse cx="70" cy="70" rx="34" ry="3.5" fill="#000" opacity="0.12"/>
+        <path d="M108,72 Q128,72 128,90 Q128,108 106,104" fill="none" stroke="#B8753A" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M46,68 L102,68" stroke="rgba(242,233,216,.30)" stroke-width="1.4"/>
+        <line x1="20" y1="142" x2="120" y2="142" stroke="rgba(184,117,58,.45)" stroke-width="1" opacity="0.7"/>
+        <g fill="rgba(184,117,58,.6)"><circle cx="20" cy="142" r="1.8"/><circle cx="53.3" cy="142" r="1.8"/><circle cx="86.7" cy="142" r="1.8"/><circle cx="120" cy="142" r="1.8"/></g>
+        <g fill="#7C766F" font-family="'DM Mono',monospace" font-size="11" text-anchor="middle">
+          <text x="20" y="159">7A</text><text x="53.3" y="159">11A</text><text x="86.7" y="159">3P</text><text x="120" y="159">6P</text>
+        </g>
+        <circle class="tod-highlight" cx="20" cy="142" r="4.2" fill="#B8903A"/>
+        <text class="curfew-tagline" x="70" y="180" text-anchor="middle" font-family="'Cormorant Garamond',Georgia,serif" font-style="italic" font-size="17" fill="#B8903A">Coffee Without a Curfew</text>
+      </svg>
+      </div>
+      </div>
+<svg viewBox="0 0 320 86" role="img">
+        <style>
+          .pct{font-family:'Cormorant Garamond',Georgia,serif;font-size:13.5px;font-weight:600;fill:#FDFCFA;text-anchor:middle}
+          text.pct.pct-today{fill:#2A1710;stroke:#2A1710;stroke-width:.45px;font-size:14.5px}
+          .stop{font-family:'DM Mono',monospace;font-size:7px;fill:#7C766F;text-anchor:middle;letter-spacing:.06em}
+          .desc{font-family:'DM Mono',monospace;font-size:7.4px;letter-spacing:.12em;fill:#7C766F}
+          .row{font-family:'Cormorant Garamond',Georgia,serif;font-size:15.5px;font-weight:600;fill:#9A7452}
+          .row.cv{fill:#4A2C18}
+          .tm{font-family:'DM Mono',monospace;font-size:8.4px;fill:#4A4540;text-anchor:middle}
+        </style>
+        <text x="0" y="47.0" class="row">Today</text>
+        <text x="79" y="8" class="desc">THREE FULL-STRENGTH CUPS, THEN STOP</text>
+        <line x1="74" y1="74" x2="318" y2="74" stroke="#DDD8CF" stroke-width=".6"/>
+        <rect x="79" y="12" width="42" height="62" rx="2" fill="#B48C68"/>
+        <text x="100" y="68" class="pct pct-today">100%</text>
+        <rect x="128" y="12" width="42" height="62" rx="2" fill="#B48C68"/>
+        <text x="149" y="68" class="pct pct-today">100%</text>
+        <rect x="177" y="12" width="42" height="62" rx="2" fill="#B48C68"/>
+        <text x="198" y="68" class="pct pct-today">100%</text>
+        <rect x="226" y="12" width="42" height="62" rx="2" fill="none" stroke="#B9B3AB" stroke-width=".8" stroke-dasharray="3 3"/>
+        <text x="247" y="45.0" class="stop">no cup</text>
+        <rect x="275" y="12" width="42" height="62" rx="2" fill="none" stroke="#B9B3AB" stroke-width=".8" stroke-dasharray="3 3"/>
+        <text x="296" y="45.0" class="stop">no cup</text>
+        <text x="100" y="84" class="tm">6 AM</text><text x="149" y="84" class="tm">9 AM</text><text x="198" y="84" class="tm">NOON</text><text x="247" y="84" class="tm">3 PM</text><text x="296" y="84" class="tm">6 PM</text>
+      </svg>
+      <div class="rowcap"><span class="n">3</span>full-strength cups, then the cutoff. The afternoon runs on whatever is left.</div>
+      <svg viewBox="0 0 320 86" role="img">
+        <style>
+          .pct{font-family:'Cormorant Garamond',Georgia,serif;font-size:13.5px;font-weight:600;fill:#FDFCFA;text-anchor:middle}
+          .stop{font-family:'DM Mono',monospace;font-size:7px;fill:#7C766F;text-anchor:middle;letter-spacing:.06em}
+          .desc{font-family:'DM Mono',monospace;font-size:7.4px;letter-spacing:.12em;fill:#7C766F}
+          .row{font-family:'Cormorant Garamond',Georgia,serif;font-size:15.5px;font-weight:600;fill:#9A7452}
+          .row.cv{fill:#4A2C18}
+          .tm{font-family:'DM Mono',monospace;font-size:8.4px;fill:#4A4540;text-anchor:middle}
+        </style>
+        <text x="0" y="33.0" class="row cv">The</text><text x="0" y="47.0" class="row cv">Caffevolve</text><text x="0" y="61.0" class="row cv">Way</text>
+        <text x="79" y="8" class="desc">FIVE RIGHT-SIZED CUPS</text>
+        <line x1="74" y1="74" x2="318" y2="74" stroke="#DDD8CF" stroke-width=".6"/>
+        <rect x="79" y="12.0" width="42" height="62.0" fill="#4A2C18"/>
+        <rect x="79" y="12" width="42" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="100" y="68" class="pct">100%</text>
+        <rect x="128" y="12" width="42" height="6.2" fill="#E3CFB0"/>
+        <rect x="128" y="18.2" width="42" height="55.8" fill="#4A2C18"/>
+        <rect x="128" y="12" width="42" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="149" y="68" class="pct">90%</text>
+        <rect x="177" y="12" width="42" height="15.5" fill="#E3CFB0"/>
+        <rect x="177" y="27.5" width="42" height="46.5" fill="#4A2C18"/>
+        <rect x="177" y="12" width="42" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="198" y="68" class="pct">75%</text>
+        <rect x="226" y="12" width="42" height="27.9" fill="#E3CFB0"/>
+        <rect x="226" y="39.9" width="42" height="34.1" fill="#4A2C18"/>
+        <rect x="226" y="12" width="42" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="247" y="68" class="pct">55%</text>
+        <rect x="275" y="12" width="42" height="43.4" fill="#E3CFB0"/>
+        <rect x="275" y="55.4" width="42" height="18.6" fill="#4A2C18"/>
+        <rect x="275" y="12" width="42" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="296" y="68" class="pct">30%</text>
+        <text x="100" y="84" class="tm">6 AM</text><text x="149" y="84" class="tm">9 AM</text><text x="198" y="84" class="tm">NOON</text><text x="247" y="84" class="tm">3 PM</text><text x="296" y="84" class="tm">6 PM</text>
+      </svg>
+      <div class="rowcap yes"><span class="n">5</span>cups across the whole day. The afternoon finishes strong and the night stays protected.</div>
+      <div class="legend"><span><i style="background:#B48C68"></i>Standard full-strength cup</span><span><i style="background:#4A2C18;outline:1px solid #B8903A"></i>Caffeinated bean</span><span><i style="background:#E3CFB0;outline:1px solid #B8903A"></i>Decaf bean</span></div>
+    </div>
+  </div>
+
+  <div class="platbox">
+  <div class="titleband">
+    <div class="lockup"><span class="tb-logo">Caffevolve<sup>™</sup></span><svg class="bean" xmlns="http://www.w3.org/2000/svg" viewBox="14 10 212 156" role="img" aria-hidden="true" >
+  
+      <defs>
+        <linearGradient id="cafBeanBody" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#120a05"/>
+          <stop offset="22%" stop-color="#1e110a"/>
+          <stop offset="40%" stop-color="#3a2313"/>
+          <stop offset="55%" stop-color="#6b3e18"/>
+          <stop offset="70%" stop-color="#B98A4A"/>
+          <stop offset="84%" stop-color="#E4D2AE"/>
+          <stop offset="100%" stop-color="#F2E9D8"/>
+        </linearGradient>
+        <radialGradient id="cafBeanSheen" cx="30%" cy="64%" r="58%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.10"/>
+          <stop offset="52%" stop-color="#ffffff" stop-opacity="0.03"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+        </radialGradient>
+        <clipPath id="cafBeanClip"><ellipse cx="120" cy="88" rx="104" ry="76"/></clipPath>
+      </defs>
+      <g transform="rotate(9 120 88)">
+      <ellipse cx="120" cy="88" rx="104" ry="76" fill="url(#cafBeanBody)" stroke="#B8753A" stroke-width="0.75"/>
+      <g clip-path="url(#cafBeanClip)">
+        <ellipse cx="120" cy="88" rx="104" ry="76" fill="url(#cafBeanSheen)"/>
+        <circle cx="89.8" cy="77.7" r="1.6" fill="#F4EAD6" opacity="0.51"/>
+        <circle cx="201.3" cy="98.0" r="1.5" fill="#2d1810" opacity="0.47"/>
+        <circle cx="164.2" cy="66.3" r="1.4" fill="#2d1810" opacity="0.51"/>
+        <circle cx="128.2" cy="51.4" r="1.7" fill="#3a2313" opacity="0.56"/>
+        <circle cx="175.7" cy="103.5" r="2.1" fill="#2d1810" opacity="0.77"/>
+        <circle cx="90.8" cy="97.7" r="1.5" fill="#EFE2C4" opacity="0.38"/>
+        <circle cx="210.7" cy="90.9" r="1.4" fill="#3a2313" opacity="0.48"/>
+        <circle cx="129.6" cy="133.0" r="1.9" fill="#E4D2AE" opacity="0.31"/>
+        <circle cx="149.4" cy="90.5" r="2.0" fill="#2d1810" opacity="0.78"/>
+        <circle cx="135.7" cy="45.3" r="1.5" fill="#2d1810" opacity="0.43"/>
+        <circle cx="167.0" cy="98.3" r="1.6" fill="#241408" opacity="0.65"/>
+        <circle cx="118.2" cy="129.9" r="1.7" fill="#E4D2AE" opacity="0.32"/>
+        <circle cx="102.3" cy="66.4" r="1.6" fill="#2d1810" opacity="0.7"/>
+        <circle cx="151.2" cy="81.2" r="2.2" fill="#3a2313" opacity="0.67"/>
+        <circle cx="177.4" cy="56.6" r="1.4" fill="#2d1810" opacity="0.43"/>
+        <circle cx="180.4" cy="38.7" r="1.4" fill="#4a2e18" opacity="0.24"/>
+        <circle cx="157.9" cy="116.0" r="1.9" fill="#FDF8EE" opacity="0.57"/>
+        <circle cx="128.6" cy="70.8" r="2.0" fill="#241408" opacity="0.77"/>
+        <circle cx="140.2" cy="93.5" r="2.1" fill="#3a2313" opacity="0.67"/>
+        <circle cx="77.1" cy="82.8" r="1.4" fill="#F4EAD6" opacity="0.43"/>
+        <circle cx="208.7" cy="79.2" r="1.5" fill="#3a2313" opacity="0.45"/>
+        <circle cx="124.1" cy="104.9" r="1.4" fill="#F4EAD6" opacity="0.52"/>
+        <circle cx="120.7" cy="90.0" r="1.7" fill="#FAF3E6" opacity="0.58"/>
+        <circle cx="139.3" cy="106.4" r="1.7" fill="#FAF3E6" opacity="0.57"/>
+        <circle cx="143.0" cy="40.9" r="1.5" fill="#4a2e18" opacity="0.38"/>
+        <circle cx="145.4" cy="124.0" r="1.6" fill="#F4EAD6" opacity="0.48"/>
+        <circle cx="110.8" cy="69.2" r="2.1" fill="#2d1810" opacity="0.6"/>
+        <circle cx="202.3" cy="87.8" r="1.6" fill="#3a2313" opacity="0.46"/>
+        <circle cx="117.5" cy="110.2" r="2.0" fill="#EFE2C4" opacity="0.41"/>
+        <circle cx="145.4" cy="26.0" r="1.0" fill="#3a2313" opacity="0.15"/>
+        <circle cx="120.0" cy="30.8" r="1.5" fill="#4a2e18" opacity="0.52"/>
+        <circle cx="123.1" cy="120.4" r="1.5" fill="#EFE2C4" opacity="0.36"/>
+        <circle cx="36.4" cy="60.5" r="1.3" fill="#EFE2C4" opacity="0.34"/>
+        <circle cx="188.1" cy="127.8" r="1.9" fill="#2d1810" opacity="0.7"/>
+        <circle cx="180.7" cy="90.9" r="1.7" fill="#4a2e18" opacity="0.52"/>
+        <circle cx="136.9" cy="28.3" r="1.5" fill="#2d1810" opacity="0.54"/>
+        <circle cx="183.9" cy="74.5" r="1.6" fill="#2d1810" opacity="0.49"/>
+        <circle cx="84.3" cy="35.0" r="2.0" fill="#2d1810" opacity="0.59"/>
+        <circle cx="202.6" cy="58.2" r="1.1" fill="#3a2313" opacity="0.13"/>
+        <circle cx="57.2" cy="45.8" r="2.0" fill="#FAF3E6" opacity="0.6"/>
+        <circle cx="104.2" cy="75.9" r="1.9" fill="#2d1810" opacity="0.62"/>
+        <circle cx="158.6" cy="86.6" r="1.8" fill="#241408" opacity="0.74"/>
+        <circle cx="174.2" cy="68.3" r="1.7" fill="#2d1810" opacity="0.53"/>
+        <circle cx="114.5" cy="23.5" r="1.5" fill="#3a2313" opacity="0.53"/>
+        <circle cx="141.3" cy="134.6" r="1.5" fill="#EFE2C4" opacity="0.37"/>
+        <circle cx="138.0" cy="70.8" r="1.8" fill="#241408" opacity="0.63"/>
+        <circle cx="38.0" cy="69.9" r="1.7" fill="#E4D2AE" opacity="0.29"/>
+        <circle cx="155.9" cy="134.2" r="1.4" fill="#EFE2C4" opacity="0.49"/>
+        <circle cx="168.9" cy="123.7" r="1.9" fill="#3a2313" opacity="0.76"/>
+        <circle cx="148.6" cy="108.9" r="1.9" fill="#FDF8EE" opacity="0.57"/>
+        <circle cx="170.1" cy="86.2" r="1.7" fill="#3a2313" opacity="0.45"/>
+        <circle cx="201.1" cy="110.3" r="1.7" fill="#2d1810" opacity="0.45"/>
+        <circle cx="94.8" cy="106.3" r="1.5" fill="#E4D2AE" opacity="0.34"/>
+        <circle cx="116.1" cy="61.9" r="2.0" fill="#2d1810" opacity="0.65"/>
+        <circle cx="154.5" cy="40.1" r="1.4" fill="#4a2e18" opacity="0.53"/>
+        <circle cx="177.8" cy="137.1" r="1.6" fill="#FAF3E6" opacity="0.54"/>
+        <circle cx="129.9" cy="93.8" r="2.1" fill="#241408" opacity="0.74"/>
+        <circle cx="97.5" cy="30.4" r="1.6" fill="#3a2313" opacity="0.46"/>
+        <circle cx="63.9" cy="51.1" r="1.5" fill="#FAF3E6" opacity="0.58"/>
+        <circle cx="60.3" cy="80.0" r="1.3" fill="#E4D2AE" opacity="0.38"/>
+        <circle cx="138.8" cy="144.5" r="1.3" fill="#E4D2AE" opacity="0.32"/>
+        <circle cx="81.0" cy="69.3" r="1.6" fill="#FAF3E6" opacity="0.51"/>
+        <circle cx="62.9" cy="89.6" r="2.0" fill="#E4D2AE" opacity="0.28"/>
+        <circle cx="149.0" cy="62.6" r="1.4" fill="#2d1810" opacity="0.54"/>
+        <circle cx="168.1" cy="57.6" r="1.6" fill="#4a2e18" opacity="0.48"/>
+        <circle cx="193.1" cy="54.0" r="1.4" fill="#4a2e18" opacity="0.29"/>
+        <circle cx="70.1" cy="70.6" r="1.3" fill="#F4EAD6" opacity="0.46"/>
+        <circle cx="65.0" cy="59.7" r="1.2" fill="#FAF3E6" opacity="0.5"/>
+        <circle cx="100.1" cy="41.7" r="1.9" fill="#3a2313" opacity="0.65"/>
+        <circle cx="109.5" cy="85.9" r="2.0" fill="#FDF8EE" opacity="0.57"/>
+        <circle cx="172.5" cy="49.3" r="1.6" fill="#3a2313" opacity="0.5"/>
+        <circle cx="74.0" cy="51.8" r="1.8" fill="#241408" opacity="0.74"/>
+        <circle cx="197.7" cy="119.5" r="1.7" fill="#3a2313" opacity="0.75"/>
+        <circle cx="50.0" cy="67.4" r="1.9" fill="#EFE2C4" opacity="0.36"/>
+      </g>
+      <path d="M54,90 C84,72 112,106 142,90 S182,84 192,90" fill="none" stroke="#0a0503" stroke-opacity="0.28" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M54,86 C84,68 112,102 142,86 S182,80 192,86" fill="none" stroke="#ffffff" stroke-opacity="0.11" stroke-width="1.4" stroke-linecap="round"/>
+      </g>
+</svg></div>
+    <div class="tb-desc">Caffeine Management &amp; Delivery Platform</div>
+    <div class="tb-tag">Coffee Without a Curfew</div>
+  </div>
+
+  <div class="comps-cap">
+    <div class="sec-label" style="margin:0">One system · Three components</div>
+    <div class="q">Each incomplete alone. A brewer with no intelligence is just a coffee maker. Intelligence with no device can recommend, but can’t act.</div>
+  </div>
+  <div class="comps">
+    <div>
+      <div class="k">01 · The brain</div>
+      <h3>Platform Intelligence</h3>
+      <p>Learns your caffeine thresholds, tracks what’s already active in your system versus your daily budget, and calculates the right dose for every cup so the budget can last all day.</p>
+    </div>
+    <div>
+      <div class="k">02 · The Platform home</div>
+      <h3>Precision Brewing Device</h3>
+      <p>Designed to execute the caffeine recommendation precisely: dispensing, blending and grinding the beans, then brewing to SCA standards for a consistently delicious cup, every time.</p>
+    </div>
+    <div>
+      <div class="k">03 · Out the door</div>
+      <h3>Away from Home Guidance</h3>
+      <p>CaffevolveGo, the mobile app that follows you, so every cup you consider away from home gets the same personalized guidance as one brewed there.</p>
+    </div>
+  </div>
+  </div>
+
+  <div class="foot">
+    <div>The five-cup day is an illustrative platform output for one profile. Caffevolve™ is a patent-pending platform built for licensing to premium appliance manufacturers.</div>
+    <div class="pg">01 / 03</div>
+  </div>
+</div>
+</section>
+
+<!-- ═════════════ PAGE 2 — FEATURES, DIFFERENCE, MOAT ═════════════ -->
+<section class="page p1">
+<div class="z">
+  <div class="mast">
+    <div class="word">CAFFEVOLVE<sup>™</sup></div>
+    <div class="meta">Investor Brief · <b>October 2026</b> · Confidential</div>
+  </div>
+
+  <div class="featbox">
+  <div class="feat-head">
+    <h2>What no one else has built</h2>
+    <div class="sec-label" style="margin:0">Every feature below runs in the working prototype</div>
+  </div>
+  <div class="feats">
+    <div class="f"><div class="num">01</div><div>
+      <h3>Caffeine Behavior Instrument</h3>
+      <p>Purpose-built questions, simple to answer yet precise in what they measure, map each person’s caffeine comfort zone: their personal caffeine thresholds and estimated caffeine metabolism rate. No lab test, no wearable.</p>
+    </div></div>
+    <div class="f"><div class="num">02</div><div>
+      <h3>Dual-threshold blend engine</h3>
+      <p>Every caffeine blend recommendation is tested against both personal thresholds at once: will it overstimulate right now, and how much will still be active at bedtime? The platform then recommends the strongest blend that clears both, so you get all the caffeine the moment allows without crossing either line.</p>
+    </div></div>
+    <div class="f"><div class="num">03</div><div>
+      <h3>Real-Time Caffeine Standing</h3>
+      <p>Before every cup, you know exactly how much caffeine is still at work in your system and how much room you have left in the day. Every cup counts, home or away, so the next one brewed gets a precise caffeine blend recommendation, never a guess.</p>
+    </div></div>
+    <div class="f"><div class="num">04</div><div>
+      <h3>Precision Dispense, Blend, Grind &amp; Brew</h3>
+      <p>Two bean hoppers dispense caffeinated and decaf beans by weight into a dedicated Blend Chamber, which mixes them evenly before they are ground in the burr grinder and brewed. Flavor and wellness additives are released into the brew on its way to the cup or carafe. Filed as patent-pending apparatus claims.</p>
+    </div></div>
+    <div class="f"><div class="num">05</div><div>
+      <h3>Offsite Advisory System</h3>
+      <p>With your real-time caffeine standing on the app, choose your location type (worksite, café or convenience store) and the Offsite Advisory System presents a typical beverage menu for that kind of venue, ranking first the drinks that fit within your thresholds. No calculating: it’s informed choice when it matters, with the same clarity away from home you’d have standing at your brewer.</p>
+    </div></div>
+    <div class="f"><div class="num">06</div><div>
+      <h3>Plan my Day</h3>
+      <p>Lay out the whole day in advance: every drink and its caffeine content, morning to night, in one view. Ease off the morning to make room for a cup deep in the afternoon or evening, and watch the whole day settle inside your personal caffeine thresholds before you drink a drop. Then the plan reminds you each time you reach for a drink.</p>
+    </div></div>
+  </div>
+  </div>
+
+  <div class="p2top">
+    <div>
+      <div class="eyebrow">How it is different</div>
+      <h2 style="margin-top:5px">Everything else <em>remembers.</em> Caffevolve <em>reasons, and acts.</em></h2>
+      <p class="leap">Every connected coffee machine on the market does the same fundamental thing: it remembers and it brews. Jura remembers your cappuccino, De’Longhi recalls your saved profile, and the app starts the brew from your phone. That’s real convenience, but memory only gives back what you told it, and storing what you like says nothing about <b>whether you should have it now.</b></p>
+      <p class="leap">Caffevolve reasons. It learns how you respond to caffeine, weighs that against everything already active in your system, works out what this specific cup should be, and <b>then brews exactly that.</b></p>
+      <p class="leap">Memory and reasoning are different architectures. A competitor can add another saved profile or app button and still have a machine that only remembers. No existing product pairs a device, an app, and a reasoning layer to deliver a precise caffeine-managed cup of delicious coffee.</p>
+    </div>
+
+    <div class="moat">
+      <div class="sec-label">The moat</div>
+      <h3>The housing can be copied. The mechanisms and the intelligence cannot.</h3>
+      <ul>
+        <li><b>Two provisional patents filed</b>, February 2026 (USPTO 63/975,562) and June 2026, with utility filing targeted for Q4 2026.</li>
+        <li><b>Seven independent and eleven dependent claim candidates</b> across hardware, method and system: blend-then-grind, in-stream additives, the behavior instrument, the dual-threshold engine, adaptive feedback and the offsite advisor.</li>
+        <li><b>CAFFEVOLVE™ trademark</b>, Class 11, Notice of Allowance issued.</li>
+      </ul>
+      <div class="q">Matching the result means performing the claimed process.</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div>Confidential. Provided under NDA. Caffevolve™ is a patent-pending platform built for licensing to premium appliance manufacturers.</div>
+    <div class="pg">02 / 03</div>
+  </div>
+</div>
+</section>
+
+<!-- ═════════════ PAGE 3 — MARKET ENTRY, BUSINESS, THE ASK ═════════════ -->
+<section class="page p2">
+<div class="z">
+  <div class="mast">
+    <div class="word">CAFFEVOLVE<sup>™</sup></div>
+    <div class="meta">Investor Brief · <b>October 2026</b> · Confidential</div>
+  </div>
+
+  <div class="gtm">
+    <div class="eyebrow">Our initial marketing plan · planned, not yet launched</div>
+    <h2>Commercial first. <em>The office and café sell the home.</em></h2>
+    <p class="intro">People buy what they already trust. Rather than asking shoppers to pay for an experience they have never felt, Caffevolve plans to launch where people already drink their workday coffee and let them enjoy the full platform every day, at no cost to them. Each commercial placement becomes an onboarding engine, not just a demo.</p>
+    <div class="flow">
+      <div class="step">
+        <div class="k">Step 1 · Office</div>
+        <h3>The entry point</h3>
+        <p>One buyer, the employer, would equip a whole office from the amenity budget that already funds the coffee machine. Each employee would set up a personal caffeine profile and enjoy Caffevolve’s personalized experience every workday.</p>
+        <p>That profile would be recognized on any Caffevolve device, giving them the same tailored experience away from the office too.</p>
+        <div class="tier">Culminara Office</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <div class="k">Step 2 · Café</div>
+        <h3>The multiplier</h3>
+        <p>A café that hosts a Caffevolve device would draw customers who already hold a profile and want the same personalized experience away from the office. At a self-serve station away from the barista line, they would get fast, precisely tailored service while the espresso queue shortens, so the whole café runs more efficiently.</p>
+        <p>Each installed device would also introduce Caffevolve to potentially hundreds of new people a day.</p>
+        <div class="tier">Culminara Caffè</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="step">
+        <div class="k">Step 3 · Home</div>
+        <h3>The conversion</h3>
+        <p>By the time they shop, their profile would already know them. The home purchase would stop being a new gadget and become continuity of something that already works, which would make the consumer arena warm instead of cold.</p>
+        <div class="tier">Originara · Advancara</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="biz">
+    <div>
+      <h3>Planned model: asset-light licensing</h3>
+      <p>Caffevolve plans to license the complete platform to premium manufacturers rather than build appliances itself, earning a royalty on every unit sold.</p>
+    </div>
+    <div>
+      <h3>The shelf it sits on</h3>
+      <div class="kpis" style="grid-template-columns:1fr 1fr">
+        <div class="kpi"><div class="v">$7.4B</div><div class="l">Espresso &amp; capsule machines, 2025 · ~5%/yr</div></div>
+        <div class="kpi"><div class="v">$1.1B</div><div class="l">Bean-to-cup machines, 2024 · ~7%/yr</div></div>
+      </div>
+      <div class="small">Sources: Fortune Business Insights (2026); DataHorizzon Research (2024).</div>
+    </div>
+    <div>
+      <h3>The ultimate audience</h3>
+      <div class="kpis" style="grid-template-columns:1fr">
+        <div class="kpi"><div class="v">2 billion+</div><div class="l">Cups of coffee a day worldwide, every one a dose decision</div></div>
+      </div>
+      <div class="small">Our estimate from ICO consumption data (2023/24), at ~10 g per cup.</div>
+    </div>
+  </div>
+
+  <div class="ask">
+    <div>
+      <div class="sec-label">The ask</div>
+      <div class="big">$350,000 pre-seed</div>
+      <div class="terms">Seven $50K post-money SAFEs · $6M cap · MFN + pro rata</div>
+      <p><b>Built before funded.</b> A single founder with a prior successful exit and coffee-industry operating experience has taken the platform this far without outside capital: a 150+ screen interactive prototype past its 200th iteration, two provisional patents, an allowed trademark, a full platform reference and a live site at caffevolvetech.com.</p>
+      <div class="contact"><b>Brent Langevin</b>, Founder · Caffevolve Inc. · brent.langevin@caffevolvetech.com</div>
+    </div>
+    <div>
+      <div class="sec-label">Use of funds · 18 months</div>
+      <table class="uof">
+        <tr><td>Hardware &amp; engineering: three proof-of-concept units of the brewing device and CaffevolveGo, plus manufacturability review</td><td class="a">$210K</td></tr>
+        <tr><td>IP prosecution, the utility patent filing and trademark work</td><td class="a">$50K</td></tr>
+        <tr><td>Founder expense reimbursement and supplemental compensation</td><td class="a">$70K</td></tr>
+        <tr><td>Contingency for hardware and legal timelines</td><td class="a">$20K</td></tr>
+      </table>
+      <p style="margin-top:4px">Goal: secure full IP protection and bring the platform to its first licensee agreement.</p>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div>Confidential. Provided under NDA. Not an offer to sell securities. Market figures are as published by each firm. Full terms are in the Pre-Seed SAFE Financing Summary.</div>
+    <div class="pg">03 / 03</div>
+  </div>
+</div>
+</section>
+
+</body>
+</html>
