@@ -250,8 +250,10 @@ table.cmp tr:last-child td{border-bottom:none}
 
 
 /* the portal's blend cup: the blend shifts from caffeinated toward decaf as the day runs (still frame in print) */
-.chart .blendcup{display:flex;justify-content:center;margin:-4px 0 4px}
-.chart .blendcup svg{width:120px;height:auto;overflow:visible}
+.chart .chead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.chart .chead-txt{flex:1;min-width:0}
+.chart .blendcup{display:flex;justify-content:center;margin:-6px 0 0;flex:0 0 auto}
+.chart .blendcup svg{width:92px;height:auto;overflow:visible}
 .blendcup .steam-wisp{transform-box:fill-box;transform-origin:center bottom;animation:briefSteam 3.4s ease-in-out infinite}
 .blendcup .steam-wisp:nth-child(2){animation-delay:.7s}
 .blendcup .steam-wisp:nth-child(3){animation-delay:1.4s}
@@ -321,6 +323,11 @@ table.cmp tr:last-child td{border-bottom:none}
     </div>
 
     <div class="chart" aria-label="Today: three full-strength cups at 6am, 9am and noon, then none. The Caffevolve way: five cups at 100, 90, 75, 55 and 30 percent caffeinated">
+      <div class="chead">
+        <div class="chead-txt">
+          <div class="t">Three cups to five, the Caffevolve way.</div>
+        <div class="s">Caffeinated share of each cup across one day</div>
+        </div>
       <div class="blendcup" aria-hidden="true">
       <svg viewBox="0 -10 140 185" xmlns="http://www.w3.org/2000/svg">
         <g class="steam-wisp" fill="none" stroke="#B8753A" stroke-width="2.6" stroke-linecap="round"><path d="M50,58 C45,48 55,42 50,32 C45,22 55,16 50,6"/></g>
@@ -376,9 +383,8 @@ table.cmp tr:last-child td{border-bottom:none}
         <text class="curfew-tagline" x="70" y="171" text-anchor="middle" font-family="'Cormorant Garamond',Georgia,serif" font-style="italic" font-size="13" fill="#B8903A">Coffee Without a Curfew</text>
       </svg>
       </div>
-      <div class="t">Three cups to five, the Caffevolve way.</div>
-      <div class="s">Caffeinated share of each cup across one day</div>
-<svg viewBox="0 0 320 64" role="img">
+      </div>
+<svg viewBox="0 0 320 86" role="img">
         <style>
           .pct{font-family:'Cormorant Garamond',Georgia,serif;font-size:10.5px;font-weight:600;fill:#FDFCFA;text-anchor:middle}
           .stop{font-family:'DM Mono',monospace;font-size:5.6px;fill:#7C766F;text-anchor:middle;letter-spacing:.06em}
@@ -387,23 +393,23 @@ table.cmp tr:last-child td{border-bottom:none}
           .row.cv{fill:#4A2C18}
           .tm{font-family:'DM Mono',monospace;font-size:6.6px;fill:#4A4540;text-anchor:middle}
         </style>
-        <text x="0" y="36.0" class="row">Today</text>
+        <text x="0" y="47.0" class="row">Today</text>
         <text x="79" y="8" class="desc">THREE FULL-STRENGTH CUPS, THEN STOP</text>
-        <line x1="74" y1="52" x2="318" y2="52" stroke="#DDD8CF" stroke-width=".6"/>
-        <rect x="79" y="12" width="30" height="40" rx="2" fill="#B48C68"/>
-        <text x="94" y="46" class="pct">100%</text>
-        <rect x="131" y="12" width="30" height="40" rx="2" fill="#B48C68"/>
-        <text x="146" y="46" class="pct">100%</text>
-        <rect x="183" y="12" width="30" height="40" rx="2" fill="#B48C68"/>
-        <text x="198" y="46" class="pct">100%</text>
-        <rect x="235" y="12" width="30" height="40" rx="2" fill="none" stroke="#B9B3AB" stroke-width=".8" stroke-dasharray="3 3"/>
-        <text x="250" y="34.0" class="stop">no cup</text>
-        <rect x="287" y="12" width="30" height="40" rx="2" fill="none" stroke="#B9B3AB" stroke-width=".8" stroke-dasharray="3 3"/>
-        <text x="302" y="34.0" class="stop">no cup</text>
-        <text x="94" y="62" class="tm">6 AM</text><text x="146" y="62" class="tm">9 AM</text><text x="198" y="62" class="tm">NOON</text><text x="250" y="62" class="tm">3 PM</text><text x="302" y="62" class="tm">6 PM</text>
+        <line x1="74" y1="74" x2="318" y2="74" stroke="#DDD8CF" stroke-width=".6"/>
+        <rect x="79" y="12" width="30" height="62" rx="2" fill="#B48C68"/>
+        <text x="94" y="68" class="pct">100%</text>
+        <rect x="131" y="12" width="30" height="62" rx="2" fill="#B48C68"/>
+        <text x="146" y="68" class="pct">100%</text>
+        <rect x="183" y="12" width="30" height="62" rx="2" fill="#B48C68"/>
+        <text x="198" y="68" class="pct">100%</text>
+        <rect x="235" y="12" width="30" height="62" rx="2" fill="none" stroke="#B9B3AB" stroke-width=".8" stroke-dasharray="3 3"/>
+        <text x="250" y="45.0" class="stop">no cup</text>
+        <rect x="287" y="12" width="30" height="62" rx="2" fill="none" stroke="#B9B3AB" stroke-width=".8" stroke-dasharray="3 3"/>
+        <text x="302" y="45.0" class="stop">no cup</text>
+        <text x="94" y="84" class="tm">6 AM</text><text x="146" y="84" class="tm">9 AM</text><text x="198" y="84" class="tm">NOON</text><text x="250" y="84" class="tm">3 PM</text><text x="302" y="84" class="tm">6 PM</text>
       </svg>
       <div class="rowcap"><span class="n">3</span>full-strength cups, then the cutoff. The afternoon runs on whatever is left.</div>
-      <svg viewBox="0 0 320 64" role="img">
+      <svg viewBox="0 0 320 86" role="img">
         <style>
           .pct{font-family:'Cormorant Garamond',Georgia,serif;font-size:10.5px;font-weight:600;fill:#FDFCFA;text-anchor:middle}
           .stop{font-family:'DM Mono',monospace;font-size:5.6px;fill:#7C766F;text-anchor:middle;letter-spacing:.06em}
@@ -412,29 +418,29 @@ table.cmp tr:last-child td{border-bottom:none}
           .row.cv{fill:#4A2C18}
           .tm{font-family:'DM Mono',monospace;font-size:6.6px;fill:#4A4540;text-anchor:middle}
         </style>
-        <text x="0" y="22.0" class="row cv">The</text><text x="0" y="36.0" class="row cv">Caffevolve</text><text x="0" y="50.0" class="row cv">Way</text>
+        <text x="0" y="33.0" class="row cv">The</text><text x="0" y="47.0" class="row cv">Caffevolve</text><text x="0" y="61.0" class="row cv">Way</text>
         <text x="79" y="8" class="desc">FIVE RIGHT-SIZED CUPS</text>
-        <line x1="74" y1="52" x2="318" y2="52" stroke="#DDD8CF" stroke-width=".6"/>
-        <rect x="79" y="12.0" width="30" height="40.0" fill="#4A2C18"/>
-        <rect x="79" y="12" width="30" height="40" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
-        <text x="94" y="46" class="pct">100%</text>
-        <rect x="131" y="12" width="30" height="4.0" fill="#E3CFB0"/>
-        <rect x="131" y="16.0" width="30" height="36.0" fill="#4A2C18"/>
-        <rect x="131" y="12" width="30" height="40" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
-        <text x="146" y="46" class="pct">90%</text>
-        <rect x="183" y="12" width="30" height="10.0" fill="#E3CFB0"/>
-        <rect x="183" y="22.0" width="30" height="30.0" fill="#4A2C18"/>
-        <rect x="183" y="12" width="30" height="40" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
-        <text x="198" y="46" class="pct">75%</text>
-        <rect x="235" y="12" width="30" height="18.0" fill="#E3CFB0"/>
-        <rect x="235" y="30.0" width="30" height="22.0" fill="#4A2C18"/>
-        <rect x="235" y="12" width="30" height="40" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
-        <text x="250" y="46" class="pct">55%</text>
-        <rect x="287" y="12" width="30" height="28.0" fill="#E3CFB0"/>
-        <rect x="287" y="40.0" width="30" height="12.0" fill="#4A2C18"/>
-        <rect x="287" y="12" width="30" height="40" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
-        <text x="302" y="46" class="pct">30%</text>
-        <text x="94" y="62" class="tm">6 AM</text><text x="146" y="62" class="tm">9 AM</text><text x="198" y="62" class="tm">NOON</text><text x="250" y="62" class="tm">3 PM</text><text x="302" y="62" class="tm">6 PM</text>
+        <line x1="74" y1="74" x2="318" y2="74" stroke="#DDD8CF" stroke-width=".6"/>
+        <rect x="79" y="12.0" width="30" height="62.0" fill="#4A2C18"/>
+        <rect x="79" y="12" width="30" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="94" y="68" class="pct">100%</text>
+        <rect x="131" y="12" width="30" height="6.2" fill="#E3CFB0"/>
+        <rect x="131" y="18.2" width="30" height="55.8" fill="#4A2C18"/>
+        <rect x="131" y="12" width="30" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="146" y="68" class="pct">90%</text>
+        <rect x="183" y="12" width="30" height="15.5" fill="#E3CFB0"/>
+        <rect x="183" y="27.5" width="30" height="46.5" fill="#4A2C18"/>
+        <rect x="183" y="12" width="30" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="198" y="68" class="pct">75%</text>
+        <rect x="235" y="12" width="30" height="27.9" fill="#E3CFB0"/>
+        <rect x="235" y="39.9" width="30" height="34.1" fill="#4A2C18"/>
+        <rect x="235" y="12" width="30" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="250" y="68" class="pct">55%</text>
+        <rect x="287" y="12" width="30" height="43.4" fill="#E3CFB0"/>
+        <rect x="287" y="55.4" width="30" height="18.6" fill="#4A2C18"/>
+        <rect x="287" y="12" width="30" height="62" rx="2" fill="none" stroke="#B8903A" stroke-width="1"/>
+        <text x="302" y="68" class="pct">30%</text>
+        <text x="94" y="84" class="tm">6 AM</text><text x="146" y="84" class="tm">9 AM</text><text x="198" y="84" class="tm">NOON</text><text x="250" y="84" class="tm">3 PM</text><text x="302" y="84" class="tm">6 PM</text>
       </svg>
       <div class="rowcap yes"><span class="n">5</span>cups across the whole day. The afternoon finishes strong and the night stays protected.</div>
       <div class="legend"><span><i style="background:#B48C68"></i>Standard full-strength cup</span><span><i style="background:#4A2C18;outline:1px solid #B8903A"></i>Caffeinated bean</span><span><i style="background:#E3CFB0;outline:1px solid #B8903A"></i>Decaf bean</span></div>
