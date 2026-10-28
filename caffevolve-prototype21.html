@@ -17579,11 +17579,12 @@ function renderPS2rgAdditives() {
     const selectedNames = assigned
       .filter(a => document.getElementById('ps2rg-toggle-' + a.id)?.classList.contains('on'))
       .map(a => a.name);
+    const count = selectedNames.length;
 
     // Update the summary line above carousel
     if (summary) {
-      summary.textContent = selectedNames.length > 0 ? selectedNames.join(' · ') : 'None';
-      summary.style.color = selectedNames.length > 0 ? 'var(--gold-light)' : 'var(--text-muted)';
+      summary.textContent = count > 0 ? selectedNames.join(' · ') : 'None';
+      summary.style.color = count > 0 ? 'var(--gold-light)' : 'var(--text-muted)';
     }
 
     // Update the hint line beneath summary — no count, just state
